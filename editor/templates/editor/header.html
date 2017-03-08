@@ -23,19 +23,23 @@
 			$('#execute').click(function () {
 				var sourceCode = editor.getValue();
 				var sourceLang = document.getElementById("language").value;
+				var sourceInp = document.getElementById("stdinput").value;
+				var sourceName = document.getElementById("fname").value;
 				$.ajax({
 					method: 'POST',
 					url: "execute",
 					data: {
 						'sourceCode': sourceCode,
-						'sourceLang': sourceLang
+						'sourceLang': sourceLang,
+						'sourceInp': sourceInp,
+						'sourceName': sourceName
 					},
 					success: function (data) {
 						//this gets called when server returns an OK response
 						alert("it worked!");
 					},
 					error: function (data) {
-						alert("it didnt work");
+						alert("Error occured during submission. Try again later");
 					}
 				});
 

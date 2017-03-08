@@ -5,5 +5,6 @@ from django.db import models
 
 class Text_Editor(models.Model):
     # A text editor stores source code per language for saved sessions
-    text = models.CharField(max_length=2000)
-    lang = models.CharField(max_length=20)
+    source_text = models.CharField(max_length=2000)
+    source_lang = models.CharField(max_length=20)
+    submission_id = models.CharField(max_length=10)

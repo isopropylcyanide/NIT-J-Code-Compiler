@@ -8,7 +8,7 @@
             Code, Compile & Run</h1>
         <div id="outer">
             <div class="inner">Save as:
-                <input type="text" name="fname">
+                <input type="text" id="fname">
             </div>
             <div class="inner"><input type="submit" value="Save"></div>
 
@@ -55,8 +55,7 @@
         var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
             lineNumbers: true,
             matchBrackets: true,
-            mode: "text/x-c",
-            value: "hihi"
+            mode: "text/x-c"
         });
 
         function langChange(obj) {
@@ -71,7 +70,7 @@
                 editor.setValue("#Your Python code goes here");
             } else {
                 editor.setOption("mode", "text/x-java");
-                editor.setValue("//Your Java code goes here");
+                editor.setValue("/*Your Java code goes here\nRemember: the name of a public class has to be Main \n*/");
             }
         }
     </script>
