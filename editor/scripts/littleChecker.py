@@ -40,7 +40,7 @@ class program:
 
         if (os.path.isfile(self.file_name)):
             if self.lang == 'java':
-                os.system('javac ' + self.file_name)
+                os.system('javac -d . ' + self.file_name)
             elif self.lang == 'c':
                 os.system('gcc -o ' + self.name + ' ' + self.file_name)
             elif self.lang == 'cpp':
@@ -67,10 +67,10 @@ class program:
         elif self.lang == "py":
             cmd = 'python ' + self.file_name
         if self.inp_file == "":
-            r = os.system('timeout ' + timeout + ' ' +
+            r = os.system('timeout ' + self.timeout + ' ' +
                           cmd + ' > ' + self.actualout)
         else:
-            r = os.system('timeout ' + timeout + ' ' +
+            r = os.system('timeout ' + self.stimeout + ' ' +
                           cmd + ' < ' + self.inp_file + ' > ' + self.actualout)
 
         # Perform cleanup
@@ -78,6 +78,8 @@ class program:
             os.remove(self.name + '.class')
         elif self.lang in ['c', 'cpp']:
             os.remove(self.name)
+        elif self.lang == 'py':
+            os.remove(self.name + '.pyc')
 
         if r == 0:
             return 200
@@ -104,24 +106,39 @@ class program:
                 out += i
         return out
 
-if __name__ == '__main__':
-    # receive arguments name.extension stdin
-    if len(sys.argv) < 2:
-        print '\n Usage: python littleChecker.py name.ext stdin(maybe_empty)\n'
-        exit()
-    elif len(sys.argv) == 2:
+
+def main(file_name, inp_file):
+    pwd = os.getcwd()
+    os.chdir('editor/scripts/')
+
+    if inp_file is None:
         inp_file = ""
-    else:
-        inp_file = sys.argv[2].strip()
+    print 'filename: ', file_name, ' and inp: ', inp_file
     expectedOut = "out.txt"
     timeout = '2'  # secs
 
-    new_program = program(sys.argv[1], inp_file, timeout, expectedOut)
+    new_program = program(file_name, inp_file, timeout, expectedOut)
+
     if not new_program.isvalidFile():
         print 'Invalid file name or extension'
         exit()
 
-    print '\nCompilation : %s \n\nOutput : %s \n\n%s' % (
+    print 'we here'
+    output = '\nCompilation : %s \nOutput : %s \n\n%s' % (
         codes[new_program.compile()],
         codes[new_program.run()],
         new_program.readOutput())
+
+    os.remove(file_name)
+    os.chdir(pwd)
+    return output
+
+if __name__ == '__main__':
+    # receive arguments name.extension stdin
+    inp_file = ""
+    if len(sys.argv) < 2:
+        print '\n Usage: python littleChecker.py name.ext stdin(maybe_empty)\n'
+        exit()
+    elif len(sys.argv) > 2:
+        inp_file = sys.argv[2].strip()
+    print main(sys.argv[1], inp_file)

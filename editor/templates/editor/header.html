@@ -25,6 +25,10 @@
 				var sourceLang = document.getElementById("language").value;
 				var sourceInp = document.getElementById("stdinput").value;
 				var sourceName = document.getElementById("fname").value;
+				if (sourceName == "") {
+					console.log("empty source");
+					sourceName = "default";
+				}
 				$.ajax({
 					method: 'POST',
 					url: "execute",
@@ -36,7 +40,7 @@
 					},
 					success: function (data) {
 						//this gets called when server returns an OK response
-						alert("it worked!");
+						displayOutput(data);
 					},
 					error: function (data) {
 						alert("Error occured during submission. Try again later");
@@ -46,9 +50,10 @@
 			});
 		});
 
-		function displayOutput() {
-			document.getElementById('output').style.display = "block"
-			document.getElementById('stdoutput').style.display = "block"
+		function displayOutput(data) {
+			document.getElementById('output').style.display = "block";
+			document.getElementById('stdoutput').style.display = "block";
+			document.getElementById('stdoutput').value = data;
 		}
 
 		function copyText() {

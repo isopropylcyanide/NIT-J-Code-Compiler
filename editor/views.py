@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from __future__ import print_function
+import scripts.littleChecker as checker
+import os
 
 
 def index(request):
@@ -10,11 +11,15 @@ def index(request):
 
 def createFile(text, extension, name="default"):
     # Creates a file in editor/tmp directory
+    os.chdir('.')
+    pwd = os.getcwd()
+    print 'Current directory: ', pwd
+    os.chdir('editor/scripts/')
     file_name = '%s.%s' % (name, extension)
-    try:
-        print(text, file=open(file_name, "w"))
-    except IOError:
-        pass
+    with open(file_name, 'w') as f:
+        f.write(text)
+    os.chdir(pwd)
+    return file_name
 
 
 @csrf_exempt
@@ -27,8 +32,17 @@ def execute(request):
         code = request.POST.get('sourceCode', '')
         lang = request.POST.get('sourceLang', '')
         inp = request.POST.get('sourceInp', '')
-        name = request.POST.get('sourceInp', '')
-
-        # Create a file in the same directory as before
-        createFile(code, lang, name)
-        return HttpResponse("OK")
+        name = request.POST.get('sourceName', '')
+        print ('Received: Code: %s \n lang: %s \n inp: %s \n name: %s\n ' %
+               (code, lang, inp, name))
+        output = ""
+        try:
+            created = createFile(code, lang, name)
+            print 'Created file %s successfully' % (created)
+            output = checker.main(created, inp)
+        except Exception, e:
+            print str(e)
+            output = "\nError creating file\n"
+        finally:
+            print (output)
+            return HttpResponse(output)
