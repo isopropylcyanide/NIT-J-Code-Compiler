@@ -4,6 +4,8 @@ from django.views.decorators.csrf import csrf_exempt
 import scripts.littleChecker as checker
 import os
 
+orig_dir = os.getcwd()
+
 
 def index(request):
     return render(request, 'editor/home.html')
@@ -11,14 +13,13 @@ def index(request):
 
 def createFile(text, extension, name="default"):
     # Creates a file in editor/tmp directory
-    os.chdir('.')
-    pwd = os.getcwd()
-    print 'Current directory: ', pwd
+    os.chdir(orig_dir)
+    print 'Current directory: ', orig_dir
     os.chdir('editor/scripts/')
     file_name = '%s.%s' % (name, extension)
     with open(file_name, 'w') as f:
         f.write(text)
-    os.chdir(pwd)
+    os.chdir(orig_dir)
     return file_name
 
 
@@ -33,16 +34,16 @@ def execute(request):
         lang = request.POST.get('sourceLang', '')
         inp = request.POST.get('sourceInp', '')
         name = request.POST.get('sourceName', '')
-        print ('Received: Code: %s \n lang: %s \n inp: %s \n name: %s\n ' %
-               (code, lang, inp, name))
+        # print ('Received: Code: %s \n lang: %s \n inp: %s \n name: %s\n ' %
+        #        (code, lang, inp, name))
         output = ""
         try:
             created = createFile(code, lang, name)
             print 'Created file %s successfully' % (created)
-            output = checker.main(created, inp)
+            output = checker.main(created, inp, name)
         except Exception, e:
             print str(e)
             output = "\nError creating file\n"
         finally:
-            print (output)
+            os.chdir(orig_dir)
             return HttpResponse(output)

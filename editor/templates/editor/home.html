@@ -62,15 +62,19 @@
             if (obj.value == "c") {
                 editor.setOption("mode", "text/x-c");
                 editor.setValue("//Your C code goes here");
+                document.getElementById('fname').value = ''
             } else if (obj.value == "cpp") {
+                document.getElementById('fname').value = ''
                 editor.setOption("mode", "text/x-c++src");
                 editor.setValue("//Your C++ code goes here");
             } else if (obj.value == "py") {
+                document.getElementById('fname').value = ''
                 editor.setOption("mode", "text/x-python")
                 editor.setValue("#Your Python code goes here");
             } else if (obj.value == "java") {
+                document.getElementById('fname').value = ''
                 editor.setOption("mode", "text/x-java");
-                editor.setValue("/*Your Java code goes here\nRemember: the name of a public class has to be Main \n*/");
+                editor.setValue("/*Your Java code goes here\nRemember: the name of a class has to be equal to name of the program \n*/");
             }
         }
     </script>

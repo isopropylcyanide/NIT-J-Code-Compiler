@@ -10,7 +10,7 @@ codes = {200: 'success', 404: 'file_name not found',
 class program:
     """Class that handles all nitty gritties of a user program"""
 
-    def __init__(self, string, inp, timeout, exp_out=""):
+    def __init__(self, string, inp, timeout, prog_name, exp_out=""):
         """Receives a name of a file from the user
             It must be a valid c, c++, java file
         """
@@ -21,6 +21,7 @@ class program:
         self.expectedout = exp_out  # Correct output file
         self.actualout = "out.txt"  # Actual output file
         self.timeout = timeout  # Timeout set for execution
+        self.prog_name = prog_name  # Name of class #only for java
 
     def isvalidFile(self):
         """Check if the filename is valid"""
@@ -40,7 +41,7 @@ class program:
 
         if (os.path.isfile(self.file_name)):
             if self.lang == 'java':
-                os.system('javac -d . ' + self.file_name)
+                os.system('javac ' + self.file_name)
             elif self.lang == 'c':
                 os.system('gcc -o ' + self.name + ' ' + self.file_name)
             elif self.lang == 'cpp':
@@ -60,6 +61,9 @@ class program:
             return 404
 
     def run(self):
+        with open('stdin', 'w') as f:
+            f.write(self.inp_file)
+
         if self.lang == 'java':
             cmd = 'java ' + self.name
         elif self.lang in ['c', 'cpp']:
@@ -70,16 +74,15 @@ class program:
             r = os.system('timeout ' + self.timeout + ' ' +
                           cmd + ' > ' + self.actualout)
         else:
-            r = os.system('timeout ' + self.stimeout + ' ' +
-                          cmd + ' < ' + self.inp_file + ' > ' + self.actualout)
+            r = os.system('timeout ' + self.timeout + ' ' + cmd +
+                          ' < ' + 'stdin' + ' > ' + self.actualout)
+            # os.remove("stdin")
 
         # Perform cleanup
         if self.lang == 'java':
             os.remove(self.name + '.class')
         elif self.lang in ['c', 'cpp']:
             os.remove(self.name)
-        elif self.lang == 'py':
-            os.remove(self.name + '.pyc')
 
         if r == 0:
             return 200
@@ -107,7 +110,7 @@ class program:
         return out
 
 
-def main(file_name, inp_file):
+def main(file_name, inp_file, prog_name):
     pwd = os.getcwd()
     os.chdir('editor/scripts/')
 
@@ -117,17 +120,15 @@ def main(file_name, inp_file):
     expectedOut = "out.txt"
     timeout = '2'  # secs
 
-    new_program = program(file_name, inp_file, timeout, expectedOut)
+    new_program = program(file_name, inp_file, timeout, prog_name, expectedOut)
 
     if not new_program.isvalidFile():
         print 'Invalid file name or extension'
         exit()
 
-    print 'we here'
-    output = '\nCompilation : %s \nOutput : %s \n\n%s' % (
-        codes[new_program.compile()],
-        codes[new_program.run()],
-        new_program.readOutput())
+    output = '\nCompilation : ', codes[new_program.compile()]
+    output += '\nRuntime : ', codes[new_program.run()]
+    output += '\n\n', new_program.readOutput()
 
     os.remove(file_name)
     os.chdir(pwd)
@@ -139,6 +140,6 @@ if __name__ == '__main__':
     if len(sys.argv) < 2:
         print '\n Usage: python littleChecker.py name.ext stdin(maybe_empty)\n'
         exit()
-    elif len(sys.argv) > 2:
+    elif len(sys.argv) > 4:
         inp_file = sys.argv[2].strip()
-    print main(sys.argv[1], inp_file)
+    print main(sys.argv[1], inp_file, sys.argv[3])
