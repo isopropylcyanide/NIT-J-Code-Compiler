@@ -1,0 +1,79 @@
+{% extends "editor/header.html" %}
+{% block content %}
+    <h1 id="header">
+        NITJ COMPILER</h1>
+
+    <div style="background-color:white; padding:15px; box-shadow: 5px 5px 10px gray">
+        <h1>
+            Code, Compile & Run</h1>
+        <div id="outer">
+            <div class="inner">Save as:
+                <input type="text" name="fname">
+            </div>
+            <div class="inner"><input type="submit" value="Save"></div>
+
+            <div class="inner">
+                <select id="language" onchange="langChange(this);">
+                    <option value="c">C</option>
+                    <option value="c++">C++</option>
+                    <option value="java">Java</option>
+                    <option value="python">Python</option>
+                </select>
+
+            </div>
+            <div class="inner"><input type='file' onchange='openFile(event)'>
+            </div>
+            <div class="inner"><input id="copy" type="button" value="Copy" onclick="copyText();">
+            </div>
+            <div class="inner"><input type="reset" value="Clear" onclick="resetCode()"></div>
+
+        </div>
+        <br>
+        <div class="inner">
+            <textarea id="code" name="code" rows="40" cols="62">//Your code goes here</textarea>
+        </div>
+
+        <div style="width:100%">
+            <div class="inner"><input type="button" onclick="showStdin()" value="Stdin">
+            </div>
+            <div class="inner"><input type="button" onclick="submitCode()" value="Execute"></div>
+        </div>
+        <br>
+        <span id="input" style="display:none">
+            Enter input (stdin)
+        </span>
+        <textarea id="stdinput" name="sinput" rows="6" cols="80" style="display:none"></textarea>
+
+        <span id="output" style="display:none">
+            Output
+        </span>
+        <textarea id="stdoutput" name="stdout" rows="6" cols="80" style="display:none" disabled></textarea>
+
+    </div>
+
+    <script>
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            lineNumbers: true,
+            matchBrackets: true,
+            mode: "text/x-c",
+            value: "hihi"
+        });
+
+        function langChange(obj) {
+            if (obj.value == "c") {
+                editor.setOption("mode", "text/x-c");
+                editor.setValue("//Your C code goes here");
+            } else if (obj.value == "c++") {
+                editor.setOption("mode", "text/x-c++src");
+                editor.setValue("//Your C++ code goes here");
+            } else if (obj.value == "python") {
+                editor.setOption("mode", "text/x-python")
+                editor.setValue("#Your Python code goes here");
+            } else {
+                editor.setOption("mode", "text/x-java");
+                editor.setValue("//Your Java code goes here");
+            }
+        }
+    </script>
+
+{% endblock %}
