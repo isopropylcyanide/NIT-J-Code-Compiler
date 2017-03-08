@@ -7,6 +7,9 @@
 	<script src="{% static 'js/codemirror.js' %}"></script>
 	<script src="{% static 'mode/clike/clike.js' %}" type="text/javascript"></script>
 	<script src="{% static 'mode/python/python.js' %}" type="text/javascript"></script>
+
+	<script src="{{ static 'js/jquery-3.1.1.js' %}}" type="text/javascript"></script>
+
 	<link href="{% static 'css/codemirror.css' %}" rel="stylesheet" type="text/css"/>
 	<link href="{% static 'theme/default.css' %}" rel="stylesheet" type="text/css"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,11 +19,15 @@
 			document.getElementById('stdinput').style.display = "block"
 		}
 
-		function myFunction1() {
+		function preExecute() {
+			//when execute is pressed, store current text and language in the model
+			var sourceCode = editor.getValue();
+			var sourceLang = document.getElementById("language").value;
+		}
+
+		function displayOutput() {
 			document.getElementById('output').style.display = "block"
 			document.getElementById('stdoutput').style.display = "block"
-			console.log(editor.getValue());
-			console.log(document.getElementById("language").value);
 		}
 
 		function copyText() {
