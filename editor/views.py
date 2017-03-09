@@ -41,9 +41,8 @@ def execute(request):
             created = createFile(code, lang, name)
             print 'Created file %s successfully' % (created)
             output = checker.main(created, inp, name)
-        except Exception, e:
-            print str(e)
-            output = "\nError creating file\n"
+        except Exception:
+            print 'Exception occured'
         finally:
             os.chdir(orig_dir)
             return HttpResponse(output)
