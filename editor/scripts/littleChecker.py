@@ -45,10 +45,12 @@ class program:
             if self.lang == 'java':
                 r = os.system('javac ' + self.file_name + ' 2> ' + self.log)
             elif self.lang == 'c':
-                r = os.system('gcc -o ' + self.name + ' ' +
+                r = os.system('gcc -std=c11 -lgraph -lpthread \
+                 -lm -o ' + self.name + ' ' +
                               self.file_name + ' 2> ' + self.log)
             elif self.lang == 'cpp':
-                r = os.system('g++ -o ' + self.name + ' ' +
+                r = os.system('g++  -std=c++1y  -lgraph \
+                -lpthread -lm -o ' + self.name + ' ' +
                               self.file_name + ' 2> ' + self.log)
 
             elif self.lang == 'py':

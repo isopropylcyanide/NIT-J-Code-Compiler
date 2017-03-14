@@ -61,24 +61,17 @@
 		});
 
 		function displayOutput(data) {
+			//display output
 			document.getElementById('output').style.display = "block";
 			document.getElementById('stdoutput').style.display = "block";
 			document.getElementById('stdoutput').value = data;
 		}
 
-		function copyText() {
-			document.getElementById("txt_copy").select();
-			document.execCommand('copy');
-		}
-
-		function CopyToClipboard(text) {
-			Copied = text.createTextRange();
-			Copied.execCommand("Copy");
-			document.getElementById('copybutton').innerHTML = "Copied"
-		}
+		function copyText() {}
 
 		var resetCode = function () {
-			editor.setValue("//Your code should go here");
+			//clear code and set it to whatever language currently exists
+			document.getElementById("languageSelect").onchange();
 		}
 
 		var openFile = function (event) {
@@ -87,11 +80,16 @@
 			var reader = new FileReader();
 			reader.onload = function () {
 				var text = reader.result;
-				var node = document.getElementById('txt_copy');
-				node.innerText = text;
+				displayContents(text, input.files[0].name)
 			};
 			reader.readAsText(input.files[0]);
 		};
+
+		var displayContents = function (file_text, file_name) {
+			//Display the loaded file from the client onto the browser
+			editor.setValue(file_text);
+			document.getElementById("fname").value = file_name;
+		}
 	</script>
 
 	<style>
