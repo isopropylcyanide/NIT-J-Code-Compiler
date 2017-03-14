@@ -15,14 +15,24 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script>
 		function showStdin() {
-			document.getElementById('input').style.display = "block"
-			document.getElementById('stdinput').style.display = "block"
+			//toggle stdin response windows
+			var inpLabel = document.getElementById('inputLabel');
+			var stdinput = document.getElementById('stdinput');
+			if (inpLabel.style.display === 'none') {
+				inpLabel.style.display = 'block';
+				stdinput.style.display = 'block';
+			} else {
+				inpLabel.style.display = 'none';
+				stdinput.style.display = 'none';
+				stdinput.value = "";
+			}
 		}
 
 		$(function () {
+			//jquery that compiles code at the server by sending UI Data and outputting the response
 			$('#execute').click(function () {
 				var sourceCode = editor.getValue();
-				var sourceLang = document.getElementById("language").value;
+				var sourceLang = document.getElementById("languageSelect").value;
 				var sourceInp = document.getElementById("stdinput").value;
 				var sourceName = document.getElementById("fname").value;
 				if (sourceName == "") {
