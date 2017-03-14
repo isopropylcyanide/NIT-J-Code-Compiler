@@ -51,7 +51,8 @@ class program:
                 r = os.system('g++ -o ' + self.name + ' ' +
                               self.file_name + ' 2> ' + self.log)
 
-            if self.lang == 'py':
+            elif self.lang == 'py':
+                r = os.system('echo > ' + self.log)
                 return 200
             if r != 0:
                 raise IOError
@@ -68,6 +69,7 @@ class program:
             return 404
 
     def run(self):
+        # Prepare stdin from user input
         with open('stdin', 'w') as f:
             f.write(self.inp_file)
         r = 0
@@ -85,25 +87,26 @@ class program:
         else:
             r = os.system('timeout ' + self.timeout + ' ' + cmd + '< '
                           'stdin' + ' > ' + self.actualout + ' 2>&1 ')
-            os.remove("stdin")
 
         # Perform cleanup
         if self.lang == 'java':
-            os.remove(self.name + '.class')
+            # Remove all class files
+            for classfile in os.listdir(os.getcwd()):
+                if '.class' in classfile:
+                    os.remove(classfile)
         elif self.lang in ['c', 'cpp']:
             os.remove(self.name)
 
         if r == 0:
-            print 'if chal'
             return 200
         elif r == 31744:
-            os.remove(self.actualout)
             return 408
         else:
             raise IOError
             return 400
 
     def match(self):
+        # Match output with a testcase, if any
         print self.actualout, self.expectedout
         if os.path.isfile(self.actualout) and os.path.isfile(self.expectedout):
             b = filecmp.cmp(self.actualout, self.expectedout)
@@ -137,33 +140,56 @@ def main(file_name, inp_file, prog_name):
 
     try:
         output = '\nCompilation : %s' % (codes[new_program.compile()])
-    except Exception:
+
+        try:
+            output += '\nRunning : %s\n\n' % (codes[new_program.run()])
+        except Exception, e:
+            print 'Exception caught in runtime:', str(e)
+            output += '\nRuntime failed: '
+
+            # if language is java, remove classes
+            if new_program.lang == "java":
+                print 'remove java ', new_program.file_name
+        finally:
+            with open(new_program.actualout, 'r') as f:
+                for i in f.readlines():
+                    output += i
+
+            # output += '\n\n%s' % (new_program.readOutput())
+            if (os.path.isfile(new_program.file_name)):
+                os.remove(new_program.file_name)
+            if (os.path.isfile(new_program.actualout)):
+                os.remove(new_program.actualout)
+            if (os.path.isfile(new_program.inp_file)):
+                os.remove(new_program.inp_file)
+            if (os.path.isfile(new_program.log)):
+                os.remove(new_program.log)
+            if (os.path.isfile("stdin")):
+                os.remove("stdin")
+
+            os.chdir(pwd)
+            return output
+
+    except Exception, e:
+        print 'Exception caught in compile phase:', str(e)
         output = '\nCompilation failed: '
         with open(new_program.log, "r") as f:
             for i in f.readlines():
                 output += i
         # remove log
-        os.remove(new_program.log)
+        if (os.path.isfile(new_program.file_name)):
+            os.remove(new_program.file_name)
+        if (os.path.isfile(new_program.actualout)):
+            os.remove(new_program.actualout)
+        if (os.path.isfile(new_program.inp_file)):
+            os.remove(new_program.inp_file)
+        if (os.path.isfile(new_program.log)):
+            os.remove(new_program.log)
+        if (os.path.isfile("stdin")):
+            os.remove("stdin")
+
         return output
 
-    try:
-        output += '\nRunning : %s' % (codes[new_program.run()])
-    except Exception, e:
-        print str(e)
-        output += '\nRuntime failed: '
-
-        with open(new_program.actualout, 'r') as f:
-            for i in f.readlines():
-                output += i
-        return output
-
-    # cleanup
-    output += '\n\n%s' % (new_program.readOutput())
-    os.remove(new_program.file_name)
-    os.remove(new_program.actualout)
-    os.remove(new_program.log)
-    os.chdir(pwd)
-    return output
 
 if __name__ == '__main__':
     # receive arguments name.extension stdin

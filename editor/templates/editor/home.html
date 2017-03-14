@@ -30,7 +30,7 @@
         </div>
         <br>
         <div class="inner">
-            <textarea id="code" name="code" rows="40" cols="62">//Your code goes here</textarea>
+            <textarea id="code" name="code" rows="40" cols="62">//Your C code goes here</textarea>
         </div>
 
         <div style="width:100%">
@@ -74,7 +74,7 @@
             } else if (obj.value == "java") {
                 document.getElementById('fname').value = ''
                 editor.setOption("mode", "text/x-java");
-                editor.setValue("/*Your Java code goes here\nRemember: the name of a class has to be equal to name of the program \n*/");
+                editor.setValue("/*Your Java code goes here\nName of class should be kept as main and public\nIf using a custom name to save the file, change the name of a class to the name of the program \n*/");
             }
         }
     </script>

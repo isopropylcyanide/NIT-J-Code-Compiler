@@ -11,7 +11,7 @@ def index(request):
     return render(request, 'editor/home.html')
 
 
-def createFile(text, extension, name="default"):
+def createFile(text, extension, name="main"):
     # Creates a file in editor/tmp directory
     os.chdir(orig_dir)
     print 'Current directory: ', orig_dir
@@ -41,8 +41,8 @@ def execute(request):
             created = createFile(code, lang, name)
             print 'Created file %s successfully' % (created)
             output = checker.main(created, inp, name)
-        except Exception:
-            print 'Exception occured'
+        except Exception, e:
+            print 'Exception caught in main view: ', str(e)
         finally:
             os.chdir(orig_dir)
             return HttpResponse(output)
