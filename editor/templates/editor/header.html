@@ -9,56 +9,12 @@
 	<script src="{% static 'mode/python/python.js' %}" type="text/javascript"></script>
 
 	<script src="{% static 'js/jquery-3.1.1.js' %}"></script>
+	<script src="{% static 'js/my_jquery.js' %}"></script>
 
 	<link href="{% static 'css/codemirror.css' %}" rel="stylesheet" type="text/css"/>
 	<link href="{% static 'theme/default.css' %}" rel="stylesheet" type="text/css"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script>
-		function showStdin() {
-			//toggle stdin response windows
-			var inpLabel = document.getElementById('inputLabel');
-			var stdinput = document.getElementById('stdinput');
-			if (inpLabel.style.display === 'none') {
-				inpLabel.style.display = 'block';
-				stdinput.style.display = 'block';
-			} else {
-				inpLabel.style.display = 'none';
-				stdinput.style.display = 'none';
-				stdinput.value = "";
-			}
-		}
-
-		$(function () {
-			//jquery that compiles code at the server by sending UI Data and outputting the response
-			$('#execute').click(function () {
-				var sourceCode = editor.getValue();
-				var sourceLang = document.getElementById("languageSelect").value;
-				var sourceInp = document.getElementById("stdinput").value;
-				var sourceName = document.getElementById("fname").value;
-				if (sourceName == "") {
-					console.log("empty source");
-					sourceName = "main";
-				}
-				$.ajax({
-					method: 'POST',
-					url: "execute",
-					data: {
-						'sourceCode': sourceCode,
-						'sourceLang': sourceLang,
-						'sourceInp': sourceInp,
-						'sourceName': sourceName
-					},
-					success: function (data) {
-						//this gets called when server returns an OK response
-						displayOutput(data);
-					},
-					error: function (data) {
-						alert("Error occured during submission. Try again later");
-					}
-				});
-
-			});
-		});
 
 		function displayOutput(data) {
 			//display output
@@ -66,8 +22,6 @@
 			document.getElementById('stdoutput').style.display = "block";
 			document.getElementById('stdoutput').value = data;
 		}
-
-		function copyText() {}
 
 		var resetCode = function () {
 			//clear code and set it to whatever language currently exists
@@ -93,27 +47,46 @@
 	</script>
 
 	<style>
-		.CodeMirror {
-			border: 1px solid #334;
-			width: 800px;
-			height: 350px;
-		}
 
 		body {
-			background-color: black;
-			padding: 2px 200px;
+			background-color: #f09024;
+			margin: 20px;
+		}
+		#mainBlock {
+			background-color: #faebd7;
+			padding: 15px;
+			box-shadow: 5px 5px 10px gray;
 		}
 
-		#header {
+		#NITJheader {
 			color: white;
 			text-align: center;
 		}
 
-		#outer {
-			width: 800px;
+		.CodeMirror {
+			border: 2px #334;
+			/*border-radius: 12px;*/
+			width: auto;
+			height: 400px;
+		}
+
+		.statusBar {
 			background-color: gray;
-			height: 45px;
-			padding: 10px;
+			padding: 8px;
+			width: auto;
+		}
+		.menuBar {
+			background-color: gray;
+			padding: 8px;
+			width: auto;
+		}
+
+		.editorSpace {
+			display: inline-block;
+			width: 700px;
+			background-color: gray;
+			padding: 12px;
+			height: 500px;
 		}
 
 		.inner {
@@ -128,5 +101,7 @@
 		{% block content %}{% endblock %}
 	</div>
 </body>
+
+</html>
 
 </html>

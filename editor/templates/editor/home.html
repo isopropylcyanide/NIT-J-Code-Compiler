@@ -1,48 +1,46 @@
 {% extends "editor/header.html" %}
 {% block content %}
-    <h1 id="header">
-        NITJ COMPILER</h1>
+    <div >
+        <h1 id="NITJheader">
+            NITJ COMPILER</h1>
+    </div>
 
-    <div style="background-color:white; padding:15px; box-shadow: 5px 5px 10px gray">
-        <h1>
-            Code, Compile & Run</h1>
-        <div id="outer">
-            <div class="inner">Save as:
-                <input type="text" id="fname" placeholder="File Name">
-            </div>
-            <div class="inner"><input type="submit" value="Save"></div>
+    <div id="mainBlock">
 
-            <div class="inner">
-                <select id="languageSelect" onchange="langChange(this);">
-                    <option value="c">C</option>
-                    <option value="cpp">C++</option>
-                    <option value="java">Java</option>
-                    <option value="py">Python</option>
-                </select>
+        <div id="editorSpace">
+            <div class="menuBar">
 
-            </div>
-            <div class="inner"><input type='file' onchange='openFile(event)'>
-            </div>
-            <div class="inner"><input id="copyButton" type="button" value="Copy" onclick="copyText();">
-            </div>
-            <div class="inner"><input type="reset" value="Clear" onclick="resetCode()"></div>
+                <div class="inner">Save as:
+                    <input type="text" id="fname" placeholder="File Name">
+                </div>
+                <div class="inner"><input type="submit" value="Save"></div>
 
+                <div class="inner">
+                    <select id="languageSelect" onchange="langChange(this);">
+                        <option value="c">C</option>
+                        <option value="cpp">C++</option>
+                        <option value="java">Java</option>
+                        <option value="py">Python</option>
+                    </select>
+
+                </div>
+                <div class="inner"><input type='file' onchange='openFile(event)'>
+                </div>
+                <div class="inner"><input type="reset" value="Clear" onclick="resetCode()"></div>
+                <div class=""></div>
+                <br>
+            </div>
+            <div >
+                <textarea id="codeEditor" name="code" rows="40" cols="62">//Your C code goes here</textarea>
+            </div>
+
+            <div class="statusBar">
+                <div class="inner"><input type="button" id="Stdin" value="Stdin"></div>
+                <div class="inner"><input type="button" id="execute" value="Execute"></div>
+            </div>
         </div>
         <br>
-        <div class="inner">
-            <textarea id="code" name="code" rows="40" cols="62">//Your C code goes here</textarea>
-        </div>
-
-        <div style="width:100%">
-            <div class="inner"><input type="button" onclick="showStdin()" value="Stdin">
-            </div>
-            <div class="inner"><input type="button" id="execute" value="Execute"></div>
-        </div>
-        <br>
-        <span id="inputLabel" style="display:none">
-            Enter input (stdin)
-        </span>
-        <textarea id="stdinput" name="sinput" rows="6" cols="80" style="display:none"></textarea>
+        <textarea id="stdinput" placeholder="Enter your custom input" name="stdinput" rows="6" cols="80" style="display:none"></textarea>
 
         <span id="output" style="display:none">
             Output
@@ -52,10 +50,31 @@
     </div>
 
     <script>
-        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        var editor = CodeMirror.fromTextArea(document.getElementById("codeEditor"), {
             lineNumbers: true,
             matchBrackets: true,
             mode: "text/x-c"
+        });
+
+        //Detect changes in document window
+        function onElementHeightChange(elm, callback) {
+            var lastHeight = elm.clientHeight,
+                newHeight;
+            (function run() {
+                newHeight = elm.clientHeight;
+                if (lastHeight != newHeight)
+                    callback();
+                lastHeight = newHeight;
+
+                if (elm.onElementHeightChangeTimer)
+                    clearTimeout(elm.onElementHeightChangeTimer);
+
+                elm.onElementHeightChangeTimer = setTimeout(run, 200);
+            })();
+        }
+
+        onElementHeightChange(document.body, function () {
+            window.scrollTo(0, document.body.scrollHeight);
         });
 
         //Fire onchange event automatically
