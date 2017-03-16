@@ -1,8 +1,12 @@
 $(document).ready(function () {
 
+
+    //file-tree
+    
+
     //toggle stdin response windows
     $('#Stdin').click(function () {
-        $('#stdinput').toggle('fast');
+        // $('#stdinput').toggle('fast');
         $('textarea#stdinput').html('');
     });
 

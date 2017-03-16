@@ -1,13 +1,19 @@
 {% extends "editor/header.html" %}
 {% block content %}
-    <div >
+    <div class="nav-divider">
         <h1 id="NITJheader">
             NITJ COMPILER</h1>
     </div>
 
     <div id="mainBlock">
 
-        <div id="editorSpace">
+        <div class="treeView">
+            <!-- this contains treeview of directory -->
+            <div id="hiiam"></div>
+        </div>
+
+        <div class="editorSpace">
+            <!-- this contains editor area -->
             <div class="menuBar">
 
                 <div class="inner">Save as:
@@ -31,7 +37,7 @@
                 <br>
             </div>
             <div >
-                <textarea id="codeEditor" name="code" rows="40" cols="62">//Your C code goes here</textarea>
+                <textarea id="codeEditor" name="code">//Your C code goes here</textarea>
             </div>
 
             <div class="statusBar">
@@ -39,13 +45,17 @@
                 <div class="inner"><input type="button" id="execute" value="Execute"></div>
             </div>
         </div>
-        <br>
-        <textarea id="stdinput" placeholder="Enter your custom input" name="stdinput" rows="6" cols="80" style="display:none"></textarea>
 
-        <span id="output" style="display:none">
-            Output
-        </span>
-        <textarea id="stdoutput" name="stdout" rows="6" cols="80" style="display:none" disabled></textarea>
+        <div class="outputPane">
+            <!-- here output will be displayed -->
+            <div style="display:block">
+                <textarea id="stdinput" placeholder="Enter your custom input" name="stdinput" rows="6" cols="30"></textarea>
+
+                <textarea id="stdoutput" placeholder="Your output appears here" name="stdout" rows="6" cols="120"></textarea>
+
+            </div>
+        </div>
+        <br>
 
     </div>
 

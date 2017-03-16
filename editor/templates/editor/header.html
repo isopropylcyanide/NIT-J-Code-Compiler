@@ -18,8 +18,7 @@
 
 		function displayOutput(data) {
 			//display output
-			document.getElementById('output').style.display = "block";
-			document.getElementById('stdoutput').style.display = "block";
+			document.getElementById('stdoutput').style.display = "inline-block";
 			document.getElementById('stdoutput').value = data;
 		}
 
@@ -50,12 +49,7 @@
 
 		body {
 			background-color: #f09024;
-			margin: 20px;
-		}
-		#mainBlock {
-			background-color: #faebd7;
-			padding: 15px;
-			box-shadow: 5px 5px 10px gray;
+			margin: 10px;
 		}
 
 		#NITJheader {
@@ -63,32 +57,45 @@
 			text-align: center;
 		}
 
+		#mainBlock {
+			background-color: #faebd7;
+			box-shadow: 5px 5px 10px gray;
+			margin-top: 10px;
+			height: 550px;
+			width: 1300px;
+		}
+
 		.CodeMirror {
 			border: 2px #334;
-			/*border-radius: 12px;*/
-			width: auto;
+			border-radius: 10px;
 			height: 400px;
 		}
 
 		.statusBar {
-			background-color: gray;
 			padding: 8px;
-			width: auto;
+			width: inherit;
 		}
 		.menuBar {
-			background-color: gray;
 			padding: 8px;
-			width: auto;
+			width: inherit;
 		}
 
+		.treeView {
+			position: relative;
+			display: inline-block;
+			width: 180px;
+		}
 		.editorSpace {
 			display: inline-block;
-			width: 700px;
 			background-color: gray;
 			padding: 12px;
-			height: 500px;
+			margin-left: 20px;
 		}
 
+		.outputPane {
+			margin-top: 50px;
+			display: table;
+		}
 		.inner {
 			display: inline-block;
 		}
