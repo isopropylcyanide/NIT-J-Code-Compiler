@@ -2,11 +2,7 @@
 
 {% extends "base.html" %}
 {% load staticfiles %}
-{% block title %}Welcome to Django{% endblock %}
+{% block title %}{{user.username}}'s Workspace{% endblock %}
 {% block head %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/home.css '%}"
-{% endblock %}
-{% block content %}
-    <h1> Welcome {{ user.username }} !!! </h1>
-    <button type="button" onclick="window.location.href='/logout/' ">Logout</button>
+<link rel="stylesheet" type="text/css" href="{% static 'css/userhome.css '%}" {% endblock %} {% block content %} <h1> Welcome {{ user.username }} Your workspace lies here. </h1> <button type="button" onclick="window.location.href='/logout/'" id="logoutButton" >Logout</button>
 {% endblock %}
