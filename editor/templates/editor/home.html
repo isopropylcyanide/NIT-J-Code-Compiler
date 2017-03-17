@@ -9,7 +9,6 @@
 
         <div class="treeView">
             <!-- this contains treeview of directory -->
-            <div id="hiiam"></div>
         </div>
 
         <div class="editorSpace">
@@ -30,19 +29,19 @@
                     </select>
 
                 </div>
-                <div class="inner"><input type='file' onchange='openFile(event)'>
+                <div class="inner"><input type='file' id="fileButton" onchange='openFile(event)'>
                 </div>
-                <div class="inner"><input type="reset" value="Clear" onclick="resetCode()"></div>
+                <div class=" inner"><input type="reset" value="Clear" id="clearButton"></div>
                 <div class=""></div>
                 <br>
             </div>
-            <div >
-                <textarea id="codeEditor" name="code">//Your C code goes here</textarea>
+            <div>
+                <textarea id="codeEditor" name="code">//Your code goes here</textarea>
             </div>
 
             <div class="statusBar">
-                <div class="inner"><input type="button" id="Stdin" value="Stdin"></div>
-                <div class="inner"><input type="button" id="execute" value="Execute"></div>
+                <div class="stdinDiv"><input type="button" id="stdinButton" value="Stdin"></div>
+                <div class="execDiv"><input type="button" id="executeButton" value="Execute"></div>
             </div>
         </div>
 
@@ -67,48 +66,6 @@
         });
 
         //Detect changes in document window
-        function onElementHeightChange(elm, callback) {
-            var lastHeight = elm.clientHeight,
-                newHeight;
-            (function run() {
-                newHeight = elm.clientHeight;
-                if (lastHeight != newHeight)
-                    callback();
-                lastHeight = newHeight;
-
-                if (elm.onElementHeightChangeTimer)
-                    clearTimeout(elm.onElementHeightChangeTimer);
-
-                elm.onElementHeightChangeTimer = setTimeout(run, 200);
-            })();
-        }
-
-        onElementHeightChange(document.body, function () {
-            window.scrollTo(0, document.body.scrollHeight);
-        });
-
-        //Fire onchange event automatically
-        document.getElementById("languageSelect").onchange();
-
-        function langChange(obj) {
-            if (obj.value == "c") {
-                editor.setOption("mode", "text/x-c");
-                editor.setValue("/*\n  Your C code goes here\n  Main method should return 0\n*/");
-                document.getElementById('fname').value = ''
-            } else if (obj.value == "cpp") {
-                document.getElementById('fname').value = ''
-                editor.setOption("mode", "text/x-c++src");
-                editor.setValue("/*\n  Your C++ code goes here\n  Main method should return 0\n*/");
-            } else if (obj.value == "py") {
-                document.getElementById('fname').value = ''
-                editor.setOption("mode", "text/x-python")
-                editor.setValue("#Your Python code goes here");
-            } else if (obj.value == "java") {
-                document.getElementById('fname').value = ''
-                editor.setOption("mode", "text/x-java");
-                editor.setValue("/*\n  Your Java code goes here\n  Name of class should be kept as main and public\n  If using a custom name to save the file, change the name of a class to the name of the program \n*/");
-            }
-        }
     </script>
 
 {% endblock %}

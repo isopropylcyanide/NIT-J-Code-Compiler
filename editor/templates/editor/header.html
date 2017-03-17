@@ -14,41 +14,11 @@
 	<link href="{% static 'css/codemirror.css' %}" rel="stylesheet" type="text/css"/>
 	<link href="{% static 'theme/default.css' %}" rel="stylesheet" type="text/css"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<script>
-
-		function displayOutput(data) {
-			//display output
-			document.getElementById('stdoutput').style.display = "inline-block";
-			document.getElementById('stdoutput').value = data;
-		}
-
-		var resetCode = function () {
-			//clear code and set it to whatever language currently exists
-			document.getElementById("languageSelect").onchange();
-		}
-
-		var openFile = function (event) {
-			// button that browses file and pastes content into editor
-			var input = event.target;
-			var reader = new FileReader();
-			reader.onload = function () {
-				var text = reader.result;
-				displayContents(text, input.files[0].name)
-			};
-			reader.readAsText(input.files[0]);
-		};
-
-		var displayContents = function (file_text, file_name) {
-			//Display the loaded file from the client onto the browser
-			editor.setValue(file_text);
-			document.getElementById("fname").value = file_name;
-		}
-	</script>
 
 	<style>
 
 		body {
-			background-color: #f09024;
+			background-color: #314cb6;
 			margin: 10px;
 		}
 
@@ -58,22 +28,37 @@
 		}
 
 		#mainBlock {
-			background-color: #faebd7;
-			box-shadow: 5px 5px 10px gray;
-			margin-top: 10px;
+			background-color: rgb(111, 77, 224);
+			margin: 10px;
+			box-shadow: 3px 3px 3px 3px white;
 			height: 550px;
 			width: 1300px;
+		}
+
+		.editorSpace {
+			display: inline-block;
+			background-color: #e9e5d6;
+			height: inherit;
+			/*padding: 12px;*/
+			/*margin-top: 10px;*/
+			margin-left: 20px;
 		}
 
 		.CodeMirror {
 			border: 2px #334;
 			border-radius: 10px;
-			height: 400px;
+			height: 440px;
 		}
-
 		.statusBar {
+			display: inline-block;
 			padding: 8px;
-			width: inherit;
+			width: 100%;
+		}
+		.execDiv {
+			float: right;
+		}
+		.stdinDiv {
+			float: left;
 		}
 		.menuBar {
 			padding: 8px;
@@ -83,13 +68,7 @@
 		.treeView {
 			position: relative;
 			display: inline-block;
-			width: 180px;
-		}
-		.editorSpace {
-			display: inline-block;
-			background-color: gray;
-			padding: 12px;
-			margin-left: 20px;
+			width: 200px;
 		}
 
 		.outputPane {
