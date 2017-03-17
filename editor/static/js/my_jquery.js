@@ -39,6 +39,12 @@ function langChange(obj) {
     }
 }
 
+function selectTheme() {
+    var input = document.getElementById("selectTheme");
+    var theme = input.options[input.selectedIndex].textContent;
+    editor.setOption("theme", theme);
+  }
+
 $(document).ready(function() {
 
     //Fire onchange event automatically

@@ -15,27 +15,72 @@
             <!-- this contains editor area -->
             <div class="menuBar">
 
-                <div class="inner">Save as:
-                    <input type="text" id="fname" placeholder="File Name">
-                </div>
-                <div class="inner"><input type="submit" value="Save"></div>
-
                 <div class="inner">
+                    <button type="button" id="saveButton" name="saveButton">Save</button>
+                    <input type="text" id="fname" placeholder="File name">
                     <select id="languageSelect" onchange="langChange(this);">
                         <option value="c">C</option>
                         <option value="cpp">C++</option>
                         <option value="java">Java</option>
                         <option value="py">Python</option>
                     </select>
-
+                    <input type="reset" value="Clear" id="clearButton">
+                    <select onchange="selectTheme()" id=selectTheme>
+                        <option selected>default</option>
+                        <option>3024-day</option>
+                        <option>3024-night</option>
+                        <option>abcdef</option>
+                        <option>ambiance</option>
+                        <option>base16-dark</option>
+                        <option>base16-light</option>
+                        <option>bespin</option>
+                        <option>blackboard</option>
+                        <option>cobalt</option>
+                        <option>colorforth</option>
+                        <option>dracula</option>
+                        <option>duotone-dark</option>
+                        <option>duotone-light</option>
+                        <option>eclipse</option>
+                        <option>elegant</option>
+                        <option>erlang-dark</option>
+                        <option>hopscotch</option>
+                        <option>icecoder</option>
+                        <option>isotope</option>
+                        <option>lesser-dark</option>
+                        <option>liquibyte</option>
+                        <option>material</option>
+                        <option>mbo</option>
+                        <option>mdn-like</option>
+                        <option>midnight</option>
+                        <option>monokai</option>
+                        <option>neat</option>
+                        <option>neo</option>
+                        <option>night</option>
+                        <option>panda-syntax</option>
+                        <option>paraiso-dark</option>
+                        <option>paraiso-light</option>
+                        <option>pastel-on-dark</option>
+                        <option>railscasts</option>
+                        <option>rubyblue</option>
+                        <option>seti</option>
+                        <option>solarized dark</option>
+                        <option>solarized light</option>
+                        <option>the-matrix</option>
+                        <option>tomorrow-night-bright</option>
+                        <option>tomorrow-night-eighties</option>
+                        <option>ttcn</option>
+                        <option>twilight</option>
+                        <option>vibrant-ink</option>
+                        <option>xq-dark</option>
+                        <option>xq-light</option>
+                        <option>yeti</option>
+                        <option>zenburn</option>
+                    </select>
                 </div>
                 <div class="inner"><input type='file' id="fileButton" onchange='openFile(event)'>
                 </div>
-                <div class=" inner"><input type="reset" value="Clear" id="clearButton"></div>
-                <div class=""></div>
-                <br>
             </div>
-            <div>
+            <div id="codeEditorDiv">
                 <textarea id="codeEditor" name="code">//Your code goes here</textarea>
             </div>
 
@@ -47,22 +92,19 @@
 
         <div class="outputPane">
             <!-- here output will be displayed -->
-            <div style="display:block">
-                <textarea id="stdinput" placeholder="Enter your custom input" name="stdinput" rows="6" cols="30"></textarea>
+            <textarea id="stdinput" placeholder="Enter your custom input" name="stdinput"></textarea>
+            <textarea id="stdoutput" placeholder="Your output appears here" name="stdout"></textarea>
 
-                <textarea id="stdoutput" placeholder="Your output appears here" name="stdout" rows="6" cols="120"></textarea>
-
-            </div>
         </div>
-        <br>
-
     </div>
 
     <script>
         var editor = CodeMirror.fromTextArea(document.getElementById("codeEditor"), {
             lineNumbers: true,
+            lineWrapping: true,
             matchBrackets: true,
-            mode: "text/x-c"
+            mode: "text/x-c",
+            styleActiveLine: true
         });
 
         //Detect changes in document window
