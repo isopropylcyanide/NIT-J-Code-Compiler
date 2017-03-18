@@ -3,6 +3,12 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block title %}{{user.username}}'s Workspace{% endblock %}
-{% block head %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/userhome.css '%}" {% endblock %} {% block content %} <h1> Welcome {{ user.username }} Your workspace lies here. </h1> <button type="button" onclick="window.location.href='/logout/'" id="logoutButton" >Logout</button>
+{% block head %}{% endblock %}
+{% block content %}
+    <h1>
+        Welcome
+        {{ user.username }}
+        Your workspace lies here.
+    </h1>
+    <button type="button" onclick="window.location.href='/logout/'" id="logoutButton">Logout</button>
 {% endblock %}
