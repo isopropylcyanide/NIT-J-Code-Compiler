@@ -4,6 +4,16 @@ function displayOutput(data) {
     document.getElementById('stdoutput').value = data;
 }
 
+// Create codemirror instance
+var editor = CodeMirror.fromTextArea(document.getElementById("codeEditor"), {
+    lineNumbers: true,
+    lineWrapping: true,
+    matchBrackets: true,
+    mode: "text/x-c",
+    styleActiveLine: true
+});
+
+
 var openFile = function(event) {
     // button that browses file and pastes content into editor
     var input = event.target;
@@ -75,7 +85,14 @@ $(document).ready(function() {
     //reset code when clicked
     $('#clearButton').click(function() {
         //clear code and set it to whatever language currently exists
+        editor.setValue("");
         document.getElementById("languageSelect").onchange();
+    });
+
+    $('#clearButton').hover(function() {
+        /* Stuff to do when the mouse enters the element */
+    }, function() {
+        /* Stuff to do when the mouse leaves the element */
     });
 
     //toggle stdin response windows
