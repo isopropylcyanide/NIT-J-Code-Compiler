@@ -1,7 +1,6 @@
 function displayOutput(data) {
     //display output
-    document.getElementById('stdoutput').style.display = "inline-block";
-    document.getElementById('stdoutput').value = data;
+    document.getElementById('stdoutput').innerText = data;
 }
 
 // Create codemirror instance
@@ -52,8 +51,11 @@ function langChange(obj) {
 function selectTheme() {
     var input = document.getElementById("selectTheme");
     var theme = input.options[input.selectedIndex].textContent;
-    editor.setOption("theme", theme);
-  }
+    if (theme === "default-theme")
+        editor.setOption("theme", "default");
+    else
+        editor.setOption("theme", theme);
+}
 
 $(document).ready(function() {
 
@@ -89,12 +91,6 @@ $(document).ready(function() {
         document.getElementById("languageSelect").onchange();
     });
 
-    $('#clearButton').hover(function() {
-        /* Stuff to do when the mouse enters the element */
-    }, function() {
-        /* Stuff to do when the mouse leaves the element */
-    });
-
     //toggle stdin response windows
     $('#stdinButton').click(function() {
         // $('#stdinput').toggle('fast');
@@ -103,15 +99,19 @@ $(document).ready(function() {
 
     //jquery that compiles code at the server by sending UI Data and outputting the response
     $('#executeButton').click(function() {
+        console.log("hanji");
         var sourceCode = editor.getValue();
         var sourceLang = document.getElementById("languageSelect").value;
-        var sourceInp = document.getElementById("stdinput").value;
+        var sourceInp = "";
         var sourceName = document.getElementById("fname").value;
-        if (sourceName == ""){
+        if (sourceName == "") {
             //user didn't specify a file name. Default to main
             sourceName = "main";
         }
-
+        console.log(sourceCode);
+        console.log(sourceLang);
+        console.log(sourceInp);
+        console.log(sourceName);
         $.ajax({
             method: 'POST',
             url: "execute",
@@ -123,12 +123,31 @@ $(document).ready(function() {
             },
             success: function(data) {
                 //this gets called when server returns an OK response
+                console.log("i received: "  + data);
                 displayOutput(data);
             },
             error: function(data) {
                 alert("Error occured during submission. Try again later");
             }
         });
+    });
 
+    //output window toggle fullscreen
+    $("#panel-fullscreen").click(function (e) {
+        console.log("dabaya");
+        e.preventDefault();
+        var $this = $(this);
+
+        if ($this.children('i').hasClass('glyphicon-resize-full'))
+        {
+            $this.children('i').removeClass('glyphicon-resize-full');
+            $this.children('i').addClass('glyphicon-resize-small');
+        }
+        else if ($this.children('i').hasClass('glyphicon-resize-small'))
+        {
+            $this.children('i').removeClass('glyphicon-resize-small');
+            $this.children('i').addClass('glyphicon-resize-full');
+        }
+        $(this).closest('.panel').toggleClass('panel-fullscreen');
     });
 });

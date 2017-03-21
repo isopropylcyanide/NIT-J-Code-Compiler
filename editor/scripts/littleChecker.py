@@ -144,15 +144,16 @@ def main(file_name, inp_file, prog_name):
         output = '\nCompilation : %s' % (codes[new_program.compile()])
 
         try:
-            output += '\nRunning : %s\n\n' % (codes[new_program.run()])
+            output += '\nRuntime : %s\n\n' % (codes[new_program.run()])
         except Exception, e:
             print 'Exception caught in runtime:', str(e)
-            output += '\nRuntime failed: '
+            output += '\nRuntime failed: \n'
 
             # if language is java, remove classes
             if new_program.lang == "java":
                 print 'remove java ', new_program.file_name
         finally:
+            output += "\n\n"
             with open(new_program.actualout, 'r') as f:
                 for i in f.readlines():
                     output += i
@@ -174,7 +175,7 @@ def main(file_name, inp_file, prog_name):
 
     except Exception, e:
         print 'Exception caught in compile phase:', str(e)
-        output = '\nCompilation failed: '
+        output = '\nCompilation failed: \n\n'
         with open(new_program.log, "r") as f:
             for i in f.readlines():
                 output += i

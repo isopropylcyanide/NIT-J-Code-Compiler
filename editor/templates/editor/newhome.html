@@ -6,7 +6,7 @@
         <meta charset="utf-8">
         <title>Editor</title>
         {% load staticfiles %}
-        <link href="{% static 'css/homestyle.css' %}" rel="stylesheet">
+        <link href="{% static 'css/editorstyle.css' %}" rel="stylesheet">
         <link rel='stylesheet' href="{% static 'css/bootstrap.min.css' %}" type='text/css'/>
         <link href="{% static 'css/codemirror.css' %}" rel="stylesheet" type="text/css"/>
 
@@ -111,7 +111,7 @@
     <!-- Editor UI starts here -->
 
     <div id="editor-workspace" class="container col-lg-12 col-md-12 col-sm-9 col-xs-3">
-        <div id="filetree" class="panel panel-primary col-lg-2 col-md-2 col-sm-2">
+        <div id="filetree" class="nopadding panel col-lg-2 col-md-2 col-sm-2">
             <div class="panel-body">
                 <h2>
                     File tree here
@@ -120,13 +120,13 @@
         </div>
         <!-- File tree ends -->
 
-        <div id="editor-panel" class="panel panel-success col-lg-8 col-md-8 col-sm-8">
-            <div class="panel-body">
+        <div id="editor-panel" class="nopadding panel  col-lg-8 col-md-8 col-sm-8">
+            <div class="panel-body nopadding">
                 <div class="row" id="menuBar">
                     <div class="col-lg-3">
                         <div class="input-group">
                             <span class="input-group-btn">
-                                <button class="btn btn-success" id="saveButton" type="button">
+                                <button class="btn btn-success" id="saveButton" type="button" title="Save File">
                                     <span class="glyphicon glyphicon glyphicon-floppy-disk"></span>
                                 </button>
                             </span>
@@ -140,19 +140,19 @@
                             <option value="c">C</option>
                             <option value="cpp">C++</option>
                             <option value="java">Java</option>
-                            <option value="python">Python</option>
+                            <option value="py">Python</option>
                         </select>
                     </div>
                     <!-- lang select -->
 
                     <div class="col-lg-1">
-                        <button class="btn btn-danger" id="clearButton" type="button">
+                        <button class="btn btn-danger" id="clearButton" type="button" title="Reset Text">
                             <span class="glyphicon glyphicon glyphicon-remove-sign"></span>
                         </button>
                     </div>
                     <div class="btn-group col-lg-3">
                         <select class="form-control" onchange="selectTheme()" id=selectTheme>
-                            <option selected>default</option>
+                            <option selected>default-theme</option>
                             <option>3024-day</option>
                             <option>3024-night</option>
                             <option>abcdef</option>
@@ -232,13 +232,28 @@
         </div>
         <!-- editor panel closes -->
 
-        <div id="output-panel" class="panel panel-primary col-lg-2 col-md-2 col-sm-2">
-            <div class="panel-body">
-                <h2>
-                    Output here
-                </h2>
+        <div id="output-panel" class="col-lg-2 col-md-2 col-sm-2">
+            <div class="nopadding panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Code Output</h3>
+                    <ul class="list-inline panel-actions">
+                        <li>
+                            <a href="#" id="panel-fullscreen" role="button" title="Toggle fullscreen">
+                                <i class="glyphicon glyphicon-resize-full"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="panel-body ">
+                    <label id="stdoutput">
+                        Your code output appears here.
+                        <br>
+                        <br>Click the resize icon in the top right to make this fullscreen.
+                    </label>
+                </div>
             </div>
         </div>
+        <!-- Output panel closes -->
     </div>
 
     <script src="{% static 'js/jquery-3.1.1.js' %}"></script>
