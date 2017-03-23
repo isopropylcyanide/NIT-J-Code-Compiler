@@ -34,8 +34,8 @@ def execute(request):
         lang = request.POST.get('sourceLang', '')
         inp = request.POST.get('sourceInp', '')
         name = request.POST.get('sourceName', '')
-        # print ('Received: Code: %s \n lang: %s \n inp: %s \n name: %s\n ' %
-        #        (code, lang, inp, name))
+        print ('Received: Code: %s \n lang: %s \n inp: %s \n name: %s\n ' %
+               (code, lang, inp, name))
         output = ""
         try:
             created = createFile(code, lang, name)

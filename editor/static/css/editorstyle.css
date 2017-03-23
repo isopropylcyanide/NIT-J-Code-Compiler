@@ -25,7 +25,7 @@
 
 #text-editor-panel {
     margin-top: 5px;
-    height: 440px;
+    height: 450px;
     /*width:100%;*/
 }
 
@@ -35,11 +35,13 @@
 }
 
 #executeButton {
+    margin-left: 20px;
     width: 100%;
 }
 
 #stdinButton {
     width: 100%;
+    margin-left: 20%;
 }
 
 .CodeMirror{
@@ -56,12 +58,24 @@
   color:#333;
 }
 .panel-fullscreen {
+    position: fixed;
     display: block;
     z-index: 9999;
-    position: fixed;
     width: 100%;
     height: 100%;
     top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    overflow: auto;
+}
+.editor-fullscreen {
+    position: fixed;
+    /*display: block;*/
+    z-index: 9999;
+    width: 100%;
+    height: 100%;
+    top: 120px;
     right: 0;
     left: 0;
     bottom: 0;
@@ -74,6 +88,7 @@
 }
 
 #stdoutput{
+    /*enable line wrap for output window1*/
     position: relative;
     /*height: 100%;*/
     white-space: pre-wrap; /* css-3 */
@@ -81,4 +96,14 @@
     white-space: -pre-wrap; /* Opera 4-6 */
     white-space: -o-pre-wrap; /* Opera 7 */
     word-wrap: break-word; /* Internet Explorer 5.5+ */
+}
+
+#stdinPanel{
+    /*sliding panel is hidden by default*/
+    display: none;
+    position: absolute;
+}
+
+#filetree{
+    background: rgba(71, 43, 232, 0.29);
 }

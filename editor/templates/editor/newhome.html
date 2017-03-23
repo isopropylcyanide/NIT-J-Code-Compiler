@@ -205,11 +205,16 @@
                     </div>
                     <!-- theme select -->
 
-                    <div class="col-lg-3">
+                    <div class="col-lg-2">
                         <label class="btn btn-primary btn-file">
                             Browse File
                             <input type="file" id="fileButton" onchange='openFile(event)'>
                         </label>
+                    </div>
+                    <div class="col-lg-1">
+                        <a href="#" id="panel-fullscreen" role="button" title="Toggle fullscreen">
+                            <i class="glyphicon glyphicon-resize-full"></i>
+                        </a>
                     </div>
                 </div>
                 <!-- row ends -->
@@ -218,51 +223,67 @@
                     <textarea class="form-control" id="codeEditor">//Your text goes here</textarea>
                 </div>
                 <!-- text area close -->
-
+                <div class="clearfix"></div>
                 <div class="row " id="statusBar">
                     <div class="col-lg-3 pull-left">
                         <button type="button" id="executeButton" class="btn btn-success">Execute
                         </button>
                     </div>
-                    <div class="col-lg-3 pull-right">
+
+                    <div class="col-lg-7 center">
                         <button type="button" id="stdinButton" class="btn btn-primary">Enter custom input</button>
                     </div>
+                    <div class="wrapper">
+                        <div class="col-lg-7 panel panel-info nopadding" id="stdinPanel">
+                            <div class="panel-heading">
+                                <p>Specify stdin input here
+                                    <span role="button" title="Clear stdin" id="stdinClearButton" class=" glyphicon glyphicon-remove pull-right"></span>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="panel-body form-group nopadding">
+                            <textarea class="form-control" rows="10" id="stdinText"></textarea>
+                        </div>
+                    </div>
                 </div>
+                <!-- Stdin panel ends -->
             </div>
+            <!-- Status row ends -->
         </div>
-        <!-- editor panel closes -->
-
-        <div id="output-panel" class="col-lg-2 col-md-2 col-sm-2">
-            <div class="nopadding panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Code Output</h3>
-                    <ul class="list-inline panel-actions">
-                        <li>
-                            <a href="#" id="panel-fullscreen" role="button" title="Toggle fullscreen">
-                                <i class="glyphicon glyphicon-resize-full"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="panel-body ">
-                    <label id="stdoutput">
-                        Your code output appears here.
-                        <br>
-                        <br>Click the resize icon in the top right to make this fullscreen.
-                    </label>
-                </div>
-            </div>
-        </div>
-        <!-- Output panel closes -->
     </div>
+    <!-- editor panel closes -->
 
-    <script src="{% static 'js/jquery-3.1.1.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <!-- bootstrap js -->
-    <script src="{% static 'js/codemirror.js' %}"></script>
-    <script src="{% static 'mode/clike/clike.js' %}" type="text/javascript"></script>
-    <script src="{% static 'mode/python/python.js' %}" type="text/javascript"></script>
-    <!-- codemirror js -->
-    <script src="{% static 'js/app.js' %}"></script>
+    <div id="output-panel" class="col-lg-2 col-md-2 col-sm-2">
+        <div class="nopadding panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Code Output</h3>
+                <ul class="list-inline panel-actions">
+                    <li>
+                        <a href="#" id="panel-fullscreen" role="button" title="Toggle fullscreen">
+                            <i class="glyphicon glyphicon-resize-full"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="panel-body ">
+                <label id="stdoutput">
+                    Your code output appears here.
+                    <br>
+                    <br>Click the resize icon in the top right to make this fullscreen.
+                </label>
+            </div>
+        </div>
+    </div>
+    <!-- Output panel closes -->
+</div>
+
+<script src="{% static 'js/jquery-3.1.1.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<!-- bootstrap js -->
+<script src="{% static 'js/codemirror.js' %}"></script>
+<script src="{% static 'mode/clike/clike.js' %}" type="text/javascript"></script>
+<script src="{% static 'mode/python/python.js' %}" type="text/javascript"></script>
+<!-- codemirror js -->
+<script src="{% static 'js/app.js' %}"></script>
 </body>
 </html>

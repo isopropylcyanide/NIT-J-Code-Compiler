@@ -49,6 +49,7 @@ function langChange(obj) {
 }
 
 function selectTheme() {
+    //select theme from dropdowns
     var input = document.getElementById("selectTheme");
     var theme = input.options[input.selectedIndex].textContent;
     if (theme === "default-theme")
@@ -56,6 +57,7 @@ function selectTheme() {
     else
         editor.setOption("theme", theme);
 }
+
 
 $(document).ready(function() {
 
@@ -102,16 +104,12 @@ $(document).ready(function() {
         console.log("hanji");
         var sourceCode = editor.getValue();
         var sourceLang = document.getElementById("languageSelect").value;
-        var sourceInp = "";
+        var sourceInp = document.getElementById("stdinText").value;
         var sourceName = document.getElementById("fname").value;
         if (sourceName == "") {
             //user didn't specify a file name. Default to main
             sourceName = "main";
         }
-        console.log(sourceCode);
-        console.log(sourceLang);
-        console.log(sourceInp);
-        console.log(sourceName);
         $.ajax({
             method: 'POST',
             url: "execute",
@@ -132,21 +130,55 @@ $(document).ready(function() {
         });
     });
 
+    // Stdin panel toggle when custom input is clicked
+    $('#stdinButton').click(function(event) {
+        event.preventDefault();
+        var $panel = $('#stdinPanel');
+        var $text = $('#stdinText');
+
+        $panel.slideToggle("fast");
+
+    });
+
+    //clear stdin textarea when stdinClearButton is clicked
+    $('#stdinClearButton').click(function(event) {
+        $('#stdinText').val("");
+    });
+
+    //text editor workspace fullscreen toggle
+    $("#editor-fullscreen").click(function (e) {
+        console.log("pressed");
+        e.preventDefault();
+        var $panelhis = $(this);
+
+        if ($panelhis.children('i').hasClass('glyphicon-resize-full'))
+        {
+            $panelhis.children('i').removeClass('glyphicon-resize-full');
+            $panelhis.children('i').addClass('glyphicon-resize-small');
+        }
+        else if ($panelhis.children('i').hasClass('glyphicon-resize-small'))
+        {
+            $panelhis.children('i').removeClass('glyphicon-resize-small');
+            $panelhis.children('i').addClass('glyphicon-resize-full');
+        }
+        $('#text-editor-panel').toggleClass('editor-fullscreen');
+    });
+
+
     //output window toggle fullscreen
     $("#panel-fullscreen").click(function (e) {
-        console.log("dabaya");
         e.preventDefault();
-        var $this = $(this);
+        var $panelhis = $(this);
 
-        if ($this.children('i').hasClass('glyphicon-resize-full'))
+        if ($panelhis.children('i').hasClass('glyphicon-resize-full'))
         {
-            $this.children('i').removeClass('glyphicon-resize-full');
-            $this.children('i').addClass('glyphicon-resize-small');
+            $panelhis.children('i').removeClass('glyphicon-resize-full');
+            $panelhis.children('i').addClass('glyphicon-resize-small');
         }
-        else if ($this.children('i').hasClass('glyphicon-resize-small'))
+        else if ($panelhis.children('i').hasClass('glyphicon-resize-small'))
         {
-            $this.children('i').removeClass('glyphicon-resize-small');
-            $this.children('i').addClass('glyphicon-resize-full');
+            $panelhis.children('i').removeClass('glyphicon-resize-small');
+            $panelhis.children('i').addClass('glyphicon-resize-full');
         }
         $(this).closest('.panel').toggleClass('panel-fullscreen');
     });
