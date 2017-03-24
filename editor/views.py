@@ -8,7 +8,7 @@ orig_dir = os.getcwd()
 
 
 def index(request):
-    return render(request, 'editor/newhome.html')
+    return render(request, 'editor/editorHome.html', context={'user': 'new1'})
 
 
 def createFile(text, extension, name="main"):

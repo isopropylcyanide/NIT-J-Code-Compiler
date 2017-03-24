@@ -59,6 +59,14 @@ function selectTheme() {
 }
 
 
+function sleep(miliseconds) {
+    //sleep for ms time
+    var currentTime = new Date().getTime();
+
+    while (currentTime + miliseconds >= new Date().getTime()) {}
+}
+
+
 $(document).ready(function() {
 
     //Fire onchange event automatically
@@ -73,7 +81,6 @@ $(document).ready(function() {
 
     // button that browses file and pastes content into editor
     $('fileButton').click(function(event) {
-        console.log("fired baba");
         var input = event.target;
         var reader = new FileReader();
         reader.onload = function() {
@@ -101,7 +108,9 @@ $(document).ready(function() {
 
     //jquery that compiles code at the server by sending UI Data and outputting the response
     $('#executeButton').click(function() {
-        console.log("hanji");
+        // displayLoadingSpinner();
+        console.log("pressed execute");
+
         var sourceCode = editor.getValue();
         var sourceLang = document.getElementById("languageSelect").value;
         var sourceInp = document.getElementById("stdinText").value;
@@ -121,11 +130,11 @@ $(document).ready(function() {
             },
             success: function(data) {
                 //this gets called when server returns an OK response
-                console.log("i received: "  + data);
+                console.log("i received: " + data);
                 displayOutput(data);
             },
             error: function(data) {
-                alert("Error occured during submission. Try again later");
+                alert("Error occured during submission. Try again later: " + data);
             }
         });
     });
@@ -146,18 +155,15 @@ $(document).ready(function() {
     });
 
     //text editor workspace fullscreen toggle
-    $("#editor-fullscreen").click(function (e) {
+    $("#editor-fullscreen").click(function(e) {
         console.log("pressed");
         e.preventDefault();
         var $panelhis = $(this);
 
-        if ($panelhis.children('i').hasClass('glyphicon-resize-full'))
-        {
+        if ($panelhis.children('i').hasClass('glyphicon-resize-full')) {
             $panelhis.children('i').removeClass('glyphicon-resize-full');
             $panelhis.children('i').addClass('glyphicon-resize-small');
-        }
-        else if ($panelhis.children('i').hasClass('glyphicon-resize-small'))
-        {
+        } else if ($panelhis.children('i').hasClass('glyphicon-resize-small')) {
             $panelhis.children('i').removeClass('glyphicon-resize-small');
             $panelhis.children('i').addClass('glyphicon-resize-full');
         }
@@ -166,17 +172,14 @@ $(document).ready(function() {
 
 
     //output window toggle fullscreen
-    $("#panel-fullscreen").click(function (e) {
+    $("#panel-fullscreen").click(function(e) {
         e.preventDefault();
         var $panelhis = $(this);
 
-        if ($panelhis.children('i').hasClass('glyphicon-resize-full'))
-        {
+        if ($panelhis.children('i').hasClass('glyphicon-resize-full')) {
             $panelhis.children('i').removeClass('glyphicon-resize-full');
             $panelhis.children('i').addClass('glyphicon-resize-small');
-        }
-        else if ($panelhis.children('i').hasClass('glyphicon-resize-small'))
-        {
+        } else if ($panelhis.children('i').hasClass('glyphicon-resize-small')) {
             $panelhis.children('i').removeClass('glyphicon-resize-small');
             $panelhis.children('i').addClass('glyphicon-resize-full');
         }
