@@ -98,7 +98,7 @@ $(document).ready(function() {
         //clear code and set it to whatever language currently exists
         editor.setValue("");
         document.getElementById("languageSelect").onchange();
-        $.Zebra_Dialog('<strong>Cleared</strong> editor', {
+        new $.Zebra_Dialog('<strong>Cleared</strong> editor', {
             'buttons': false,
             'modal': false,
             'position': ['right - 20', 'top + 20'],
@@ -122,7 +122,7 @@ $(document).ready(function() {
     $('#saveButton').click(function() {
         var sourceName = $('#fname').val();
         if (sourceName == "") {
-            $.Zebra_Dialog('File name cannot be <strong>empty</strong>', {
+            new $.Zebra_Dialog('File name cannot be <strong>empty</strong>', {
                 'buttons': false,
                 'modal': false,
                 'position': ['right - 20', 'top + 20'],
@@ -144,7 +144,7 @@ $(document).ready(function() {
                 },
                 success: function(data) {
                     //this gets called when server returns an OK response
-                    $.Zebra_Dialog(data, {
+                    new $.Zebra_Dialog(data, {
                         'buttons': false,
                         'modal': false,
                         'position': ['right - 20', 'top + 20'],
@@ -152,7 +152,7 @@ $(document).ready(function() {
                     });
                 },
                 error: function(data) {
-                    $.Zebra_Dialog("Error occured during file save: " + data, {
+                    new $.Zebra_Dialog("Error occured during file save: " + data, {
                         'buttons': false,
                         'modal': false,
                         'position': ['right - 20', 'top + 20'],
@@ -189,11 +189,10 @@ $(document).ready(function() {
             },
             success: function(data) {
                 //this gets called when server returns an OK response
-                console.log("i received: " + data);
                 displayOutput(data);
             },
             error: function(data) {
-                $.Zebra_Dialog("Error occured during execution: " + data, {
+                new $.Zebra_Dialog("Error occured during execution: " + data, {
                     'buttons': false,
                     'modal': false,
                     'position': ['right - 20', 'top + 20'],
