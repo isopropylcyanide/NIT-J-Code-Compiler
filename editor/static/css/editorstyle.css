@@ -78,6 +78,10 @@
     height: 100%;
     overflow-y: auto;
 }
+#filetree-panel{
+    height: 100%;
+    overflow-y: auto;
+}
 
 #stdoutput{
     /*enable line wrap for output window1*/

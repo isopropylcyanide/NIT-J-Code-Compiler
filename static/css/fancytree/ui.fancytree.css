@@ -1,11 +1,15 @@
 /*!
- * Fancytree "ThemeRoller" skin.
- * This file should be included after a jQuery Themeroller style sheet.
- * It is meant to be used together with the ext-themeroller extension.
+ * Fancytree "Lion" skin.
  *
  * DON'T EDIT THE CSS FILE DIRECTLY, since it is automatically generated from
  * the LESS templates.
  */
+/*
+ Lion colors:
+	gray highlight bar: #D4D4D4
+	blue highlight-bar and -border #3875D7
+
+*/
 /*******************************************************************************
  * Common Styles for Fancytree Skins.
  *
@@ -92,7 +96,7 @@ span.fancytree-checkbox,
 span.fancytree-expander,
 span.fancytree-radio,
 span.fancytree-custom-icon {
-  margin-top: 2px;
+  margin-top: 0px;
 }
 /* Used by icon option: */
 span.fancytree-custom-icon {
@@ -107,7 +111,7 @@ img.fancytree-icon {
   width: 16px;
   height: 16px;
   margin-left: 3px;
-  margin-top: 2px;
+  margin-top: 0px;
   vertical-align: top;
   border-style: none;
 }
@@ -309,7 +313,7 @@ span.fancytree-icon {
 .fancytree-loading span.fancytree-expander:hover,
 .fancytree-statusnode-loading span.fancytree-icon,
 .fancytree-statusnode-loading span.fancytree-icon:hover {
-  background-image: url("data:image/gif;base64,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");
+  background-image: url("data:image/gif;base64,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");
   background-position: 0px 0px;
 }
 /* Status node icons */
@@ -324,15 +328,15 @@ span.fancytree-node {
   /* See #117 */
   display: inherit;
   width: 100%;
-  margin-top: 0px;
-  min-height: 20px;
+  margin-top: 1px;
+  min-height: 16px;
 }
 span.fancytree-title {
   color: black;
   cursor: pointer;
   display: inline-block;
   vertical-align: top;
-  min-height: 20px;
+  min-height: 16px;
   padding: 0 3px 0 3px;
   margin: 0px 0 0 3px;
   border: 1px solid transparent;
@@ -619,12 +623,49 @@ ul.fancytree-ext-wide span.fancytree-node span.fancytree-title {
 /*******************************************************************************
  * Node titles
  */
-.fancytree-plain span.fancytree-node {
+span.fancytree-title {
   border: 1px solid transparent;
+  border-radius: 0;
+}
+span.fancytree-focused span.fancytree-title {
+  outline: 1px dotted black;
+}
+span.fancytree-selected span.fancytree-title,
+span.fancytree-active span.fancytree-title {
+  background-color: #D4D4D4;
+}
+span.fancytree-selected span.fancytree-title {
+  font-style: italic;
+}
+.fancytree-treefocus span.fancytree-selected span.fancytree-title,
+.fancytree-treefocus span.fancytree-active span.fancytree-title {
+  color: white;
+  background-color: #3875D7;
 }
 /*******************************************************************************
  * 'table' extension
  */
-table.fancytree-ext-table tbody tr td {
-  border: 1px solid transparent;
+table.fancytree-ext-table {
+  border-collapse: collapse;
+}
+table.fancytree-ext-table tbody tr.fancytree-focused {
+  background-color: #99DEFD;
+}
+table.fancytree-ext-table tbody tr.fancytree-active {
+  background-color: royalblue;
+}
+table.fancytree-ext-table tbody tr.fancytree-selected {
+  background-color: #99DEFD;
+}
+/*******************************************************************************
+ * 'columnview' extension
+ */
+table.fancytree-ext-columnview tbody tr td {
+  border: 1px solid gray;
+}
+table.fancytree-ext-columnview span.fancytree-node.fancytree-expanded {
+  background-color: #ccc;
+}
+table.fancytree-ext-columnview span.fancytree-node.fancytree-active {
+  background-color: royalblue;
 }

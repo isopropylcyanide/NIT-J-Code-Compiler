@@ -69,9 +69,21 @@ function sleep(miliseconds) {
 
 $(document).ready(function() {
 
+    $.ajax({
+        type: "POST",
+        url: "refreshDirectory",
+        success: function(data) {
+             $('#filetreepanel ul').append(data);
+             console.log("append: " + data);
+            //  $('#filetreepanel').
+        },
+        error: function(qXHR, textStatus,errorThrown){
+
+        }
+     });
+
     //Fire onchange event automatically
     $('#languageSelect').trigger("change");
-
     //Allow only certain file extensions
     $('#fileButton').attr({
         'accept': '.c,.cpp,.java,.py'

@@ -1,14 +1,30 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseServerError
 from django.views.decorators.csrf import csrf_exempt
 import scripts.littleChecker as checker
 import os
 import scripts.sftp as sftp
+import scripts.fileExplorer as filexp
 
 orig_dir = os.getcwd()
 def_host = "127.0.0.1"
 def_username = "new1"
 def_pass = "12"
+
+
+@csrf_exempt
+def refreshDirectory(request):
+    """List all files in directory"""
+    if request.is_ajax():
+        try:
+            userDir = filexp.FileExplorer(def_username, def_pass, def_host)
+            outputResponse = userDir.listfiles()
+            return HttpResponse(outputResponse)
+        except Exception as e:
+            return HttpResponseServerError(content=b'File error')
+            # raise e
+        finally:
+            userDir.close()
 
 
 @csrf_exempt
