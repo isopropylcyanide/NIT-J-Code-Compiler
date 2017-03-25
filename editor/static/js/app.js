@@ -106,6 +106,11 @@ $(document).ready(function() {
         });
     });
 
+    $('#clearOutputWindow').click(function(){
+        //clear output window in editor
+        displayOutput("");
+    });
+
     //toggle stdin response windows
     $('#stdinButton').click(function() {
         // $('#stdinput').toggle('fast');
