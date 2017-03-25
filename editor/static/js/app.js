@@ -101,9 +101,7 @@ $(document).ready(function() {
         url: "refreshDirectory",
         success: function(data) {
             console.log('refresh: ' + data);
-            $('#filetreepanel').remove()
-            $('#filetree-panel').append('<div id="filetreepanel"></div>')
-            $('#filetreepanel').append('<ul id="treeData"></ul>')
+            // Add the dom result and refancy the tree
              $('#filetreepanel ul').append(data);
             initializeTree();
         },
