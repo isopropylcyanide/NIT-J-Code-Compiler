@@ -78,6 +78,31 @@ $(document).ready(function() {
     });
 
     //file-tree
+    $('#filetreepanel').fancytree({
+        activeVisible: false, // Make sure, active nodes are visible (expanded)
+        aria: false, // Enable WAI-ARIA support
+        autoActivate: true, // Automatically activate a node when it is focused using keyboard
+        autoCollapse: false, // Automatically collapse all siblings, when a node is expanded
+        autoScroll: false, // Automatically scroll nodes into visible area
+        clickFolderMode: 4, // 1:activate, 2:expand, 3:activate and expand, 4:activate (dblclick expands)
+        checkbox: false, // Show checkboxes
+        debugLevel: 0, // 0:quiet, 1:normal, 2:debug
+        disabled: false, // Disable control
+        focusOnSelect: false, // Set focus when node is checked by a mouse click
+        escapeTitles: false, // Escape `node.title` content for display
+        generateIds: false, // Generate id attributes like <span id='fancytree-id-KEY'>
+        idPrefix: "ft_", // Used to generate node id´s like <span id='fancytree-id-<key>'>
+        icon: true, // Display node icons
+        keyboard: true, // Support keyboard navigation
+        keyPathSeparator: "/", // Used by node.getKeyPath() and tree.loadKeyPath()
+        minExpandLevel: 1, // 1: root node is not collapsible
+        quicksearch: true, // Navigate to next node by typing the first letters
+        rtl: false, // Enable RTL (right-to-left) mode
+        selectMode: 2, // 1:single, 2:multi, 3:multi-hier
+        tabindex: "0", // Whole tree behaves as one single control
+        titlesTabbable: false, // Node titles can receive keyboard focus
+        tooltip: true // Use title as tooltip (also a callback could be specified)
+    });
 
     // button that browses file and pastes content into editor
     $('fileButton').click(function(event) {
@@ -106,7 +131,7 @@ $(document).ready(function() {
         });
     });
 
-    $('#clearOutputWindow').click(function(){
+    $('#clearOutputWindow').click(function() {
         //clear output window in editor
         displayOutput("");
     });
@@ -130,8 +155,7 @@ $(document).ready(function() {
                 'type': 'error',
                 'title': 'Error',
             });
-        }
-        else {
+        } else {
             var sourceCode = editor.getValue();
             var sourceLang = $("#languageSelect").val();
             $.ajax({
@@ -148,7 +172,8 @@ $(document).ready(function() {
                         'buttons': false,
                         'modal': false,
                         'position': ['right - 20', 'top + 20'],
-                        'auto_close': 1500
+                        'auto_close': 1500,
+                        'type': 'confirmation'
                     });
                 },
                 error: function(data) {

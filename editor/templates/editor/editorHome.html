@@ -9,9 +9,13 @@
         <link href="{% static 'css/editorstyle.css' %}" rel="stylesheet">
         <link rel='stylesheet' href="{% static 'css/bootstrap.min.css' %}" type='text/css'/>
         <link href="{% static 'css/codemirror.css' %}" rel="stylesheet" type="text/css"/>
+        <link href="{% static 'css/jquery-ui.min.css' %}" rel="stylesheet" type="text/css"/>
         <!-- codemirror css -->
-        <link href="{% static 'css/zebra_dialog.css' %}" rel="stylesheet" type="text/css"/>
+        <link href="{% static 'css/zebra-alert/zebra_dialog.css' %}" rel="stylesheet" type="text/css"/>
         <!-- custom alert box css -->
+
+        <link href="{% static 'css/fancytree/ui.fancytree.css' %}" rel="stylesheet">
+        <!-- fancy tree -->
         <link rel='stylesheet' href="{% static 'theme/3024-day.css' %}"/>
         <link rel='stylesheet' href="{% static 'theme/3024-night.css' %}"/>
         <link rel='stylesheet' href="{% static 'theme/abcdef.css' %}"/>
@@ -115,11 +119,46 @@
     <!-- Editor UI starts here -->
 
     <div id="editor-workspace" class="container col-lg-12 col-md-12 col-sm-9 col-xs-3">
-        <div id="filetree" class="nopadding panel col-lg-2 col-md-2 col-sm-2">
-            <div class="panel-body">
-                <h2>
-                    File tree here
-                </h2>
+        <div class="panel nopadding  col-lg-2 col-md-2 col-sm-2">
+            <div id="filetreepanel">
+                <ul id="treeData" style="display: none;">
+                    <li id="id1" title="Look, a tool tip!">item1 with key and tooltip</li>
+                    <li id="id2">item2</li>
+                    <li id="id3" class="folder">Folder with some children
+                        <ul>
+                            <li id="id3.1">Sub-item 3.1
+                                <ul>
+                                    <li id="id3.1.1">Sub-item 3.1.1</li>
+                                    <li id="id3.1.2">Sub-item 3.1.2</li>
+                                    <li id="id3.1.3">Sub-item 3.1.3</li>
+                                </ul>
+                            </li>
+                            <li id="id3.2">Sub-item 3.2
+                                <ul>
+                                    <li id="id3.2.1">Sub-item 3.2.1</li>
+                                    <li id="id3.2.2">Sub-item 3.2.2</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li id="id4" class="expanded">Document with some children (expanded on init)
+                        <ul>
+                            <li id="id4.1" class="active focused">Sub-item 4.1 (active and focus on init)
+                                <ul>
+                                    <li id="id4.1.1">Sub-item 4.1.1</li>
+                                    <li id="id4.1.2">Sub-item 4.1.2</li>
+                                </ul>
+                            </li>
+                            <li id="id4.2">Sub-item 4.2
+                                <ul>
+                                    <li id="id4.2.1">Sub-item 4.2.1</li>
+                                    <li id="id4.2.2">Sub-item 4.2.2</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
             </div>
         </div>
         <!-- File tree ends -->
@@ -278,6 +317,7 @@
 </div>
 
 <script src="{% static 'js/jquery-3.1.1.js' %}"></script>
+<script src="{% static 'js/jquery-ui.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 <!-- bootstrap js -->
 <script src="{% static 'js/codemirror.js' %}"></script>
@@ -288,5 +328,7 @@
 <!-- main editor js -->
 <script src="{% static 'js/zebra_dialog.js' %}"></script>
 <!-- custom alert box -->
+<script src="{% static 'js/jquery.fancytree.js' %}"></script>
+
 </body>
 </html>
