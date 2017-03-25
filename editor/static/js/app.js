@@ -98,6 +98,12 @@ $(document).ready(function() {
         //clear code and set it to whatever language currently exists
         editor.setValue("");
         document.getElementById("languageSelect").onchange();
+        $.Zebra_Dialog('<strong>Cleared</strong> editor', {
+            'buttons': false,
+            'modal': false,
+            'position': ['right - 20', 'top + 20'],
+            'auto_close': 500
+        });
     });
 
     //toggle stdin response windows
@@ -110,9 +116,17 @@ $(document).ready(function() {
     //  check file name not empty
     $('#saveButton').click(function() {
         var sourceName = $('#fname').val();
-        if (sourceName == "")
-            alert("File name cannot be empty");
-        else{
+        if (sourceName == "") {
+            $.Zebra_Dialog('File name cannot be <strong>empty</strong>', {
+                'buttons': false,
+                'modal': false,
+                'position': ['right - 20', 'top + 20'],
+                'auto_close': 1500,
+                'type': 'error',
+                'title': 'Error',
+            });
+        }
+        else {
             var sourceCode = editor.getValue();
             var sourceLang = $("#languageSelect").val();
             $.ajax({
@@ -125,10 +139,22 @@ $(document).ready(function() {
                 },
                 success: function(data) {
                     //this gets called when server returns an OK response
-                    alert(data);
+                    $.Zebra_Dialog(data, {
+                        'buttons': false,
+                        'modal': false,
+                        'position': ['right - 20', 'top + 20'],
+                        'auto_close': 1500
+                    });
                 },
                 error: function(data) {
-                    alert("Error occured during file save: " + data);
+                    $.Zebra_Dialog("Error occured during file save: " + data, {
+                        'buttons': false,
+                        'modal': false,
+                        'position': ['right - 20', 'top + 20'],
+                        'auto_close': 1500,
+                        'type': 'error',
+                        'title': 'Error',
+                    });
                 }
             });
         }
@@ -162,7 +188,14 @@ $(document).ready(function() {
                 displayOutput(data);
             },
             error: function(data) {
-                alert("Error occured during submission. Try again later: " + data);
+                $.Zebra_Dialog("Error occured during execution: " + data, {
+                    'buttons': false,
+                    'modal': false,
+                    'position': ['right - 20', 'top + 20'],
+                    'auto_close': 1500,
+                    'type': 'error',
+                    'title': 'Error',
+                });
             }
         });
     });
