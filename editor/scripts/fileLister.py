@@ -11,9 +11,13 @@ def recursive_walk(folder):
             for subfolder in subfolders:
                 recursive_walk(subfolder)
 
-        if not (folderName == "." and folderName.startswith('.')):
-            recursive_walk.repr += '<li class="folder">%s<ul>' % (
-                folderName)
+        if len(folderName) == 1 or not folderName.startswith('.'):
+            if len(folderName) == 1:
+                recursive_walk.repr += '<li class="folder expanded">%s<ul>' % (
+                    folderName)
+            else:
+                recursive_walk.repr += '<li class="folder">%s<ul>' % (
+                    folderName)
             for filename in filenames:
                 if not filename.startswith('.'):
                     recursive_walk.repr += '<li>%s</li>' % (filename)

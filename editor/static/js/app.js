@@ -66,30 +66,7 @@ function sleep(miliseconds) {
     while (currentTime + miliseconds >= new Date().getTime()) {}
 }
 
-
-$(document).ready(function() {
-
-    $.ajax({
-        type: "POST",
-        url: "refreshDirectory",
-        success: function(data) {
-             $('#filetreepanel ul').append(data);
-             console.log("append: " + data);
-            //  $('#filetreepanel').
-        },
-        error: function(qXHR, textStatus,errorThrown){
-
-        }
-     });
-
-    //Fire onchange event automatically
-    $('#languageSelect').trigger("change");
-    //Allow only certain file extensions
-    $('#fileButton').attr({
-        'accept': '.c,.cpp,.java,.py'
-    });
-
-    //file-tree
+function initializeTree(){
     $('#filetreepanel').fancytree({
         activeVisible: false, // Make sure, active nodes are visible (expanded)
         aria: false, // Enable WAI-ARIA support
@@ -115,6 +92,35 @@ $(document).ready(function() {
         titlesTabbable: false, // Node titles can receive keyboard focus
         tooltip: true // Use title as tooltip (also a callback could be specified)
     });
+}
+
+$(document).ready(function() {
+
+    $.ajax({
+        type: "POST",
+        url: "refreshDirectory",
+        success: function(data) {
+            console.log('refresh: ' + data);
+            $('#filetreepanel').remove()
+            $('#filetree-panel').append('<div id="filetreepanel"></div>')
+            $('#filetreepanel').append('<ul id="treeData"></ul>')
+             $('#filetreepanel ul').append(data);
+            initializeTree();
+        },
+        error: function(qXHR, textStatus,errorThrown){
+                 $('#filetreepanel ul').append('<h2>Error retrieving directory structure</h2>');
+        }
+     });
+
+    //Fire onchange event automatically
+    $('#languageSelect').trigger("change");
+    //Allow only certain file extensions
+    $('#fileButton').attr({
+        'accept': '.c,.cpp,.java,.py'
+    });
+
+    //file-tree
+    initializeTree();
 
     // button that browses file and pastes content into editor
     $('fileButton').click(function(event) {
