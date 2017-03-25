@@ -106,7 +106,35 @@ $(document).ready(function() {
         $('textarea#stdinput').html('');
     });
 
-    //jquery that compiles code at the server by sending UI Data and outputting the response
+    // Saves file at the remote directory using an AJAX call
+    //  check file name not empty
+    $('#saveButton').click(function() {
+        var sourceName = $('#fname').val();
+        if (sourceName == "")
+            alert("File name cannot be empty");
+        else{
+            var sourceCode = editor.getValue();
+            var sourceLang = $("#languageSelect").val();
+            $.ajax({
+                method: 'POST',
+                url: "saveFile",
+                data: {
+                    'sourceCode': sourceCode,
+                    'sourceLang': sourceLang,
+                    'sourceName': sourceName
+                },
+                success: function(data) {
+                    //this gets called when server returns an OK response
+                    alert(data);
+                },
+                error: function(data) {
+                    alert("Error occured during file save: " + data);
+                }
+            });
+        }
+    });
+
+    //Compiles code at the server by sending UI Data and outputting the response
     $('#executeButton').click(function() {
         // displayLoadingSpinner();
         console.log("pressed execute");
@@ -152,22 +180,6 @@ $(document).ready(function() {
     //clear stdin textarea when stdinClearButton is clicked
     $('#stdinClearButton').click(function(event) {
         $('#stdinText').val("");
-    });
-
-    //text editor workspace fullscreen toggle
-    $("#editor-fullscreen").click(function(e) {
-        console.log("pressed");
-        e.preventDefault();
-        var $panelhis = $(this);
-
-        if ($panelhis.children('i').hasClass('glyphicon-resize-full')) {
-            $panelhis.children('i').removeClass('glyphicon-resize-full');
-            $panelhis.children('i').addClass('glyphicon-resize-small');
-        } else if ($panelhis.children('i').hasClass('glyphicon-resize-small')) {
-            $panelhis.children('i').removeClass('glyphicon-resize-small');
-            $panelhis.children('i').addClass('glyphicon-resize-full');
-        }
-        $('#text-editor-panel').toggleClass('editor-fullscreen');
     });
 
 

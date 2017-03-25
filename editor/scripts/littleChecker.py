@@ -3,6 +3,12 @@ import filecmp
 import re
 import sys
 
+
+"""
+Script that monitors compilation and running of an output program.
+Return errors if any , with the appropriate error code
+"""
+
 codes = {200: 'success', 404: 'file_name not found',
          400: 'error', 408: 'timeout'}
 

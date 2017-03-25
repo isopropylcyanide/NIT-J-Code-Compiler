@@ -3,23 +3,49 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import scripts.littleChecker as checker
 import os
+import scripts.sftp as sftp
 
 orig_dir = os.getcwd()
+def_host = "127.0.0.1"
+def_username = "new1"
+def_pass = "12"
+
+
+@csrf_exempt
+def saveFile(request):
+    """Save file as requested by the user to his location"""
+    if request.is_ajax():
+        code = request.POST.get('sourceCode', '')
+        lang = request.POST.get('sourceLang', '')
+        file_name = request.POST.get('sourceName', '')
+        print ('Saving code')
+        output_message = "Saved file successfully"
+
+        createdFile = createFile(code, lang, name=file_name, isSaved=True)
+        print createdFile, ' at ', os.getcwd()
+        with sftp.Server(def_username, def_pass, def_host) as server:
+            server.upload(createdFile, "./%s" % (createdFile))
+        if (os.path.isfile(createdFile)):
+            os.remove(createdFile)
+        return HttpResponse(output_message)
 
 
 def index(request):
+    """Return the editor page"""
     return render(request, 'editor/editorHome.html', context={'user': 'new1'})
 
 
-def createFile(text, extension, name="main"):
-    # Creates a file in editor/tmp directory
-    os.chdir(orig_dir)
+def createFile(text, extension, name="main", isSaved=False):
+    # Creates a file in editor/tmp directory if not isSaved
+    if not isSaved:
+        os.chdir(orig_dir)
+        os.chdir('editor/scripts/')
     print 'Current directory: ', orig_dir
-    os.chdir('editor/scripts/')
     file_name = '%s.%s' % (name, extension)
     with open(file_name, 'w') as f:
         f.write(text)
-    os.chdir(orig_dir)
+    if not isSaved:
+        os.chdir(orig_dir)
     return file_name
 
 
