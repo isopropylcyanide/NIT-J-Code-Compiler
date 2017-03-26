@@ -94,21 +94,29 @@ function initializeTree(){
     });
 }
 
-$(document).ready(function() {
-
-    $.ajax({
+function refreshDirectory(){
+    return $.ajax({
         type: "POST",
         url: "refreshDirectory",
         success: function(data) {
             console.log('refresh: ' + data);
             // Add the dom result and refancy the tree
-             $('#filetreepanel ul').append(data);
+            $('#filetreepanel').remove();
+            $('#filetree-panel').append('<div id="filetreepanel"></div>')
+            $('#filetreepanel').append('<ul id="treeData"></ul>')
+            $('#filetreepanel ul').append(data);
             initializeTree();
         },
         error: function(qXHR, textStatus,errorThrown){
-                 $('#filetreepanel ul').append('<h2>Error retrieving directory structure</h2>');
+                 $('#filetreepanel ul').append('<h4>Error retrieving directory structure</h4>');
         }
      });
+}
+
+$(document).ready(function() {
+
+    //initialize file tree on document load
+    refreshDirectory();
 
     //Fire onchange event automatically
     $('#languageSelect').trigger("change");
@@ -191,6 +199,7 @@ $(document).ready(function() {
                         'auto_close': 1500,
                         'type': 'confirmation'
                     });
+                    refreshDirectory();
                 },
                 error: function(data) {
                     new $.Zebra_Dialog("Error occured during file save: " + data, {

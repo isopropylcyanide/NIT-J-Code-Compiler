@@ -26,6 +26,11 @@ class FileExplorer:
         except Exception as e:
             raise e
 
+    def isLive(self):
+        """Checks if both ssh and sftp are live"""
+        return self.ssh_server.get_transport().is_active() and \
+            self.sftp_server.get_transport().is_active()
+
     def close(self):
         """Close the connection if it's active"""
         self.sftp_server.close()

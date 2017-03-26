@@ -1,7 +1,8 @@
 import os
 
 """Recursively list all files and return their tree representation
-    which is a hierarchial element
+    which is a hierarchial element of divs where the folders have a class of
+    <folder>
 """
 
 
@@ -23,6 +24,7 @@ def recursive_walk(folder):
                     recursive_walk.repr += '<li>%s</li>' % (filename)
             recursive_walk.repr += '</ul></li>'
 
+# Add a function attribute
 recursive_walk.repr = ""
 recursive_walk('.')
 print recursive_walk.repr

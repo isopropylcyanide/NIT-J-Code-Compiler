@@ -3,7 +3,6 @@ from django.http import HttpResponse, HttpResponseServerError
 from django.views.decorators.csrf import csrf_exempt
 import scripts.littleChecker as checker
 import os
-import scripts.sftp as sftp
 import scripts.fileExplorer as filexp
 
 orig_dir = os.getcwd()
@@ -20,8 +19,8 @@ def refreshDirectory(request):
             userDir = filexp.FileExplorer(def_username, def_pass, def_host)
             outputResponse = userDir.listfiles()
             return HttpResponse(outputResponse)
-        except Exception as e:
-            return HttpResponseServerError(content=b'File error')
+        except Exception:
+            return HttpResponseServerError(content=b'File directory error')
             # raise e
         finally:
             userDir.close()
@@ -38,12 +37,16 @@ def saveFile(request):
         output_message = "Saved file successfully"
 
         createdFile = createFile(code, lang, name=file_name, isSaved=True)
-        print createdFile, ' at ', os.getcwd()
-        with sftp.Server(def_username, def_pass, def_host) as server:
-            server.upload(createdFile, "./%s" % (createdFile))
-        if (os.path.isfile(createdFile)):
-            os.remove(createdFile)
-        return HttpResponse(output_message)
+        try:
+            userDir = filexp.FileExplorer(def_username, def_pass, def_host)
+            userDir.sftp_server.upload(createdFile, "./%s" % (createdFile))
+            return HttpResponse(output_message)
+        except Exception:
+            return HttpResponseServerError(content=b'File save error')
+        finally:
+            userDir.close()
+            if (os.path.isfile(createdFile)):
+                os.remove(createdFile)
 
 
 def index(request):
