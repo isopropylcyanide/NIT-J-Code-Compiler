@@ -107,7 +107,10 @@ def createFile(text, extension, name="main", isSaved=False):
         os.chdir(orig_dir)
         os.chdir('editor/scripts/')
     print 'Current directory: ', orig_dir
-    file_name = '%s.%s' % (name, extension)
+    if extension == "":
+        file_name = '%s' % (name)
+    else:
+        file_name = '%s.%s' % (name, extension)
     with open(file_name, 'w') as f:
         f.write(text)
     if not isSaved:

@@ -30,19 +30,23 @@ var openFile = function(event) {
 function langChange(obj) {
     //Listener on language choose spinner
     document.getElementById('fileButton').value = "";
-    if (obj.value == "c") {
+    if (obj.value === "c") {
         editor.setOption("mode", "text/x-c");
         editor.setValue("/*\n  Your C code goes here\n  Main method should return 0\n*/");
         document.getElementById('fname').value = '';
-    } else if (obj.value == "cpp") {
+    } else if (obj.value === "cpp") {
         document.getElementById('fname').value = '';
         editor.setOption("mode", "text/x-c++src");
         editor.setValue("/*\n  Your C++ code goes here\n  Main method should return 0\n*/");
-    } else if (obj.value == "py") {
+    } else if (obj.value === "py") {
         document.getElementById('fname').value = '';
         editor.setOption("mode", "text/x-python");
         editor.setValue("#Your Python code goes here");
-    } else if (obj.value == "java") {
+    } else if (obj.value === "") {
+        document.getElementById('fname').value = '';
+        editor.setOption("mode", "text/plain");
+        editor.setValue("");
+    } else if (obj.value === "java") {
         document.getElementById('fname').value = '';
         editor.setOption("mode", "text/x-java");
         editor.setValue("/*\n  Your Java code goes here\n  Name of class should be kept as main and public\n  If using a custom name to save the file, change the name of a class to the name of the program \n*/");
@@ -50,7 +54,7 @@ function langChange(obj) {
 }
 
 function selectTheme() {
-    //select theme from dropdowns
+    //select theme from dropdown -> triggered by default
     var input = document.getElementById("selectTheme");
     var theme = input.options[input.selectedIndex].textContent;
     if (theme === "default-theme")
@@ -60,41 +64,16 @@ function selectTheme() {
 }
 
 
-function sleep(miliseconds) {
-    //sleep for ms time
-    var currentTime = new Date().getTime();
-    while (currentTime + miliseconds >= new Date().getTime()) {}
-}
-
 function fillEditorView(content, filename) {
     //fill codemirror editor with content
     //Change mode to the one represented by the file
     var ext = filename.split('.')[1];
     var $lang = $('#languageSelect');
-    switch (ext) {
-        case 'cpp':
-            $lang.val("cpp");
-            $lang.trigger("change");
-            break;
-        case 'c':
-            $lang.val("c");
-            $lang.trigger("change");
-            break;
-        case 'java':
-            $lang.val("java");
-            $lang.trigger("change");
-            break;
-        case 'py':
-            $lang.val("py");
-            $lang.trigger("change");
-            break;
-        case 'txt':
-            $lang.val("txt");
-            editor.setOption("mode", "text/plain");
-            break;
-        default:
-            editor.setValue("\nNot a valid extension");
-    }
+    if (txt === "")
+        $lang.val("txt");
+    else
+        $lang.val(txt);
+    $lang.trigger("change");
     editor.setValue(content);
 }
 
@@ -135,7 +114,22 @@ var treeOptions = {
     extensions: ["glyph", "edit", "childcounter", "contextMenu"],
     contextMenu: {
         menu: function(node) {
-            var basicMenu = {
+            if (node.folder) {
+                return  {
+                    "add_folder": {
+                        "name": "Add folder",
+                        "icon": "add"
+                    },
+                    "delete": {
+                        "name": "Delete",
+                        "icon": "delete"
+                    },
+                    "rename": {
+                        "name": "Rename",
+                        "icon": "edit"
+                    }
+                };
+            } else return  {
                 "open": {
                     "name": "Open",
                     "icon": "quit"
@@ -149,15 +143,6 @@ var treeOptions = {
                     "icon": "edit"
                 }
             };
-            if (node.folder) {
-                var add_here = {
-                    "name": "Add file here",
-                    "icon": "add"
-                };
-                var item = "add";
-                basicMenu[item] = add_here;
-                return basicMenu;
-            } else return basicMenu;
         },
         actions: function(node, action, options) {
             var path = getRemotePath(node);
@@ -244,7 +229,6 @@ var treeOptions = {
         var path = getRemotePath(node);
         displayFileinEditor(path, node.title);
     })
-
 };
 
 /*---------------------------FANCY tree customiation ends--------------------------*/
