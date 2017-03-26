@@ -82,7 +82,7 @@ function refreshDir() {
     });
 }
 
-var treeOptions={
+var treeOptions = {
     //options for fancy tree
     autoActivate: true, // Automatically activate a node when it is focused using keyboard
     autoScroll: true, // Automatically scroll nodes into visible area
@@ -95,9 +95,9 @@ var treeOptions={
     quicksearch: true, // Navigate to next node by typing the first letters
     selectMode: 3, // 1:single, 2:multi, 3:multi-hier
     tabindex: "0", // Whole tree behaves as one single control
-    source:{
-        url:"refreshDirectory",
-        cache:false
+    source: {
+        url: "refreshDirectory",
+        cache: false
     }
 };
 
@@ -173,8 +173,11 @@ $(document).ready(function() {
                         'auto_close': 1500,
                         'type': 'confirmation'
                     });
-                    //call editor again
-                    $('#filetreepanel').fancytree(treeOptions);
+                    //refresh file tree again
+                    $.ui.fancytree.getTree("#filetreepanel").reload({
+                        url: "refreshDirectory"
+                    });
+
                 },
                 error: function(data) {
                     new $.Zebra_Dialog("Error occured during file save: " + data, {
