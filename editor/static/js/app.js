@@ -114,8 +114,7 @@ var treeOptions = {
     tabindex: "0", // Whole tree behaves as one single control
     dataType: "json",
     source: {
-        url: "refreshDirectory",
-        cache: false
+        url: "refreshDirectory"
     },
     dblclick: (function(event, data) {
         // A node was double clicked

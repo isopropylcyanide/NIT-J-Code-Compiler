@@ -1,0 +1,16 @@
+./
+	__init__.pyc
+	__init__.py
+	main.py
+	stdin
+	fileExplorer.py
+	littleChecker.pyc
+	fileExplorer.pyc
+	folder_structure.txt
+	sftp.pyc
+	out.txt
+	log.txt
+	littleChecker.py
+	sftp.py
+	fileLister.py
+	fileLister.pyc

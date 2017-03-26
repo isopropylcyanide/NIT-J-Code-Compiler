@@ -1,6 +1,8 @@
 import os
 import json
 
+# Copyright (c) Aman Garg 2016 Copyright Holder All Rights Reserved.
+
 """Recursively list all files and return their tree representation
     which is a hierarchial element of divs where the folders have a class of
     <folder>
@@ -15,32 +17,23 @@ import json
 json_output = []
 
 
-def recursive_walk(folder):
-    global json_output
-    for folderName, subfolders, filenames in os.walk(folder):
-        if subfolders:
-            for subfolder in subfolders:
-                recursive_walk(subfolder)
+def path_to_dict(path):
+    name = os.path.basename(path)
+    d = None
+    if not (name.startswith('.') and len(name) != 1):
+        d = {'title': os.path.basename(path)}
+        if os.path.isdir(path):
+            # ignore hidden folders and files
+            d['folder'] = "true"
+            d['children'] = []
+            paths = [os.path.join(path, x) for x in os.listdir(path)]
+        # Just the children that are themselves valid
+            for p in paths:
+                c = path_to_dict(p)
+                if c is not None:
+                    d['children'].append(c)
+            if not d['children']:
+                return None
+    return d
 
-        if len(folderName) == 1 or not folderName.startswith('.'):
-            metaFold = {}
-            if len(folderName) != 1:
-                metaFold = {"title": folderName,
-                            "folder": "true", "children": []}
-            for filename in filenames:
-                if not filename.startswith('.'):
-                    metaFile = {"title": filename}
-                    if len(folderName) != 1:
-                        # add child to folder
-                        metaFold["children"].append(metaFile)
-                    else:
-                        # files in current directory
-                        json_output.append(metaFile)
-
-            if len(folder) != 1:
-                json_output.append(metaFold)
-
-# Add a function attribute
-
-recursive_walk('.')
-print json.dumps(json_output)
+print json.dumps(path_to_dict('.'), indent=2)
