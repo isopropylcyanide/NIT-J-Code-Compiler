@@ -12,15 +12,31 @@ def_pass = "12"
 
 
 @csrf_exempt
+def viewfilecontents(request):
+    """Return the contents of the remote file at the server"""
+    if request.is_ajax():
+        try:
+            remote_path = request.POST.get('remote_path')
+            userDir = filexp.FileExplorer(def_username, def_pass, def_host)
+            outputResponse = userDir.viewRemoteFile(remote_path)
+            print outputResponse
+            return HttpResponse(outputResponse)
+        except Exception:
+            return HttpResponseServerError(content=b'Couldn\'t locate file')
+        finally:
+            userDir.close()
+
+
+@csrf_exempt
 def refreshDirectory(request):
     """List all files in directory"""
     if request.is_ajax():
         try:
             userDir = filexp.FileExplorer(def_username, def_pass, def_host)
-            outputResponse = userDir.listfiles()
+            outputResponse = userDir.listFiles()
             return HttpResponse(outputResponse)
         except Exception:
-            return HttpResponseServerError(content=b'File directory error')
+            return HttpResponseServerError(content=b'Directory unavailable')
             # raise e
         finally:
             userDir.close()
@@ -42,7 +58,7 @@ def saveFile(request):
             userDir.sftp_server.upload(createdFile, "./%s" % (createdFile))
             return HttpResponse(output_message)
         except Exception:
-            return HttpResponseServerError(content=b'File save error')
+            return HttpResponseServerError(content=b'Error saving')
         finally:
             userDir.close()
             if (os.path.isfile(createdFile)):
@@ -86,8 +102,8 @@ def execute(request):
             created = createFile(code, lang, name)
             print 'Created file %s successfully' % (created)
             output = checker.main(created, inp, name)
-        except Exception, e:
-            print 'Exception caught in main view: ', str(e)
+        except Exception:
+            return HttpResponseServerError(content=b'Error during execution')
         finally:
             os.chdir(orig_dir)
             return HttpResponse(output)

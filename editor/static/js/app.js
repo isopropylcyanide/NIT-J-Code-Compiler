@@ -63,24 +63,41 @@ function selectTheme() {
 function sleep(miliseconds) {
     //sleep for ms time
     var currentTime = new Date().getTime();
-
     while (currentTime + miliseconds >= new Date().getTime()) {}
 }
 
-
-
-function refreshDir() {
-    return $.ajax({
-        type: "POST",
-        url: "refreshDirectory",
-        success: function(data) {
-            return data;
-        },
-        error: function(qXHR, textStatus, errorThrown) {
-            return [];
-        }
-    });
+function fillEditorView(content, filename) {
+    //fill codemirror editor with content
+    //Change mode to the one represented by the file
+    var ext = filename.split('.')[1];
+    var $lang = $('#languageSelect');
+    switch (ext) {
+        case 'cpp':
+            $lang.val("cpp");
+            $lang.trigger("change");
+            break;
+        case 'c':
+            $lang.val("c");
+            $lang.trigger("change");
+            break;
+        case 'java':
+            $lang.val("java");
+            $lang.trigger("change");
+            break;
+        case 'py':
+            $lang.val("py");
+            $lang.trigger("change");
+            break;
+        case 'txt':
+            $lang.val("txt");
+            editor.setOption("mode","text/plain");
+            break;
+        default:
+            editor.setValue("\nNot a valid extension");
+    }
+    editor.setValue(content);
 }
+
 
 var treeOptions = {
     //options for fancy tree
@@ -93,12 +110,49 @@ var treeOptions = {
     keyPathSeparator: "/", // Used by node.getKeyPath() and tree.loadKeyPath()
     minExpandLevel: 1, // 1: root node is not collapsible
     quicksearch: true, // Navigate to next node by typing the first letters
-    selectMode: 3, // 1:single, 2:multi, 3:multi-hier
+    selectMode: 1, // 1:single, 2:multi, 3:multi-hier
     tabindex: "0", // Whole tree behaves as one single control
+    dataType: "json",
     source: {
         url: "refreshDirectory",
         cache: false
-    }
+    },
+    dblclick: (function(event, data) {
+        // A node was double clicked
+        //Extract its full path and view if not a folder
+        var node = data.node;
+        if (node.folder)
+            return;
+
+        var original_name = node.title;
+        var path = node.title;
+        while (node.parent.title != 'root') {
+            node = node.parent;
+            path = node.title + '/' + path;
+        }
+        //Display the file in the editor
+        $.ajax({
+            method: 'POST',
+            url: "viewfilecontents",
+            data: {
+                'remote_path': path
+            },
+            success: function(data) {
+                //this gets called when server returns an OK response
+                fillEditorView(data, original_name);
+            },
+            error: function(data) {
+                new $.Zebra_Dialog("Error occured while viewing: " + data.responseText, {
+                    'buttons': false,
+                    'modal': false,
+                    'position': ['right - 20', 'top + 20'],
+                    'auto_close': 1500,
+                    'type': 'error',
+                    'title': original_name
+                });
+            }
+        });
+    })
 };
 
 $(document).ready(function() {
@@ -154,42 +208,61 @@ $(document).ready(function() {
                 'title': 'Error',
             });
         } else {
-            var sourceCode = editor.getValue();
-            var sourceLang = $("#languageSelect").val();
-            $.ajax({
-                method: 'POST',
-                url: "saveFile",
-                data: {
-                    'sourceCode': sourceCode,
-                    'sourceLang': sourceLang,
-                    'sourceName': sourceName
-                },
-                success: function(data) {
-                    //this gets called when server returns an OK response
-                    new $.Zebra_Dialog(data, {
-                        'buttons': false,
-                        'modal': false,
-                        'position': ['right - 20', 'top + 20'],
-                        'auto_close': 1500,
-                        'type': 'confirmation'
-                    });
-                    //refresh file tree again
-                    $.ui.fancytree.getTree("#filetreepanel").reload({
-                        url: "refreshDirectory"
-                    });
+            //AJAX request to save file at the server if user confirms
+            new $.Zebra_Dialog(
+                'File will be saved in your workspace', {
+                    'type': 'question',
+                    'position': ['right - 20', 'top + 20'],
+                    'title': 'Save File',
+                    'buttons': ['OK', 'Cancel', ],
+                    'onClose': function(caption) {
+                        switch (caption) {
+                            case 'OK':
+                                var sourceCode = editor.getValue();
+                                var sourceLang = $("#languageSelect").val();
+                                $.ajax({
+                                    method: 'POST',
+                                    url: "saveFile",
+                                    data: {
+                                        'sourceCode': sourceCode,
+                                        'sourceLang': sourceLang,
+                                        'sourceName': sourceName
+                                    },
+                                    success: function(data) {
+                                        //this gets called when server returns an OK response
+                                        new $.Zebra_Dialog(data, {
+                                            'buttons': false,
+                                            'modal': false,
+                                            'position': ['right - 20', 'top + 20'],
+                                            'auto_close': 1500,
+                                            'type': 'confirmation'
+                                        });
+                                        //refresh file tree again
+                                        $.ui.fancytree.getTree("#filetreepanel").reload({
+                                            url: "refreshDirectory"
+                                        });
 
-                },
-                error: function(data) {
-                    new $.Zebra_Dialog("Error occured during file save: " + data, {
-                        'buttons': false,
-                        'modal': false,
-                        'position': ['right - 20', 'top + 20'],
-                        'auto_close': 1500,
-                        'type': 'error',
-                        'title': 'Error',
-                    });
-                }
-            });
+                                    },
+                                    error: function(data) {
+                                        new $.Zebra_Dialog("Error occured during file save: " + data.responseText, {
+                                            'buttons': false,
+                                            'modal': false,
+                                            'position': ['right - 20', 'top + 20'],
+                                            'auto_close': 1500,
+                                            'type': 'error',
+                                            'title': sourceName + '.' + sourceLang
+                                        });
+                                    }
+                                });
+                                break;
+                            case 'Cancel':
+                                break;
+                            default:
+                                break;
+
+                        }
+                    }
+                });
         }
     });
 
@@ -220,13 +293,13 @@ $(document).ready(function() {
                 displayOutput(data);
             },
             error: function(data) {
-                new $.Zebra_Dialog("Error occured during execution: " + data, {
+                new $.Zebra_Dialog("Error occured during execution: " + data.responseText, {
                     'buttons': false,
                     'modal': false,
                     'position': ['right - 20', 'top + 20'],
                     'auto_close': 1500,
                     'type': 'error',
-                    'title': 'Error',
+                    'title': 'Program',
                 });
             }
         });

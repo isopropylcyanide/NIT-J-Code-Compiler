@@ -1,6 +1,5 @@
 import sftp
 import paramiko
-import os
 # Copyright (c) 2016 Aman Garg All Rights Reserved.
 
 def_host = "127.0.0.1"
@@ -50,7 +49,7 @@ class FileExplorer:
         """sftp: download a file from remote"""
         self.sftp_server.get(remote, local)
 
-    def listfiles(self, root='.'):
+    def listFiles(self, root='.'):
         """Recursively list all files and return their tree representation
             which is a hierarchial element
         """
@@ -63,12 +62,29 @@ class FileExplorer:
             'python ' + moveFile, bufsize=-1)
 
         # if stderr is empty, then success
-        error = ''
+        error, output = '', ''
         for line in stderr.readlines():
             error += line
         if error != '':
             raise Exception(error)
-        output = ''
         for line in stdout.readlines():
             output += line
+        return output
+
+    def viewRemoteFile(self, remote_path):
+        """View file contents of the remote_path at the server"""
+        print remote_path
+        stdin, stdout, stderr = self.ssh_server.exec_command(
+            'cat ' + remote_path)
+
+        # if stderr is empty, then success
+        error, output = '', ''
+        for line in stderr.readlines():
+            error += line
+        if error != '':
+            print error
+            raise Exception(error)
+        for line in stdout.readlines():
+            output += line
+        print output
         return output
