@@ -6,5 +6,7 @@ urlpatterns = [
     url(r'^execute$', views.execute, name='execute'),
     url(r'^saveFile$', views.saveFile, name='save_file'),
     url(r'^refreshDirectory$', views.refreshDirectory, name='refreshDirect'),
-    url(r'^viewfilecontents$', views.viewfilecontents, name='viewfileconts')
+    url(r'^viewfilecontents$', views.viewfilecontents, name='viewfileconts'),
+    url(r'^deleteRemoteDir$', views.deleteRemoteDir, name='delRemoteDir'),
+    url(r'^renameRemoteFile$', views.renameRemoteFile, name='renameRemoteFile')
 ]

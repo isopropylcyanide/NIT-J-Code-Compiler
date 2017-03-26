@@ -3,8 +3,8 @@
 }
 
 .nopadding {
-   padding: 0 !important;
-   margin: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 #filetree {
@@ -44,19 +44,21 @@
     margin-left: 20%;
 }
 
-.CodeMirror{
+.CodeMirror {
     position: relative;
     height: 100%;
+}
 
-}
 .panel-actions {
-  margin-top: -20px;
-  margin-bottom: 0;
-  text-align: right;
+    margin-top: -20px;
+    margin-bottom: 0;
+    text-align: right;
 }
+
 .panel-actions a {
-  color:#333;
+    color: #333;
 }
+
 .panel-fullscreen {
     position: fixed;
     display: block;
@@ -70,37 +72,46 @@
     overflow: auto;
 }
 
-#output-panel > .panel{
+#output-panel>.panel {
     height: 100%;
     overflow-y: auto;
 }
-#filetree-panel{
+
+
+#filetree-panel {
     height: 100%;
     overflow: auto;
 }
 
-#treeData.fancytree-container {
-  height: 100%;
-  overflow-y: auto;
+#filetreepanel .fancytree-container {
+    position: relative;
+    height: 100%;
+    overflow-y: auto;
+    font-size: 12pt;
 }
 
-#stdoutput{
+#stdoutput {
     /*enable line wrap for output window1*/
     position: relative;
     /*height: 100%;*/
-    white-space: pre-wrap; /* css-3 */
-    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-    white-space: -pre-wrap; /* Opera 4-6 */
-    white-space: -o-pre-wrap; /* Opera 7 */
-    word-wrap: break-word; /* Internet Explorer 5.5+ */
+    white-space: pre-wrap;
+    /* css-3 */
+    white-space: -moz-pre-wrap;
+    /* Mozilla, since 1999 */
+    white-space: -pre-wrap;
+    /* Opera 4-6 */
+    white-space: -o-pre-wrap;
+    /* Opera 7 */
+    word-wrap: break-word;
+    /* Internet Explorer 5.5+ */
 }
 
-#stdinPanel{
+#stdinPanel {
     /*sliding panel is hidden by default*/
     display: none;
     position: absolute;
 }
 
-#filetree{
+#filetree {
     background: rgba(71, 43, 232, 0.29);
 }

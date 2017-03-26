@@ -73,7 +73,6 @@ class FileExplorer:
 
     def viewRemoteFile(self, remote_path):
         """View file contents of the remote_path at the server"""
-        print remote_path
         stdin, stdout, stderr = self.ssh_server.exec_command(
             'cat ' + remote_path)
 
@@ -86,5 +85,31 @@ class FileExplorer:
             raise Exception(error)
         for line in stdout.readlines():
             output += line
-        print output
         return output
+
+    def deleteRemoteFile(self, remote_path):
+        """View file contents of the remote_path at the server"""
+        stdin, stdout, stderr = self.ssh_server.exec_command(
+            'rm -rf ' + remote_path)
+
+        # if stderr is empty, then success
+        error = ''
+        for line in stderr.readlines():
+            error += line
+        if error != '':
+            print error
+            raise Exception(error)
+
+    def renameRemoteFile(self, remote_path, new_path):
+        """View file contents of the remote_path at the server"""
+        print 'receive: ', remote_path, ' to ', new_path
+        stdin, stdout, stderr = self.ssh_server.exec_command(
+            'mv ' + remote_path + ' ' + new_path)
+
+        # if stderr is empty, then success
+        error = ''
+        for line in stderr.readlines():
+            error += line
+        if error != '':
+            print error
+            raise Exception(error)

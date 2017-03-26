@@ -14,7 +14,9 @@
         <link href="{% static 'css/zebra-alert/zebra_dialog.css' %}" rel="stylesheet" type="text/css"/>
         <!-- custom alert box css -->
 
-        <link href="{% static 'css/fancytree/ui.fancytree.css' %}" rel="stylesheet">
+        <link href="{% static 'css/fancytree/skin-bootstrap/ui.fancytree.css' %}" class="skinswitcher" rel="stylesheet">
+        <link href="{% static 'css/fancytree/jquery.contextMenu.min.css' %}" class="skinswitcher" rel="stylesheet">
+
         <!-- fancy tree -->
         <link rel='stylesheet' href="{% static 'theme/3024-day.css' %}"/>
         <link rel='stylesheet' href="{% static 'theme/3024-night.css' %}"/>
@@ -118,8 +120,8 @@
 
     <!-- Editor UI starts here -->
 
-    <div id="editor-workspace" class="container col-lg-12 col-md-12 col-sm-9 col-xs-3">
-        <div id="filetree-panel" style="width: 14.499999995%" class="panel nopadding col-lg-1 col-md-2 col-sm-2">
+    <div id="editor-workspace" class="container nopadding col-lg-12 col-md-12 col-sm-9 col-xs-3">
+        <div id="filetree-panel" class="panel nopadding col-lg-2 col-md-2 col-sm-2">
             <div id="filetreepanel" class="nopadding">
                 <ul id="treeData"></ul>
 
@@ -127,7 +129,7 @@
         </div>
         <!-- File tree ends -->
 
-        <div id="editor-panel" style="width: 67.01999995%" class=" panel col-lg-8 col-md-8 col-sm-8">
+        <div id="editor-panel" class=" panel col-lg-8 col-md-8 col-sm-8">
             <div class="panel-body nopadding">
                 <div class="row" id="menuBar">
                     <div class="col-lg-3">
@@ -161,7 +163,7 @@
                         <select class="form-control" onchange="selectTheme()" id=selectTheme>
                             <option>default-theme</option>
                             <option>3024-day</option>
-                            <option>3024-night</option>
+                            <option selected="">3024-night</option>
                             <option>abcdef</option>
                             <option>ambiance</option>
                             <option>base16-dark</option>
@@ -183,7 +185,7 @@
                             <option>liquibyte</option>
                             <option>material</option>
                             <option>mbo</option>
-                            <option selected="">mdn-like</option>
+                            <option>mdn-like</option>
                             <option>midnight</option>
                             <option>monokai</option>
                             <option>neat</option>
@@ -292,7 +294,12 @@
 <!-- main editor js -->
 <script src="{% static 'js/zebra_dialog.js' %}"></script>
 <!-- custom alert box -->
-<script src="{% static 'js/jquery.fancytree.js' %}"></script>
-
+<script src="{% static 'js/fancytree/jquery.fancytree.js' %}"></script>
+<script src="{% static 'js/fancytree/jquery.fancytree.edit.js' %}"></script>
+<script src="{% static 'js/fancytree/jquery.fancytree.glyph.js' %}"></script>
+<script src="{% static 'js/fancytree/jquery.contextMenu.min.js' %}"></script>
+<script src="{% static 'js/fancytree/jquery.fancytree.contextMenu.js' %}"></script>
+<script src="{% static 'js/fancytree/jquery.fancytree.childcounter.js' %}"></script>
+<!-- fancy tree -->
 </body>
 </html>

@@ -12,6 +12,39 @@ def_pass = "12"
 
 
 @csrf_exempt
+def renameRemoteFile(request):
+    """Return the contents of the remote file at the server"""
+    if request.is_ajax():
+        try:
+            outputResponse = "File renamed successfully"
+            remote_path = request.POST.get('remote_path')
+            new_path = request.POST.get('new_path')
+            userDir = filexp.FileExplorer(def_username, def_pass, def_host)
+            userDir.renameRemoteFile(remote_path, new_path)
+            return HttpResponse(outputResponse)
+        except Exception:
+            return HttpResponseServerError(content=b'Couldn\'t rename file')
+        finally:
+            userDir.close()
+
+
+@csrf_exempt
+def deleteRemoteDir(request):
+    """Return the contents of the remote file at the server"""
+    if request.is_ajax():
+        try:
+            outputResponse = "File deleted successfully"
+            remote_path = request.POST.get('remote_path')
+            userDir = filexp.FileExplorer(def_username, def_pass, def_host)
+            userDir.deleteRemoteFile(remote_path)
+            return HttpResponse(outputResponse)
+        except Exception:
+            return HttpResponseServerError(content=b'Couldn\'t delete file')
+        finally:
+            userDir.close()
+
+
+@csrf_exempt
 def viewfilecontents(request):
     """Return the contents of the remote file at the server"""
     if request.is_ajax():
@@ -19,7 +52,6 @@ def viewfilecontents(request):
             remote_path = request.POST.get('remote_path')
             userDir = filexp.FileExplorer(def_username, def_pass, def_host)
             outputResponse = userDir.viewRemoteFile(remote_path)
-            print outputResponse
             return HttpResponse(outputResponse)
         except Exception:
             return HttpResponseServerError(content=b'Couldn\'t locate file')
@@ -48,8 +80,7 @@ def saveFile(request):
     if request.is_ajax():
         code = request.POST.get('sourceCode', '')
         lang = request.POST.get('sourceLang', '')
-        file_name = request.POST.get('sourceName', '')
-        print ('Saving code')
+        file_name = request.POST.get('sourceName', '').split('.')[0]
         output_message = "Saved file successfully"
 
         createdFile = createFile(code, lang, name=file_name, isSaved=True)

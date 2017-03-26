@@ -21,7 +21,7 @@ def path_to_dict(path):
     name = os.path.basename(path)
     d = None
     if not (name.startswith('.') and len(name) != 1):
-        d = {'title': os.path.basename(path)}
+        d = {'title': name}
         if os.path.isdir(path):
             # ignore hidden folders and files
             d['folder'] = "true"
@@ -33,7 +33,7 @@ def path_to_dict(path):
                 if c is not None:
                     d['children'].append(c)
             if not d['children']:
-                return None
+                return d
     return d
 
 print json.dumps(path_to_dict('.'), indent=2)

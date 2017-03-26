@@ -90,7 +90,7 @@ function fillEditorView(content, filename) {
             break;
         case 'txt':
             $lang.val("txt");
-            editor.setOption("mode","text/plain");
+            editor.setOption("mode", "text/plain");
             break;
         default:
             editor.setValue("\nNot a valid extension");
@@ -98,9 +98,126 @@ function fillEditorView(content, filename) {
     editor.setValue(content);
 }
 
+/*---------------------------FANCY tree customiation--------------------------*/
+glyph_opts = {
+    map: {
+        doc: "glyphicon glyphicon-file",
+        docOpen: "glyphicon glyphicon-file",
+        checkbox: "glyphicon glyphicon-unchecked",
+        checkboxSelected: "glyphicon glyphicon-check",
+        checkboxUnknown: "glyphicon glyphicon-share",
+        dragHelper: "glyphicon glyphicon-play",
+        dropMarker: "glyphicon glyphicon-arrow-right",
+        error: "glyphicon glyphicon-warning-sign",
+        expanderClosed: "glyphicon glyphicon-menu-right",
+        expanderLazy: "glyphicon glyphicon-menu-right", // glyphicon-plus-sign
+        expanderOpen: "glyphicon glyphicon-menu-down", // glyphicon-collapse-down
+        folder: "glyphicon glyphicon-folder-close",
+        folderOpen: "glyphicon glyphicon-folder-open",
+        loading: "glyphicon glyphicon-refresh glyphicon-spin"
+    }
+};
+
+function getRemotePath(node) {
+    // given a tree node, recurse and return the absolute path for the remote
+    var path = node.title;
+    if (path === 'root')
+        return path;
+    while (node.parent.title != 'root') {
+        node = node.parent;
+        path = node.title + '/' + path;
+    }
+    return path;
+}
 
 var treeOptions = {
     //options for fancy tree
+    extensions: ["glyph", "edit", "childcounter", "contextMenu"],
+    contextMenu: {
+        menu: function(node) {
+            var basicMenu = {
+                "open": {
+                    "name": "Open",
+                    "icon": "quit"
+                },
+                "delete": {
+                    "name": "Delete",
+                    "icon": "delete"
+                },
+                "rename": {
+                    "name": "Rename",
+                    "icon": "edit"
+                }
+            };
+            if (node.folder) {
+                var add_here = {
+                    "name": "Add file here",
+                    "icon": "add"
+                };
+                var item = "add";
+                basicMenu[item] = add_here;
+                return basicMenu;
+            } else return basicMenu;
+        },
+        actions: function(node, action, options) {
+            var path = getRemotePath(node);
+
+            switch (action) {
+                case "open":
+                    //open file in the editor
+                    displayFileinEditor(path, node.title);
+                    break;
+                case "delete":
+                    //remove file from the user directory
+                    deleteFileFromUserDirectory(path, node);
+                    break;
+                case "rename":
+                    //rename file given by path to something new
+                    node.editStart();
+                    break;
+                default:
+                    break;
+            }
+        }
+    },
+    edit: {
+        triggerStart: ["f2", "shift+click", "mac+enter"],
+        beforeEdit: function(event, data) {
+        },
+        edit: function(event, data) {
+        },
+        save: function(event, data) {
+            data.node.oldName = data.node.title;
+            return true;
+        },
+        close: function(event, data) {
+            // Editor was removed
+            if (data.save){
+                // var parentPath = getRemotePath(data.node.parent);
+                // Since we started an async request, mark the node as preliminary
+                renameRemoteFile(data.node.parent, data.node.title, data.node.oldName);
+            }
+        }
+    },
+    childcounter: {
+        deep: true,
+        hideZeros: true,
+        hideExpanded: true
+    },
+    loadChildren: function(event, data) {
+        // update node and parent counters after lazy loading
+        data.node.updateCounters();
+    },
+
+    glyph: glyph_opts,
+    toggleEffect: {
+        effect: "drop",
+        options: {
+            direction: "left"
+        },
+        duration: 400
+    },
+
     autoActivate: true, // Automatically activate a node when it is focused using keyboard
     autoScroll: true, // Automatically scroll nodes into visible area
     clickFolderMode: 4, // 1:activate, 2:expand, 3:activate and expand, 4:activate (dblclick expands)
@@ -123,41 +240,130 @@ var treeOptions = {
         if (node.folder)
             return;
 
-        var original_name = node.title;
-        var path = node.title;
-        while (node.parent.title != 'root') {
-            node = node.parent;
-            path = node.title + '/' + path;
-        }
         //Display the file in the editor
-        $.ajax({
-            method: 'POST',
-            url: "viewfilecontents",
-            data: {
-                'remote_path': path
-            },
-            success: function(data) {
-                //this gets called when server returns an OK response
-                fillEditorView(data, original_name);
-            },
-            error: function(data) {
-                new $.Zebra_Dialog("Error occured while viewing: " + data.responseText, {
-                    'buttons': false,
-                    'modal': false,
-                    'position': ['right - 20', 'top + 20'],
-                    'auto_close': 1500,
-                    'type': 'error',
-                    'title': original_name
-                });
-            }
-        });
+        var path = getRemotePath(node);
+        displayFileinEditor(path, node.title);
     })
+
 };
+
+/*---------------------------FANCY tree customiation ends--------------------------*/
+
+
+function renameRemoteFile(parNode, newName, oldName) {
+    //AJAX call to remove file from user directory
+    //also delete the file from tree
+    //Display the file in the editor
+    var parent_path = getRemotePath(parNode).replace('root','.') + '/';
+    var remote_path = parent_path + oldName;
+    var new_path = parent_path + newName;
+    return $.ajax({
+        method: 'POST',
+        url: "renameRemoteFile",
+        data: {
+            'remote_path': remote_path,
+            'new_path': new_path
+        },
+        success: function(data) {
+            //this gets called when server returns an OK response
+            //now remove menu item from tree
+            new $.Zebra_Dialog(data, {
+                'buttons': false,
+                'modal': false,
+                'position': ['right - 20', 'top + 20'],
+                'auto_close': 1500,
+                'type': 'confirmation',
+                'title': newName
+            });
+        },
+        error: function(data) {
+            new $.Zebra_Dialog("Error occured while renaming: " + data.responseText, {
+                'buttons': false,
+                'modal': false,
+                'position': ['right - 20', 'top + 20'],
+                'auto_close': 1500,
+                'type': 'error',
+                'title': newName
+            });
+        }
+    });
+}
+
+function deleteFileFromUserDirectory(path, node) {
+    //AJAX call to remove file from user directory
+    //also delete the file from tree
+    //Display the file in the editor
+    return $.ajax({
+        method: 'POST',
+        url: "deleteRemoteDir",
+        data: {
+            'remote_path': path
+        },
+        success: function(data) {
+            //this gets called when server returns an OK response
+            //now remove menu item from tree
+            new $.Zebra_Dialog(data, {
+                'buttons': false,
+                'modal': false,
+                'position': ['right - 20', 'top + 20'],
+                'auto_close': 1500,
+                'type': 'confirmation',
+                'title': node.title
+            });
+            //refresh file tree again
+            node.remove();
+
+            //if deleted file was currently active in the text editor, erase its contents
+            var $fname = $('#fname');
+            if ($fname.val() === node.title)
+                $('#clearButton').trigger('click');
+
+        },
+        error: function(data) {
+            new $.Zebra_Dialog("Error occured while deleting: " + data.responseText, {
+                'buttons': false,
+                'modal': false,
+                'position': ['right - 20', 'top + 20'],
+                'auto_close': 1500,
+                'type': 'error',
+                'title': node.title
+            });
+        }
+    });
+
+}
+
+function displayFileinEditor(path, original_name) {
+    //Display the file in the editor and sets the filename label as original_name
+    return $.ajax({
+        method: 'POST',
+        url: "viewfilecontents",
+        data: {
+            'remote_path': path
+        },
+        success: function(data) {
+            //this gets called when server returns an OK response
+            fillEditorView(data, original_name);
+            $('#fname').val(original_name);
+        },
+        error: function(data) {
+            new $.Zebra_Dialog("Error occured while viewing: " + data.responseText, {
+                'buttons': false,
+                'modal': false,
+                'position': ['right - 20', 'top + 20'],
+                'auto_close': 1500,
+                'type': 'error',
+                'title': original_name
+            });
+        }
+    });
+}
 
 $(document).ready(function() {
 
     //initialize file tree on document load
     $('#filetreepanel').fancytree(treeOptions);
+    $('#treeData.fancytree-container').addClass('nopadding');
 
     //Fire onchange event automatically
     $('#languageSelect').trigger("change");
@@ -208,60 +414,43 @@ $(document).ready(function() {
             });
         } else {
             //AJAX request to save file at the server if user confirms
-            new $.Zebra_Dialog(
-                'File will be saved in your workspace', {
-                    'type': 'question',
-                    'position': ['right - 20', 'top + 20'],
-                    'title': 'Save File',
-                    'buttons': ['OK', 'Cancel', ],
-                    'onClose': function(caption) {
-                        switch (caption) {
-                            case 'OK':
-                                var sourceCode = editor.getValue();
-                                var sourceLang = $("#languageSelect").val();
-                                $.ajax({
-                                    method: 'POST',
-                                    url: "saveFile",
-                                    data: {
-                                        'sourceCode': sourceCode,
-                                        'sourceLang': sourceLang,
-                                        'sourceName': sourceName
-                                    },
-                                    success: function(data) {
-                                        //this gets called when server returns an OK response
-                                        new $.Zebra_Dialog(data, {
-                                            'buttons': false,
-                                            'modal': false,
-                                            'position': ['right - 20', 'top + 20'],
-                                            'auto_close': 1500,
-                                            'type': 'confirmation'
-                                        });
-                                        //refresh file tree again
-                                        $.ui.fancytree.getTree("#filetreepanel").reload({
-                                            url: "refreshDirectory"
-                                        });
+            var sourceCode = editor.getValue();
+            var sourceLang = $("#languageSelect").val();
+            $.ajax({
+                method: 'POST',
+                url: "saveFile",
+                data: {
+                    'sourceCode': sourceCode,
+                    'sourceLang': sourceLang,
+                    'sourceName': sourceName
+                },
+                success: function(data) {
+                    //this gets called when server returns an OK response
+                    new $.Zebra_Dialog(data, {
+                        'buttons': false,
+                        'modal': false,
+                        'position': ['right - 20', 'top + 20'],
+                        'auto_close': 1500,
+                        'type': 'confirmation',
+                        'title': sourceName
+                    });
+                    //refresh file tree again
+                    $.ui.fancytree.getTree("#filetreepanel").reload({
+                        url: "refreshDirectory"
+                    });
 
-                                    },
-                                    error: function(data) {
-                                        new $.Zebra_Dialog("Error occured during file save: " + data.responseText, {
-                                            'buttons': false,
-                                            'modal': false,
-                                            'position': ['right - 20', 'top + 20'],
-                                            'auto_close': 1500,
-                                            'type': 'error',
-                                            'title': sourceName + '.' + sourceLang
-                                        });
-                                    }
-                                });
-                                break;
-                            case 'Cancel':
-                                break;
-                            default:
-                                break;
-
-                        }
-                    }
-                });
+                },
+                error: function(data) {
+                    new $.Zebra_Dialog("Error occured during file save: " + data.responseText, {
+                        'buttons': false,
+                        'modal': false,
+                        'position': ['right - 20', 'top + 20'],
+                        'auto_close': 1500,
+                        'type': 'error',
+                        'title': sourceName + '.' + sourceLang
+                    });
+                }
+            });
         }
     });
 
