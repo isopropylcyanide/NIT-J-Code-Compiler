@@ -1,10 +1,10 @@
 function displayOutput(data) {
-    //display output
+    //display output in output window
     document.getElementById('stdoutput').innerText = data;
 }
 
-// Create codemirror instance
 var editor = CodeMirror.fromTextArea(document.getElementById("codeEditor"), {
+    // Create codemirror instance
     lineNumbers: true,
     lineWrapping: true,
     matchBrackets: true,
@@ -21,7 +21,8 @@ var openFile = function(event) {
         var text = reader.result;
         //Display the loaded file from the client onto the browser
         editor.setValue(text);
-        document.getElementById("fname").value = input.files[0].name;
+        var _file_less_ext = (input.files[0].name).replace(/\..+$/, '');
+        document.getElementById("fname").value = _file_less_ext;
     };
     reader.readAsText(input.files[0]);
 };
@@ -32,17 +33,17 @@ function langChange(obj) {
     if (obj.value == "c") {
         editor.setOption("mode", "text/x-c");
         editor.setValue("/*\n  Your C code goes here\n  Main method should return 0\n*/");
-        document.getElementById('fname').value = ''
+        document.getElementById('fname').value = '';
     } else if (obj.value == "cpp") {
-        document.getElementById('fname').value = ''
+        document.getElementById('fname').value = '';
         editor.setOption("mode", "text/x-c++src");
         editor.setValue("/*\n  Your C++ code goes here\n  Main method should return 0\n*/");
     } else if (obj.value == "py") {
-        document.getElementById('fname').value = ''
-        editor.setOption("mode", "text/x-python")
+        document.getElementById('fname').value = '';
+        editor.setOption("mode", "text/x-python");
         editor.setValue("#Your Python code goes here");
     } else if (obj.value == "java") {
-        document.getElementById('fname').value = ''
+        document.getElementById('fname').value = '';
         editor.setOption("mode", "text/x-java");
         editor.setValue("/*\n  Your Java code goes here\n  Name of class should be kept as main and public\n  If using a custom name to save the file, change the name of a class to the name of the program \n*/");
     }
@@ -66,81 +67,54 @@ function sleep(miliseconds) {
     while (currentTime + miliseconds >= new Date().getTime()) {}
 }
 
-function initializeTree(){
-    $('#filetreepanel').fancytree({
-        activeVisible: false, // Make sure, active nodes are visible (expanded)
-        aria: false, // Enable WAI-ARIA support
-        autoActivate: true, // Automatically activate a node when it is focused using keyboard
-        autoCollapse: false, // Automatically collapse all siblings, when a node is expanded
-        autoScroll: false, // Automatically scroll nodes into visible area
-        clickFolderMode: 4, // 1:activate, 2:expand, 3:activate and expand, 4:activate (dblclick expands)
-        checkbox: false, // Show checkboxes
-        debugLevel: 0, // 0:quiet, 1:normal, 2:debug
-        disabled: false, // Disable control
-        focusOnSelect: false, // Set focus when node is checked by a mouse click
-        escapeTitles: false, // Escape `node.title` content for display
-        generateIds: false, // Generate id attributes like <span id='fancytree-id-KEY'>
-        idPrefix: "ft_", // Used to generate node id´s like <span id='fancytree-id-<key>'>
-        icon: true, // Display node icons
-        keyboard: true, // Support keyboard navigation
-        keyPathSeparator: "/", // Used by node.getKeyPath() and tree.loadKeyPath()
-        minExpandLevel: 1, // 1: root node is not collapsible
-        quicksearch: true, // Navigate to next node by typing the first letters
-        rtl: false, // Enable RTL (right-to-left) mode
-        selectMode: 2, // 1:single, 2:multi, 3:multi-hier
-        tabindex: "0", // Whole tree behaves as one single control
-        titlesTabbable: false, // Node titles can receive keyboard focus
-        tooltip: true // Use title as tooltip (also a callback could be specified)
-    });
-}
 
-function refreshDirectory(){
+
+function refreshDir() {
     return $.ajax({
         type: "POST",
         url: "refreshDirectory",
         success: function(data) {
-            console.log('refresh: ' + data);
-            // Add the dom result and refancy the tree
-            $('#filetreepanel').remove();
-            $('#filetree-panel').append('<div id="filetreepanel"></div>')
-            $('#filetreepanel').append('<ul id="treeData"></ul>')
-            $('#filetreepanel ul').append(data);
-            initializeTree();
+            return data;
         },
-        error: function(qXHR, textStatus,errorThrown){
-                 $('#filetreepanel ul').append('<h4>Error retrieving directory structure</h4>');
+        error: function(qXHR, textStatus, errorThrown) {
+            return [];
         }
-     });
+    });
 }
+
+var treeOptions={
+    //options for fancy tree
+    autoActivate: true, // Automatically activate a node when it is focused using keyboard
+    autoScroll: true, // Automatically scroll nodes into visible area
+    clickFolderMode: 4, // 1:activate, 2:expand, 3:activate and expand, 4:activate (dblclick expands)
+    idPrefix: "ft_", // Used to generate node id´s like <span id='fancytree-id-<key>'>
+    icon: true, // Display node icons
+    keyboard: true, // Support keyboard navigation
+    keyPathSeparator: "/", // Used by node.getKeyPath() and tree.loadKeyPath()
+    minExpandLevel: 1, // 1: root node is not collapsible
+    quicksearch: true, // Navigate to next node by typing the first letters
+    selectMode: 3, // 1:single, 2:multi, 3:multi-hier
+    tabindex: "0", // Whole tree behaves as one single control
+    source:{
+        url:"refreshDirectory",
+        cache:false
+    }
+};
 
 $(document).ready(function() {
 
     //initialize file tree on document load
-    refreshDirectory();
+    $('#filetreepanel').fancytree(treeOptions);
 
     //Fire onchange event automatically
     $('#languageSelect').trigger("change");
+    selectTheme();
+
     //Allow only certain file extensions
     $('#fileButton').attr({
         'accept': '.c,.cpp,.java,.py'
     });
 
-    //file-tree
-    initializeTree();
-
-    // button that browses file and pastes content into editor
-    $('fileButton').click(function(event) {
-        var input = event.target;
-        var reader = new FileReader();
-        reader.onload = function() {
-            var text = reader.result;
-            //Display the loaded file from the client onto the browser
-            console.log(text);
-            editor.setValue(text);
-            document.getElementById("fname").value = input.files[0].name;
-        };
-        reader.readAsText(input.files[0]);
-    });
 
     //reset code when clicked
     $('#clearButton').click(function() {
@@ -170,7 +144,7 @@ $(document).ready(function() {
     //  check file name not empty
     $('#saveButton').click(function() {
         var sourceName = $('#fname').val();
-        if (sourceName == "") {
+        if (sourceName === "") {
             new $.Zebra_Dialog('File name cannot be <strong>empty</strong>', {
                 'buttons': false,
                 'modal': false,
@@ -199,7 +173,8 @@ $(document).ready(function() {
                         'auto_close': 1500,
                         'type': 'confirmation'
                     });
-                    refreshDirectory();
+                    //call editor again
+                    $('#filetreepanel').fancytree(treeOptions);
                 },
                 error: function(data) {
                     new $.Zebra_Dialog("Error occured during file save: " + data, {
@@ -224,7 +199,7 @@ $(document).ready(function() {
         var sourceLang = document.getElementById("languageSelect").value;
         var sourceInp = document.getElementById("stdinText").value;
         var sourceName = document.getElementById("fname").value;
-        if (sourceName == "") {
+        if (sourceName === "") {
             //user didn't specify a file name. Default to main
             sourceName = "main";
         }
