@@ -73,8 +73,10 @@ class FileExplorer:
 
     def viewRemoteFile(self, remote_path):
         """View file contents of the remote_path at the server"""
+        cmd = "cat \"%s\"" % (remote_path)
+        print 'cmd: ', cmd
         stdin, stdout, stderr = self.ssh_server.exec_command(
-            'cat ' + remote_path)
+            cmd)
 
         # if stderr is empty, then success
         error, output = '', ''
@@ -89,8 +91,10 @@ class FileExplorer:
 
     def deleteRemoteFile(self, remote_path):
         """View file contents of the remote_path at the server"""
+        cmd = "rm -r \"%s\"" % (remote_path)
+        print 'cmd: ', cmd
         stdin, stdout, stderr = self.ssh_server.exec_command(
-            'rm -rf ' + remote_path)
+            cmd)
 
         # if stderr is empty, then success
         error = ''
@@ -100,11 +104,33 @@ class FileExplorer:
             print error
             raise Exception(error)
 
+    def makeRemoteDirectory(self, remote_path, is_file):
+        """View file contents of the remote_path at the server"""
+        outputResponse = "File created successfully"
+        print ': ', is_file
+        cmd = 'touch \"%s\"' % (remote_path)
+        if is_file == "False":
+            outputResponse = "Folder created successfully"
+            cmd = "mkdir \"%s\"" % (remote_path)
+        print 'cmd: ', cmd
+        stdin, stdout, stderr = self.ssh_server.exec_command(
+            cmd)
+
+        # if stderr is empty, then success
+        error = ''
+        for line in stderr.readlines():
+            error += line
+        if error != '':
+            print error
+            raise Exception(error)
+        return outputResponse
+
     def renameRemoteFile(self, remote_path, new_path):
         """View file contents of the remote_path at the server"""
-        print 'receive: ', remote_path, ' to ', new_path
+        cmd = "mv \"%s\" \"%s\"" % (remote_path, new_path)
+        print 'cmd: ', cmd
         stdin, stdout, stderr = self.ssh_server.exec_command(
-            'mv ' + remote_path + ' ' + new_path)
+            cmd)
 
         # if stderr is empty, then success
         error = ''

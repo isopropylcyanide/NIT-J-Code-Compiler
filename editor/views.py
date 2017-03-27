@@ -22,8 +22,25 @@ def renameRemoteFile(request):
             userDir = filexp.FileExplorer(def_username, def_pass, def_host)
             userDir.renameRemoteFile(remote_path, new_path)
             return HttpResponse(outputResponse)
-        except Exception:
-            return HttpResponseServerError(content=b'Couldn\'t rename file')
+        except Exception as e:
+            return HttpResponseServerError(content=b'%s' % e.message)
+        finally:
+            userDir.close()
+
+
+@csrf_exempt
+def makeRemoteDirectory(request):
+    """Return the contents of the remote file at the server"""
+    if request.is_ajax():
+        try:
+
+            remote_path = request.POST.get('remote_path')
+            is_file = request.POST.get('is_file')
+            userDir = filexp.FileExplorer(def_username, def_pass, def_host)
+            outputResponse = userDir.makeRemoteDirectory(remote_path, is_file)
+            return HttpResponse(outputResponse)
+        except Exception as e:
+            return HttpResponseServerError(content=b'%s' % e.message)
         finally:
             userDir.close()
 
@@ -33,13 +50,13 @@ def deleteRemoteDir(request):
     """Return the contents of the remote file at the server"""
     if request.is_ajax():
         try:
-            outputResponse = "File deleted successfully"
+            outputResponse = "Deleted successfully"
             remote_path = request.POST.get('remote_path')
             userDir = filexp.FileExplorer(def_username, def_pass, def_host)
             userDir.deleteRemoteFile(remote_path)
             return HttpResponse(outputResponse)
-        except Exception:
-            return HttpResponseServerError(content=b'Couldn\'t delete file')
+        except Exception as e:
+            return HttpResponseServerError(content=b'%s' % e.message)
         finally:
             userDir.close()
 
@@ -53,8 +70,8 @@ def viewfilecontents(request):
             userDir = filexp.FileExplorer(def_username, def_pass, def_host)
             outputResponse = userDir.viewRemoteFile(remote_path)
             return HttpResponse(outputResponse)
-        except Exception:
-            return HttpResponseServerError(content=b'Couldn\'t locate file')
+        except Exception as e:
+            return HttpResponseServerError(content=b'%s' % e.message)
         finally:
             userDir.close()
 
@@ -67,8 +84,8 @@ def refreshDirectory(request):
             userDir = filexp.FileExplorer(def_username, def_pass, def_host)
             outputResponse = userDir.listFiles()
             return HttpResponse(outputResponse)
-        except Exception:
-            return HttpResponseServerError(content=b'Directory unavailable')
+        except Exception as e:
+            return HttpResponseServerError(content=b'%s' % e.message)
             # raise e
         finally:
             userDir.close()
@@ -88,8 +105,8 @@ def saveFile(request):
             userDir = filexp.FileExplorer(def_username, def_pass, def_host)
             userDir.sftp_server.upload(createdFile, "./%s" % (createdFile))
             return HttpResponse(output_message)
-        except Exception:
-            return HttpResponseServerError(content=b'Error saving')
+        except Exception as e:
+            return HttpResponseServerError(content=b'%s' % e.message)
         finally:
             userDir.close()
             if (os.path.isfile(createdFile)):
@@ -136,8 +153,8 @@ def execute(request):
             created = createFile(code, lang, name)
             print 'Created file %s successfully' % (created)
             output = checker.main(created, inp, name)
-        except Exception:
-            return HttpResponseServerError(content=b'Error during execution')
+        except Exception as e:
+            return HttpResponseServerError(content=b'%s' % e.message)
         finally:
             os.chdir(orig_dir)
             return HttpResponse(output)

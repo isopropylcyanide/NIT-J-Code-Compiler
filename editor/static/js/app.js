@@ -1,3 +1,5 @@
+/*jshint esversion: 6 */
+
 function displayOutput(data) {
     //display output in output window
     document.getElementById('stdoutput').innerText = data;
@@ -69,10 +71,10 @@ function fillEditorView(content, filename) {
     //Change mode to the one represented by the file
     var ext = filename.split('.')[1];
     var $lang = $('#languageSelect');
-    if (txt === "")
+    if (ext === "")
         $lang.val("txt");
     else
-        $lang.val(txt);
+        $lang.val(ext);
     $lang.trigger("change");
     editor.setValue(content);
 }
@@ -114,14 +116,29 @@ var treeOptions = {
     extensions: ["glyph", "edit", "childcounter", "contextMenu"],
     contextMenu: {
         menu: function(node) {
-            if (node.folder) {
-                return  {
+            if (node.data.noedit) {
+                return {
                     "add_folder": {
                         "name": "Add folder",
                         "icon": "add"
                     },
-                    "delete": {
-                        "name": "Delete",
+                    "add_file": {
+                        "name": "Add file",
+                        "icon": "add"
+                    }
+                };
+            } else if (node.folder) {
+                return {
+                    "add_folder": {
+                        "name": "Add folder",
+                        "icon": "add"
+                    },
+                    "add_file": {
+                        "name": "Add file",
+                        "icon": "add"
+                    },
+                    "remove": {
+                        "name": "Remove",
                         "icon": "delete"
                     },
                     "rename": {
@@ -129,13 +146,13 @@ var treeOptions = {
                         "icon": "edit"
                     }
                 };
-            } else return  {
+            } else return {
                 "open": {
                     "name": "Open",
                     "icon": "quit"
                 },
-                "delete": {
-                    "name": "Delete",
+                "remove": {
+                    "name": "Remove",
                     "icon": "delete"
                 },
                 "rename": {
@@ -152,7 +169,7 @@ var treeOptions = {
                     //open file in the editor
                     displayFileinEditor(path, node.title);
                     break;
-                case "delete":
+                case "remove":
                     //remove file from the user directory
                     deleteFileFromUserDirectory(path, node);
                     break;
@@ -160,26 +177,43 @@ var treeOptions = {
                     //rename file given by path to something new
                     node.editStart();
                     break;
+                case "add_folder":
+                    //Add a folder here
+                    var childNode = {
+                        title: "New Folder",
+                        folder: "true"
+                    };
+                    //first make an AJAX request
+                    //if the result is successful, then only update tree
+                    makeRemoteDirectory(node, childNode, "False");
+                    break;
+                case "add_file":
+                    //Add a folder here
+                    var fileChildNode = {
+                        title: "New File"
+                    };
+                    //first make an AJAX request
+                    //if the result is successful, then only update tree
+                    makeRemoteDirectory(node, fileChildNode, "True");
+                    break;
                 default:
                     break;
             }
         }
     },
+    modifyChild: (function(event, data) {
+        //child operation control passed to parent
+    }),
     edit: {
         triggerStart: ["f2", "shift+click", "mac+enter"],
-        beforeEdit: function(event, data) {
-        },
-        edit: function(event, data) {
-        },
+        beforeEdit: function(event, data) {},
+        edit: function(event, data) {},
         save: function(event, data) {
             data.node.oldName = data.node.title;
             return true;
         },
         close: function(event, data) {
-            // Editor was removed
-            if (data.save){
-                // var parentPath = getRemotePath(data.node.parent);
-                // Since we started an async request, mark the node as preliminary
+            if (data.save) {
                 renameRemoteFile(data.node.parent, data.node.title, data.node.oldName);
             }
         }
@@ -191,6 +225,7 @@ var treeOptions = {
     },
     loadChildren: function(event, data) {
         // update node and parent counters after lazy loading
+        data.node.sortChildren(tree_comparator, true);
         data.node.updateCounters();
     },
 
@@ -212,7 +247,7 @@ var treeOptions = {
     keyPathSeparator: "/", // Used by node.getKeyPath() and tree.loadKeyPath()
     minExpandLevel: 1, // 1: root node is not collapsible
     quicksearch: true, // Navigate to next node by typing the first letters
-    selectMode: 1, // 1:single, 2:multi, 3:multi-hier
+    selectMode: 2, // 1:single, 2:multi, 3:multi-hier
     tabindex: "0", // Whole tree behaves as one single control
     dataType: "json",
     source: {
@@ -222,23 +257,67 @@ var treeOptions = {
         // A node was double clicked
         //Extract its full path and view if not a folder
         var node = data.node;
-        if (node.folder)
-            return;
-
+        if (node.folder) {
+            node.editStart();
+        }
         //Display the file in the editor
-        var path = getRemotePath(node);
-        displayFileinEditor(path, node.title);
-    })
+        else {
+            var path = getRemotePath(node);
+            displayFileinEditor(path, node.title);
+        }
+    }),
 };
 
 /*---------------------------FANCY tree customiation ends--------------------------*/
 
 
+function makeRemoteDirectory(node, childNode, isFile = "False") {
+    //AJAX call to add a remote directory
+    ///node is the place where you add a childnode given by childNode
+    var saveNode = node;
+    var parent_path = getRemotePath(saveNode) + '/';
+    var remote_path = parent_path + childNode.title;
+
+    return $.ajax({
+        method: 'POST',
+        url: "makeRemoteDirectory",
+        data: {
+            'remote_path': remote_path,
+            'is_file': isFile
+        },
+        success: function(data) {
+            //this gets called when server returns an OK response
+            //now remove menu item from tree
+            new $.Zebra_Dialog(data, {
+                'buttons': false,
+                'modal': false,
+                'position': ['right - 20', 'top + 20'],
+                'auto_close': 1500,
+                'type': 'confirmation',
+                'title': childNode.title
+            });
+            //successful result. update child in tree
+            node.editCreateNode("child", childNode);
+        },
+        error: function(data) {
+            new $.Zebra_Dialog("Error occured while creating: " + "<br><br>" + data.responseText, {
+                'buttons': false,
+                'modal': false,
+                'position': ['right - 20', 'top + 20'],
+                'auto_close': 1500,
+                'type': 'error',
+                'title': childNode.title
+            });
+        }
+    });
+}
+
 function renameRemoteFile(parNode, newName, oldName) {
     //AJAX call to remove file from user directory
     //also delete the file from tree
     //Display the file in the editor
-    var parent_path = getRemotePath(parNode).replace('root','.') + '/';
+    var node = parNode;
+    var parent_path = getRemotePath(parNode).replace('root', '.') + '/';
     var remote_path = parent_path + oldName;
     var new_path = parent_path + newName;
     return $.ajax({
@@ -257,11 +336,11 @@ function renameRemoteFile(parNode, newName, oldName) {
                 'position': ['right - 20', 'top + 20'],
                 'auto_close': 1500,
                 'type': 'confirmation',
-                'title': newName
+                'title': test
             });
         },
         error: function(data) {
-            new $.Zebra_Dialog("Error occured while renaming: " + data.responseText, {
+            new $.Zebra_Dialog("Error occured while renaming: " + "<br><br>" + data.responseText, {
                 'buttons': false,
                 'modal': false,
                 'position': ['right - 20', 'top + 20'],
@@ -294,17 +373,15 @@ function deleteFileFromUserDirectory(path, node) {
                 'type': 'confirmation',
                 'title': node.title
             });
-            //refresh file tree again
+            //remove  node
             node.remove();
-
             //if deleted file was currently active in the text editor, erase its contents
             var $fname = $('#fname');
             if ($fname.val() === node.title)
                 $('#clearButton').trigger('click');
-
         },
         error: function(data) {
-            new $.Zebra_Dialog("Error occured while deleting: " + data.responseText, {
+            new $.Zebra_Dialog("Error occured while deleting: " + "<br><br>" + data.responseText, {
                 'buttons': false,
                 'modal': false,
                 'position': ['right - 20', 'top + 20'],
@@ -331,7 +408,7 @@ function displayFileinEditor(path, original_name) {
             $('#fname').val(original_name);
         },
         error: function(data) {
-            new $.Zebra_Dialog("Error occured while viewing: " + data.responseText, {
+            new $.Zebra_Dialog("Error occured while viewing: " + "<br><br>" + data.responseText, {
                 'buttons': false,
                 'modal': false,
                 'position': ['right - 20', 'top + 20'],
@@ -342,6 +419,13 @@ function displayFileinEditor(path, original_name) {
         }
     });
 }
+
+var tree_comparator = function(a, b) {
+    //Custom comparator for fancy tree
+    var x = (a.isFolder() ? "0" : "1") + a.title.toLowerCase(),
+        y = (b.isFolder() ? "0" : "1") + b.title.toLowerCase();
+    return x === y ? 0 : x > y ? 1 : -1;
+};
 
 $(document).ready(function() {
 
@@ -374,6 +458,8 @@ $(document).ready(function() {
 
     $('#clearOutputWindow').click(function() {
         //clear output window in editor
+        // var root = $('#filetreepanel').fancytree("getRootNode");
+        // root.sortChildren(tree_comparator, true);
         displayOutput("");
     });
 
@@ -425,7 +511,7 @@ $(document).ready(function() {
 
                 },
                 error: function(data) {
-                    new $.Zebra_Dialog("Error occured during file save: " + data.responseText, {
+                    new $.Zebra_Dialog("Error occured while saving: " + "<br><br>" + data.responseText, {
                         'buttons': false,
                         'modal': false,
                         'position': ['right - 20', 'top + 20'],
@@ -465,7 +551,7 @@ $(document).ready(function() {
                 displayOutput(data);
             },
             error: function(data) {
-                new $.Zebra_Dialog("Error occured during execution: " + data.responseText, {
+                new $.Zebra_Dialog("Error occured during execution: " + "<br><br>" + data.responseText, {
                     'buttons': false,
                     'modal': false,
                     'position': ['right - 20', 'top + 20'],

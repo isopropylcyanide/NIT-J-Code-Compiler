@@ -8,5 +8,6 @@ urlpatterns = [
     url(r'^refreshDirectory$', views.refreshDirectory, name='refreshDirect'),
     url(r'^viewfilecontents$', views.viewfilecontents, name='viewfileconts'),
     url(r'^deleteRemoteDir$', views.deleteRemoteDir, name='delRemoteDir'),
-    url(r'^renameRemoteFile$', views.renameRemoteFile, name='renameRemoteFile')
+    url(r'^renameRemoteFile$', views.renameRemoteFile, name='renameRemote'),
+    url(r'^makeRemoteDirectory$', views.makeRemoteDirectory, name='mkremdir')
 ]

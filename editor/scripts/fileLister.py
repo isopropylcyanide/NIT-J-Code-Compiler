@@ -26,6 +26,10 @@ def path_to_dict(path):
             # ignore hidden folders and files
             d['folder'] = "true"
             d['children'] = []
+            if name == '.':
+                # Base folder. Don't allow editing
+                d['expanded'] = "true"
+                d['noedit'] = "true"
             paths = [os.path.join(path, x) for x in os.listdir(path)]
         # Just the children that are themselves valid
             for p in paths:
@@ -36,4 +40,5 @@ def path_to_dict(path):
                 return d
     return d
 
-print json.dumps(path_to_dict('.'), indent=2)
+
+print '[%s]' % (json.dumps(path_to_dict('.'), indent=2))
