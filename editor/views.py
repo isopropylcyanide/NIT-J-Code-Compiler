@@ -103,7 +103,8 @@ def saveFile(request):
             file_name = '%s' % (file_name)
         else:
             file_name = '%s.%s' % (file_name, lang)
-        output_message = "Saved file successfully at %s" % (path_to_save)
+        output_message = "Saved file successfully at <strong>%s</strong>" % (
+            path_to_save)
 
         try:
             userDir = filexp.FileExplorer(def_username, def_pass, def_host)
