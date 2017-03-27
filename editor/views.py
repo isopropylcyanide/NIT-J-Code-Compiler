@@ -97,20 +97,22 @@ def saveFile(request):
     if request.is_ajax():
         code = request.POST.get('sourceCode', '')
         lang = request.POST.get('sourceLang', '')
+        path_to_save = request.POST.get('remotePath', '')
         file_name = request.POST.get('sourceName', '').split('.')[0]
-        output_message = "Saved file successfully"
+        if lang == "":
+            file_name = '%s' % (file_name)
+        else:
+            file_name = '%s.%s' % (file_name, lang)
+        output_message = "Saved file successfully at %s" % (path_to_save)
 
-        createdFile = createFile(code, lang, name=file_name, isSaved=True)
         try:
             userDir = filexp.FileExplorer(def_username, def_pass, def_host)
-            userDir.sftp_server.upload(createdFile, "./%s" % (createdFile))
+            userDir.saveFileToRemote(path_to_save, file_name, code)
             return HttpResponse(output_message)
         except Exception as e:
             return HttpResponseServerError(content=b'%s' % e.message)
         finally:
             userDir.close()
-            if (os.path.isfile(createdFile)):
-                os.remove(createdFile)
 
 
 def index(request):

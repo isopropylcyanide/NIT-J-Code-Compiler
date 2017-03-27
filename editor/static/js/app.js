@@ -103,7 +103,7 @@ function getRemotePath(node) {
     // given a tree node, recurse and return the absolute path for the remote
     var path = node.title;
     if (path === 'root')
-        return path;
+        return '.';
     while (node.parent.title != 'root') {
         node = node.parent;
         path = node.title + '/' + path;
@@ -317,7 +317,7 @@ function renameRemoteFile(parNode, newName, oldName) {
     //also delete the file from tree
     //Display the file in the editor
     var node = parNode;
-    var parent_path = getRemotePath(parNode).replace('root', '.') + '/';
+    var parent_path = getRemotePath(parNode) + '/';
     var remote_path = parent_path + oldName;
     var new_path = parent_path + newName;
     return $.ajax({
@@ -479,20 +479,44 @@ $(document).ready(function() {
                 'modal': false,
                 'position': ['right - 20', 'top + 20'],
                 'auto_close': 1500,
-                'type': 'error',
-                'title': 'Error',
+                'type': 'information',
+                'title': 'Save file name',
             });
         } else {
-            //AJAX request to save file at the server if user confirms
+            //Save file..must include the directory of the active folder
             var sourceCode = editor.getValue();
             var sourceLang = $("#languageSelect").val();
+            var currentNode = $('#filetreepanel').fancytree("getActiveNode");
+
+            var savePath = "";
+            if (currentNode === null){
+                //save at the root location instead
+                new $.Zebra_Dialog('Select a <strong>folder</strong>', {
+                    'buttons': false,
+                    'modal': false,
+                    'position': ['right - 20', 'top + 20'],
+                    'auto_close': 1000
+                });
+                return;
+            }
+            else if (!(currentNode.folder)){
+                new $.Zebra_Dialog('Select a <strong>folder</strong><br><br> File Selected', {
+                    'buttons': false,
+                    'modal': false,
+                    'position': ['right - 20', 'top + 20'],
+                    'auto_close': 1000
+                });
+                return;
+            }
+            else savePath = getRemotePath(currentNode);
             $.ajax({
                 method: 'POST',
                 url: "saveFile",
                 data: {
                     'sourceCode': sourceCode,
                     'sourceLang': sourceLang,
-                    'sourceName': sourceName
+                    'sourceName': sourceName,
+                    'remotePath': savePath
                 },
                 success: function(data) {
                     //this gets called when server returns an OK response

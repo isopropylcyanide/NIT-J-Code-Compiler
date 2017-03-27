@@ -76,7 +76,7 @@ class FileExplorer:
         cmd = "cat \"%s\"" % (remote_path)
         print 'cmd: ', cmd
         stdin, stdout, stderr = self.ssh_server.exec_command(
-            cmd)
+            cmd, timeout=2)
 
         # if stderr is empty, then success
         error, output = '', ''
@@ -94,8 +94,24 @@ class FileExplorer:
         cmd = "rm -r \"%s\"" % (remote_path)
         print 'cmd: ', cmd
         stdin, stdout, stderr = self.ssh_server.exec_command(
-            cmd)
+            cmd, timeout=2)
 
+        # if stderr is empty, then success
+        error = ''
+        for line in stderr.readlines():
+            error += line
+        if error != '':
+            print error
+            raise Exception(error)
+
+    def saveFileToRemote(self, remote_path, file_name, content):
+        """View file contents of the remote_path at the server"""
+        print remote_path, file_name, content
+        print '***********'
+        cmd = "echo \"%s\" > \"%s/%s\"" % (content, remote_path, file_name)
+        print 'cmd: ', cmd
+        stdin, stdout, stderr = self.ssh_server.exec_command(
+            cmd, timeout=2)
         # if stderr is empty, then success
         error = ''
         for line in stderr.readlines():
@@ -114,7 +130,7 @@ class FileExplorer:
             cmd = "mkdir \"%s\"" % (remote_path)
         print 'cmd: ', cmd
         stdin, stdout, stderr = self.ssh_server.exec_command(
-            cmd)
+            cmd, timeout=2)
 
         # if stderr is empty, then success
         error = ''
@@ -130,7 +146,7 @@ class FileExplorer:
         cmd = "mv \"%s\" \"%s\"" % (remote_path, new_path)
         print 'cmd: ', cmd
         stdin, stdout, stderr = self.ssh_server.exec_command(
-            cmd)
+            cmd, timeout=2)
 
         # if stderr is empty, then success
         error = ''
