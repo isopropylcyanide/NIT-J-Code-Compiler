@@ -336,7 +336,7 @@ function renameRemoteFile(parNode, newName, oldName) {
                 'position': ['right - 20', 'top + 20'],
                 'auto_close': 1500,
                 'type': 'confirmation',
-                'title': test
+                'title': newName
             });
         },
         error: function(data) {
