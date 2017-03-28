@@ -1,5 +1,5 @@
 #editor-workspace {
-    height: 550px;
+    height: 580px;
 }
 
 .nopadding {
@@ -24,8 +24,8 @@
 }
 
 #text-editor-panel {
-    margin-top: 5px;
-    height: 450px;
+    margin-top: 7px;
+    height: 480px;
     /*width:100%;*/
 }
 
