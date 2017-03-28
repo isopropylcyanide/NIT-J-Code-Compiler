@@ -71,7 +71,8 @@ function fillEditorView(content, filename) {
     //Change mode to the one represented by the file
     var ext = filename.split('.')[1];
     var $lang = $('#languageSelect');
-    if (ext === "")
+    var extArray =  ['cpp','c','java','py'];
+    if (extArray.indexOf(ext) <= -1)
         $lang.val("txt");
     else
         $lang.val(ext);
@@ -443,10 +444,13 @@ $(document).ready(function() {
     });
 
     //initialize tab panel
-    $( ".tabpanel" ).tabs({closable: true, addTab:true}).tabs('overflowResize')
-      .find( ".ui-tabs-nav" ).sortable({
-        distance: 10
-      });
+    $(".tabpanel").tabs({
+            closable: true,
+            addTab: true
+        }).tabs('overflowResize')
+        .find(".ui-tabs-nav").sortable({
+            distance: 10
+        });
 
     //reset code when clicked
     $('#clearButton').click(function() {
@@ -494,7 +498,7 @@ $(document).ready(function() {
             var currentNode = $('#filetreepanel').fancytree("getActiveNode");
 
             var savePath = "";
-            if (currentNode === null){
+            if (currentNode === null) {
                 //save at the root location instead
                 new $.Zebra_Dialog('Select a <strong>folder</strong>', {
                     'buttons': false,
@@ -503,8 +507,7 @@ $(document).ready(function() {
                     'auto_close': 1000
                 });
                 return;
-            }
-            else if (!(currentNode.folder)){
+            } else if (!(currentNode.folder)) {
                 new $.Zebra_Dialog('Select a <strong>folder</strong><br><br> File Selected', {
                     'buttons': false,
                     'modal': false,
@@ -512,8 +515,7 @@ $(document).ready(function() {
                     'auto_close': 1000
                 });
                 return;
-            }
-            else savePath = getRemotePath(currentNode);
+            } else savePath = getRemotePath(currentNode);
             $.ajax({
                 method: 'POST',
                 url: "saveFile",

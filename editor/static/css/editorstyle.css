@@ -24,12 +24,12 @@
 }
 
 #text-editor-panel {
-    margin-top: 7px;
-    height: 480px;
+    height: 470px;
     /*width:100%;*/
 }
 
 #codeEditor {
+    position: relative;
     height: 100%;
     width: 100%;
 }
