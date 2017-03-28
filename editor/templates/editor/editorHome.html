@@ -8,9 +8,11 @@
         {% load staticfiles %}
         <link href="{% static 'css/editorstyle.css' %}" rel="stylesheet">
         <link rel='stylesheet' href="{% static 'css/bootstrap.min.css' %}" type='text/css'/>
-        <link href="{% static 'css/codemirror.css' %}" rel="stylesheet" type="text/css"/>
         <link href="{% static 'css/jquery-ui.min.css' %}" rel="stylesheet" type="text/css"/>
+        <link href="{% static 'css/codemirror.css' %}" rel="stylesheet" type="text/css"/>
         <!-- codemirror css -->
+        <link href="{% static 'css/tabs.overflow.resize.css' %}" rel="stylesheet" type="text/css"/>
+        <!-- tabs overflow css -->
         <link href="{% static 'css/zebra-alert/zebra_dialog.css' %}" rel="stylesheet" type="text/css"/>
         <!-- custom alert box css -->
 
@@ -224,6 +226,23 @@
                 </div>
                 <!-- row eds -->
 
+                <div class="tabpanel">
+                    <ul>
+                        <li>
+                            <a href="#tabs-1" class="closable">Nunc tincidunt</a>
+                        </li>
+                        <!-- <li>
+                            <a href="#tabs-2" class="closable">Proin dolor</a>
+                        </li> -->
+                    </ul>
+                    <div class="ui-layout-content">
+                        <div id="tabs-1">
+                            <p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor
+                                ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum.
+                                Phasellus ipsum. Nunc tristique tempus lectus.</p>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-group" id="text-editor-panel">
                     <textarea class="form-control" id="codeEditor">//Your text goes here</textarea>
                 </div>
@@ -302,5 +321,9 @@
 <script src="{% static 'js/fancytree/jquery.fancytree.contextMenu.js' %}"></script>
 <script src="{% static 'js/fancytree/jquery.fancytree.childcounter.js' %}"></script>
 <!-- fancy tree -->
+<script src="{% static 'js/ui.tabs.addTab.js' %}"></script>
+<script src="{% static 'js/ui.tabs.closable.js' %}"></script>
+<script src="{% static 'js/ui.tabs.overflowResize.js' %}"></script>
+<!-- tabsoverflow -->
 </body>
 </html>

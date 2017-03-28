@@ -442,6 +442,11 @@ $(document).ready(function() {
         'accept': '.c,.cpp,.java,.py'
     });
 
+    //initialize tab panel
+    $( ".tabpanel" ).tabs({closable: true, addTab:true}).tabs('overflowResize')
+      .find( ".ui-tabs-nav" ).sortable({
+        distance: 10
+      });
 
     //reset code when clicked
     $('#clearButton').click(function() {
