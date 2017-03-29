@@ -6,27 +6,26 @@ editorMap = {
 
 activeIndex = undefined;
 
-class allEditors{
+class allEditors {
     // constructor containing
-    constructor(){
-    }
-    addEditor(index, CodeMirrorInstance){
+    constructor() {}
+    addEditor(index, CodeMirrorInstance) {
         editorMap[index] = CodeMirrorInstance;
         activeIndex = index;
     }
-    getActiveEditor(){
+    getActiveEditor() {
         //for code properties
         return editorMap[activeIndex];
     }
-    setActiveEditor(activeIndex){
+    setActiveEditor(activeIndex) {
         //when a tab receives focus
         activeIndex = activeIndex;
     }
-    removeEditor(removedIndex){
+    removeEditor(removedIndex) {
         //when delete is called
         delete editorMap[removedIndex];
     }
-    toString(){
+    toString() {
         return Object.keys(editorMap);
     }
 }
@@ -37,16 +36,16 @@ var editorList = new allEditors();
 $("#add-tab").click(function() {
     var num_tabs = $("#tabs ul li").length + 1;
     $("#tabs ul").append(
-        "<li><a href='#tab" + num_tabs + "'> New Tab </a></li>"
+        "<li><a href='#tab" + num_tabs + "'> New Tab </a><span class=\"ui-icon ui-icon-close\"</li>"
     );
     $("#tabs").append(
-        "<div id='tab" + num_tabs + "'>"+
-        "<div class=\"form-group\" class=\"text-editor-panel\">"+
-        "<textarea class=\"form-control\" id=\"codeEditor" + num_tabs + "\">//Your text goes here</textarea>"+
+        "<div id='tab" + num_tabs + "'>" +
+        "<div class=\"form-group\" class=\"text-editor-panel\">" +
+        "<textarea class=\"form-control\" id=\"codeEditor" + num_tabs + "\">//Your text goes here</textarea>" +
         "</div></div>"
     );
     //once the base textarea has been added
-    var localEditor = CodeMirror.fromTextArea(document.getElementById("codeEditor"+ num_tabs), {
+    var localEditor = CodeMirror.fromTextArea(document.getElementById("codeEditor" + num_tabs), {
         // Create codemirror instance
         lineNumbers: true,
         lineWrapping: true,
@@ -58,4 +57,11 @@ $("#add-tab").click(function() {
     $('#languageSelect').trigger("change");
     selectTheme();
     $("#tabs").tabs("refresh");
+});
+
+// Close icon: removing the tab on click
+$('#tabs').on("click", "span.ui-icon-close", function() {
+    var panelId = $(this).closest("li").remove().attr("aria-controls");
+    $("#" + panelId).remove();
+    tabs.tabs("refresh");
 });
