@@ -1,12 +1,17 @@
 
-var images = ["/static/css/images/1.jpg","/static/css/images/2.jpg"];
+var images = ["/static/css/images/1.jpg",
+                "/static/css/images/2.jpg",
+                "/static/css/images/3.jpg",
+                "/static/css/images/4.jpg"
+            ];
 
 jQuery(document).ready(function() {
 
     /*
         Fullscreen background
     */
-	$.backstretch(images, {duration: 2000, fade: 750});
+	$.backstretch(images, {duration: 3000, fade: 1550});
+	// $('#backstretch').addClass('dim');
 
     /*
         Form validation
