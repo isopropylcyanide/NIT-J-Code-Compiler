@@ -55,6 +55,7 @@ $("#add-tab").click(function() {
         styleActiveLine: true
     });
     editorList.addEditor(num_tabs, localEditor);
-
+    $('#languageSelect').trigger("change");
+    selectTheme();
     $("#tabs").tabs("refresh");
 });

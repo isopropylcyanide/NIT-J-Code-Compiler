@@ -5,24 +5,15 @@ function displayOutput(data) {
     document.getElementById('stdoutput').innerText = data;
 }
 
-// var editor = CodeMirror.fromTextArea(document.getElementById("codeEditor"), {
-//     // Create codemirror instance
-//     lineNumbers: true,
-//     lineWrapping: true,
-//     matchBrackets: true,
-//     mode: "text/x-c",
-//     styleActiveLine: true
-// });
-
 
 var openFile = function(event) {
-    // button that browses file and pastes content into editor
+    // button that browses file and pastes content into editorList.getActiveEditor()
     var input = event.target;
     var reader = new FileReader();
     reader.onload = function() {
         var text = reader.result;
         //Display the loaded file from the client onto the browser
-        editor.setValue(text);
+        editorList.getActiveEditor().setValue(text);
         var _file_less_ext = (input.files[0].name).replace(/\..+$/, '');
         document.getElementById("fname").value = _file_less_ext;
     };
@@ -33,25 +24,25 @@ function langChange(obj) {
     //Listener on language choose spinner
     document.getElementById('fileButton').value = "";
     if (obj.value === "c") {
-        editor.setOption("mode", "text/x-c");
-        editor.setValue("/*\n  Your C code goes here\n  Main method should return 0\n*/");
+        editorList.getActiveEditor().setOption("mode", "text/x-c");
+        editorList.getActiveEditor().setValue("/*\n  Your C code goes here\n  Main method should return 0\n*/");
         document.getElementById('fname').value = '';
     } else if (obj.value === "cpp") {
         document.getElementById('fname').value = '';
-        editor.setOption("mode", "text/x-c++src");
-        editor.setValue("/*\n  Your C++ code goes here\n  Main method should return 0\n*/");
+        editorList.getActiveEditor().setOption("mode", "text/x-c++src");
+        editorList.getActiveEditor().setValue("/*\n  Your C++ code goes here\n  Main method should return 0\n*/");
     } else if (obj.value === "py") {
         document.getElementById('fname').value = '';
-        editor.setOption("mode", "text/x-python");
-        editor.setValue("#Your Python code goes here");
+        editorList.getActiveEditor().setOption("mode", "text/x-python");
+        editorList.getActiveEditor().setValue("#Your Python code goes here");
     } else if (obj.value === "") {
         document.getElementById('fname').value = '';
-        editor.setOption("mode", "text/plain");
-        editor.setValue("");
+        editorList.getActiveEditor().setOption("mode", "text/plain");
+        editorList.getActiveEditor().setValue("");
     } else if (obj.value === "java") {
         document.getElementById('fname').value = '';
-        editor.setOption("mode", "text/x-java");
-        editor.setValue("/*\n  Your Java code goes here\n  Name of class should be kept as main and public\n  If using a custom name to save the file, change the name of a class to the name of the program \n*/");
+        editorList.getActiveEditor().setOption("mode", "text/x-java");
+        editorList.getActiveEditor().setValue("/*\n  Your Java code goes here\n  Name of class should be kept as main and public\n  If using a custom name to save the file, change the name of a class to the name of the program \n*/");
     }
 }
 
@@ -60,14 +51,14 @@ function selectTheme() {
     var input = document.getElementById("selectTheme");
     var theme = input.options[input.selectedIndex].textContent;
     if (theme === "default-theme")
-        editor.setOption("theme", "default");
+        editorList.getActiveEditor().setOption("theme", "default");
     else
-        editor.setOption("theme", theme);
+        editorList.getActiveEditor().setOption("theme", theme);
 }
 
 
 function fillEditorView(content, filename) {
-    //fill codemirror editor with content
+    //fill codemirror editorList.getActiveEditor() with content
     //Change mode to the one represented by the file
     var ext = filename.split('.')[1];
     var $lang = $('#languageSelect');
@@ -77,7 +68,7 @@ function fillEditorView(content, filename) {
     else
         $lang.val(ext);
     $lang.trigger("change");
-    editor.setValue(content);
+    editorList.getActiveEditor().setValue(content);
 }
 
 /*---------------------------FANCY tree customiation--------------------------*/
@@ -167,7 +158,7 @@ var treeOptions = {
 
             switch (action) {
                 case "open":
-                    //open file in the editor
+                    //open file in the editorList.getActiveEditor()
                     displayFileinEditor(path, node.title);
                     break;
                 case "remove":
@@ -261,7 +252,7 @@ var treeOptions = {
         if (node.folder) {
             node.editStart();
         }
-        //Display the file in the editor
+        //Display the file in the editorList.getActiveEditor()
         else {
             var path = getRemotePath(node);
             displayFileinEditor(path, node.title);
@@ -316,7 +307,7 @@ function makeRemoteDirectory(node, childNode, isFile = "False") {
 function renameRemoteFile(parNode, newName, oldName) {
     //AJAX call to remove file from user directory
     //also delete the file from tree
-    //Display the file in the editor
+    //Display the file in the editorList.getActiveEditor()
     var node = parNode;
     var parent_path = getRemotePath(parNode) + '/';
     var remote_path = parent_path + oldName;
@@ -356,7 +347,7 @@ function renameRemoteFile(parNode, newName, oldName) {
 function deleteFileFromUserDirectory(path, node) {
     //AJAX call to remove file from user directory
     //also delete the file from tree
-    //Display the file in the editor
+    //Display the file in the editorList.getActiveEditor()
     return $.ajax({
         method: 'POST',
         url: "deleteRemoteDir",
@@ -376,7 +367,7 @@ function deleteFileFromUserDirectory(path, node) {
             });
             //remove  node
             node.remove();
-            //if deleted file was currently active in the text editor, erase its contents
+            //if deleted file was currently active in the text editorList.getActiveEditor(), erase its contents
             var $fname = $('#fname');
             if ($fname.val() === node.title)
                 $('#clearButton').trigger('click');
@@ -396,7 +387,7 @@ function deleteFileFromUserDirectory(path, node) {
 }
 
 function displayFileinEditor(path, original_name) {
-    //Display the file in the editor and sets the filename label as original_name
+    //Display the file in the editorList.getActiveEditor() and sets the filename label as original_name
     return $.ajax({
         method: 'POST',
         url: "viewfilecontents",
@@ -436,8 +427,9 @@ $(document).ready(function() {
     $('#treeData.fancytree-container').addClass('nopadding');
 
     //Fire onchange event automatically
-    $('#languageSelect').trigger("change");
-    selectTheme();
+    $('#tabs').tabs();
+    $('#add-tab').trigger("click");
+
 
     //Allow only certain file extensions
     $('#fileButton').attr({
@@ -451,9 +443,9 @@ $(document).ready(function() {
     //reset code when clicked
     $('#clearButton').click(function() {
         //clear code and set it to whatever language currently exists
-        editor.setValue("");
+        editorList.getActiveEditor().setValue("");
         document.getElementById("languageSelect").onchange();
-        new $.Zebra_Dialog('<strong>Cleared</strong> editor', {
+        new $.Zebra_Dialog('<strong>Cleared</strong> editorList.getActiveEditor()', {
             'buttons': false,
             'modal': false,
             'position': ['right - 20', 'top + 20'],
@@ -462,7 +454,7 @@ $(document).ready(function() {
     });
 
     $('#clearOutputWindow').click(function() {
-        //clear output window in editor
+        //clear output window in editorList.getActiveEditor()
         // var root = $('#filetreepanel').fancytree("getRootNode");
         // root.sortChildren(tree_comparator, true);
         displayOutput("");
@@ -489,7 +481,7 @@ $(document).ready(function() {
             });
         } else {
             //Save file..must include the directory of the active folder
-            var sourceCode = editor.getValue();
+            var sourceCode = editorList.getActiveEditor().getValue();
             var sourceLang = $("#languageSelect").val();
             var currentNode = $('#filetreepanel').fancytree("getActiveNode");
 
@@ -555,7 +547,7 @@ $(document).ready(function() {
     $('#executeButton').click(function() {
         // displayLoadingSpinner();
 
-        var sourceCode = editor.getValue();
+        var sourceCode = editorList.getActiveEditor().getValue();
         var sourceLang = document.getElementById("languageSelect").value;
         var sourceInp = document.getElementById("stdinText").value;
         var sourceName = document.getElementById("fname").value;
