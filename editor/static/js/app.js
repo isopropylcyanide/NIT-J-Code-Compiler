@@ -406,7 +406,8 @@ function displayFileinEditor(path, original_name) {
         success: function(data) {
             //this gets called when server returns an OK response
             fillEditorView(data, original_name);
-            $('#fname').val(original_name);
+            var _file_less_ext = (original_name).replace(/\..+$/, '');
+            $('#fname').val(_file_less_ext);
         },
         error: function(data) {
             new $.Zebra_Dialog("Error occured while viewing: " + "<br><br>" + data.responseText, {
