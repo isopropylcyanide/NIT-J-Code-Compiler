@@ -156,8 +156,10 @@ def execute(request):
             created = createFile(code, lang, name)
             print 'Created file %s successfully' % (created)
             output = checker.main(created, inp, name)
+            return HttpResponse(output)
         except Exception as e:
+            if os.path.isfile(created):
+                os.remove(created)
             return HttpResponseServerError(content=b'%s' % e.message)
         finally:
             os.chdir(orig_dir)
-            return HttpResponse(output)

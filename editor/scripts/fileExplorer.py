@@ -108,7 +108,8 @@ class FileExplorer:
         """View file contents of the remote_path at the server"""
         print remote_path, file_name, content
         print '***********'
-        cmd = "echo \"%s\" > \"%s/%s\"" % (content, remote_path, file_name)
+        cmd = "cat > \"%s/%s\" << \'endmsg\'\n%s\nendmsg" % (
+            remote_path, file_name, content)
         print 'cmd: ', cmd
         stdin, stdout, stderr = self.ssh_server.exec_command(
             cmd, timeout=2)
@@ -123,7 +124,6 @@ class FileExplorer:
     def makeRemoteDirectory(self, remote_path, is_file):
         """View file contents of the remote_path at the server"""
         outputResponse = "File created successfully"
-        print ': ', is_file
         cmd = 'touch \"%s\"' % (remote_path)
         if is_file == "False":
             outputResponse = "Folder created successfully"

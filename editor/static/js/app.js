@@ -558,7 +558,6 @@ $(document).ready(function() {
     //Compiles code at the server by sending UI Data and outputting the response
     $('#executeButton').click(function() {
         // displayLoadingSpinner();
-        console.log("pressed execute");
 
         var sourceCode = editor.getValue();
         var sourceLang = document.getElementById("languageSelect").value;
@@ -588,7 +587,7 @@ $(document).ready(function() {
                     'position': ['right - 20', 'top + 20'],
                     'auto_close': 1500,
                     'type': 'error',
-                    'title': 'Program',
+                    'title': sourceName
                 });
             }
         });
