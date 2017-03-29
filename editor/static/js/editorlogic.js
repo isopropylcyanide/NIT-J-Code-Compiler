@@ -65,6 +65,19 @@ $("#add-tab").click(function() {
 
 // Close icon: removing the tab on click
 tabs.on("click", "span.ui-icon-close", function() {
+    var numTabs = Object.keys(editorMap).length;
+    displayOutput(numTabs);
+    if (numTabs == 1){
+        new $.Zebra_Dialog('Cannot close tab', {
+            'buttons': false,
+            'modal': false,
+            'position': ['right - 20', 'top + 20'],
+            'auto_close': 1500,
+            'type': 'information',
+            'title': 'Last Tab',
+        });
+        return false;
+    }
     var panelId = $(this).closest("li").remove().attr("aria-controls");
     var indexRemoved = panelId.replace('tab', '');
     editorList.removeEditor(indexRemoved);
