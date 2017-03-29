@@ -47,6 +47,6 @@ def logout_page(request):
 @login_required
 def home(request):
     return render_to_response(
-        'editor/editorHome.html',
+        'home.html',
         {'user': request.user}
     )

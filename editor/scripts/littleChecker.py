@@ -143,9 +143,7 @@ def main(file_name, inp_file, prog_name):
     new_program = program(file_name, inp_file, timeout, prog_name)
 
     if not new_program.isvalidFile():
-        print 'Invalid file name or extension'
-        exit()
-
+        raise Exception('Invalid file name or extension')
     try:
         output = '\nCompilation : %s' % (codes[new_program.compile()])
 

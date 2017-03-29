@@ -8,9 +8,11 @@
         {% load staticfiles %}
         <link href="{% static 'css/editorstyle.css' %}" rel="stylesheet">
         <link rel='stylesheet' href="{% static 'css/bootstrap.min.css' %}" type='text/css'/>
-        <link href="{% static 'css/codemirror.css' %}" rel="stylesheet" type="text/css"/>
         <link href="{% static 'css/jquery-ui.min.css' %}" rel="stylesheet" type="text/css"/>
+        <link href="{% static 'css/codemirror.css' %}" rel="stylesheet" type="text/css"/>
         <!-- codemirror css -->
+        <link href="{% static 'css/tabs.overflow.resize.css' %}" rel="stylesheet" type="text/css"/>
+        <!-- tabs overflow css -->
         <link href="{% static 'css/zebra-alert/zebra_dialog.css' %}" rel="stylesheet" type="text/css"/>
         <!-- custom alert box css -->
 
@@ -222,13 +224,23 @@
                         </label>
                     </div>
                 </div>
-                <!-- row ends -->
+                <!-- row eds -->
 
-                <div class="form-group" id="text-editor-panel">
-                    <textarea class="form-control" id="codeEditor">//Your text goes here</textarea>
+                <div class="tabpanel nopadding">
+                    <ul>
+                        <li>
+                            <a href="#tabs-1" class="closable">New Tab</a>
+                        </li>
+                    </ul>
+                    <div class="ui-layout-content">
+                        <div id="tabs-1" class="nopadding" style="height:100%;">
+                            <div class="form-group" id="text-editor-panel">
+                                <textarea class="form-control" id="codeEditor">//Your text goes here</textarea>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- text area close -->
-                <div class="clearfix"></div>
                 <div class="row " id="statusBar">
                     <div class="col-lg-3 pull-left">
                         <button type="button" id="executeButton" class="btn btn-success">Execute
@@ -302,5 +314,9 @@
 <script src="{% static 'js/fancytree/jquery.fancytree.contextMenu.js' %}"></script>
 <script src="{% static 'js/fancytree/jquery.fancytree.childcounter.js' %}"></script>
 <!-- fancy tree -->
+<script src="{% static 'js/ui.tabs.addTab.js' %}"></script>
+<script src="{% static 'js/ui.tabs.closable.js' %}"></script>
+<script src="{% static 'js/ui.tabs.overflowResize.js' %}"></script>
+<!-- tabsoverflow -->
 </body>
 </html>

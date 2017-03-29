@@ -71,7 +71,8 @@ function fillEditorView(content, filename) {
     //Change mode to the one represented by the file
     var ext = filename.split('.')[1];
     var $lang = $('#languageSelect');
-    if (ext === "")
+    var extArray =  ['cpp','c','java','py'];
+    if (extArray.indexOf(ext) <= -1)
         $lang.val("txt");
     else
         $lang.val(ext);
@@ -405,7 +406,8 @@ function displayFileinEditor(path, original_name) {
         success: function(data) {
             //this gets called when server returns an OK response
             fillEditorView(data, original_name);
-            $('#fname').val(original_name);
+            var _file_less_ext = (original_name).replace(/\..+$/, '');
+            $('#fname').val(_file_less_ext);
         },
         error: function(data) {
             new $.Zebra_Dialog("Error occured while viewing: " + "<br><br>" + data.responseText, {
@@ -442,6 +444,14 @@ $(document).ready(function() {
         'accept': '.c,.cpp,.java,.py'
     });
 
+    //initialize tab panel
+    $(".tabpanel").tabs({
+            closable: true,
+            addTab: true
+        }).tabs('overflowResize')
+        .find(".ui-tabs-nav").sortable({
+            distance: 10
+        });
 
     //reset code when clicked
     $('#clearButton').click(function() {
@@ -489,7 +499,7 @@ $(document).ready(function() {
             var currentNode = $('#filetreepanel').fancytree("getActiveNode");
 
             var savePath = "";
-            if (currentNode === null){
+            if (currentNode === null) {
                 //save at the root location instead
                 new $.Zebra_Dialog('Select a <strong>folder</strong>', {
                     'buttons': false,
@@ -498,8 +508,7 @@ $(document).ready(function() {
                     'auto_close': 1000
                 });
                 return;
-            }
-            else if (!(currentNode.folder)){
+            } else if (!(currentNode.folder)) {
                 new $.Zebra_Dialog('Select a <strong>folder</strong><br><br> File Selected', {
                     'buttons': false,
                     'modal': false,
@@ -507,8 +516,7 @@ $(document).ready(function() {
                     'auto_close': 1000
                 });
                 return;
-            }
-            else savePath = getRemotePath(currentNode);
+            } else savePath = getRemotePath(currentNode);
             $.ajax({
                 method: 'POST',
                 url: "saveFile",
@@ -551,7 +559,6 @@ $(document).ready(function() {
     //Compiles code at the server by sending UI Data and outputting the response
     $('#executeButton').click(function() {
         // displayLoadingSpinner();
-        console.log("pressed execute");
 
         var sourceCode = editor.getValue();
         var sourceLang = document.getElementById("languageSelect").value;
@@ -581,7 +588,7 @@ $(document).ready(function() {
                     'position': ['right - 20', 'top + 20'],
                     'auto_close': 1500,
                     'type': 'error',
-                    'title': 'Program',
+                    'title': sourceName
                 });
             }
         });
