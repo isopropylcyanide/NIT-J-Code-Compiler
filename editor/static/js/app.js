@@ -5,14 +5,14 @@ function displayOutput(data) {
     document.getElementById('stdoutput').innerText = data;
 }
 
-var editor = CodeMirror.fromTextArea(document.getElementById("codeEditor"), {
-    // Create codemirror instance
-    lineNumbers: true,
-    lineWrapping: true,
-    matchBrackets: true,
-    mode: "text/x-c",
-    styleActiveLine: true
-});
+// var editor = CodeMirror.fromTextArea(document.getElementById("codeEditor"), {
+//     // Create codemirror instance
+//     lineNumbers: true,
+//     lineWrapping: true,
+//     matchBrackets: true,
+//     mode: "text/x-c",
+//     styleActiveLine: true
+// });
 
 
 var openFile = function(event) {
@@ -71,7 +71,7 @@ function fillEditorView(content, filename) {
     //Change mode to the one represented by the file
     var ext = filename.split('.')[1];
     var $lang = $('#languageSelect');
-    var extArray =  ['cpp','c','java','py'];
+    var extArray = ['cpp', 'c', 'java', 'py'];
     if (extArray.indexOf(ext) <= -1)
         $lang.val("txt");
     else
@@ -445,13 +445,8 @@ $(document).ready(function() {
     });
 
     //initialize tab panel
-    $(".tabpanel").tabs({
-            closable: true,
-            addTab: true
-        }).tabs('overflowResize')
-        .find(".ui-tabs-nav").sortable({
-            distance: 10
-        });
+    $("#tabs").tabs();
+
 
     //reset code when clicked
     $('#clearButton').click(function() {
