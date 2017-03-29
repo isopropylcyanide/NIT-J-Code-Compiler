@@ -20,29 +20,34 @@ var openFile = function(event) {
     reader.readAsText(input.files[0]);
 };
 
-function langChange(obj) {
+function langChange(obj, clearEditor = true) {
     //Listener on language choose spinner
     document.getElementById('fileButton').value = "";
     if (obj.value === "c") {
         editorList.getActiveEditor().setOption("mode", "text/x-c");
-        editorList.getActiveEditor().setValue("/*\n  Your C code goes here\n  Main method should return 0\n*/");
+        if (clearEditor)
+            editorList.getActiveEditor().setValue("/*\n  Your C code goes here\n  Main method should return 0\n*/");
         document.getElementById('fname').value = '';
     } else if (obj.value === "cpp") {
         document.getElementById('fname').value = '';
         editorList.getActiveEditor().setOption("mode", "text/x-c++src");
-        editorList.getActiveEditor().setValue("/*\n  Your C++ code goes here\n  Main method should return 0\n*/");
+        if (clearEditor)
+            editorList.getActiveEditor().setValue("/*\n  Your C++ code goes here\n  Main method should return 0\n*/");
     } else if (obj.value === "py") {
         document.getElementById('fname').value = '';
         editorList.getActiveEditor().setOption("mode", "text/x-python");
-        editorList.getActiveEditor().setValue("#Your Python code goes here");
+        if (clearEditor)
+            editorList.getActiveEditor().setValue("#Your Python code goes here");
     } else if (obj.value === "") {
         document.getElementById('fname').value = '';
         editorList.getActiveEditor().setOption("mode", "text/plain");
-        editorList.getActiveEditor().setValue("");
+        if (clearEditor)
+            editorList.getActiveEditor().setValue("");
     } else if (obj.value === "java") {
         document.getElementById('fname').value = '';
         editorList.getActiveEditor().setOption("mode", "text/x-java");
-        editorList.getActiveEditor().setValue("/*\n  Your Java code goes here\n  Name of class should be kept as main and public\n  If using a custom name to save the file, change the name of a class to the name of the program \n*/");
+        if (clearEditor)
+            editorList.getActiveEditor().setValue("/*\n  Your Java code goes here\n  Name of class should be kept as main and public\n  If using a custom name to save the file, change the name of a class to the name of the program \n*/");
     }
 }
 
