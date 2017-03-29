@@ -1,13 +1,13 @@
 <!-- success.html -->
 {% extends "base.html" %}
 {% block title %}Registration Successful{% endblock %}
-{% block head %}
-    Registration Completed Successfully
-{% endblock %}
+{% block head %}{% endblock %}
 {% block content %}
     Thank you for registering.
 </br>
 </br>
 </br>
-<button type="button" onclick="window.location.href='/' ">Login</button>
+<div class="form-group">
+<button class="btn btn-info" type="button" onclick="window.location.href='/' ">Login</button>
+</div>
 {% endblock %}

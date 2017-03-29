@@ -1,22 +1,82 @@
-<!-- base.html -->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 {% load staticfiles %}
-<html>
+<html lang="en">
+
     <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>
             {% block title %}{% endblock %}
         </title>
-        <link rel="stylesheet" type="text/css" href=" {% static 'css/sitebase.css'%}">
-        <link rel="stylesheet" type="text/css" href=" {% static 'css/userhome.css'%}">
+        {%load staticfiles%}
+        <!-- CSS -->
+        <link rel='stylesheet' href="{% static 'css/bootstrap.min.css' %}" type='text/css'/>
+        <link rel='stylesheet' href="{% static 'css/fontRoboto.css' %}" type='text/css'/>
+        <link rel='stylesheet' href="{% static 'css/form-elements.css' %}" type='text/css'/>
+        <link rel='stylesheet' href="{% static 'css/style.css' %}" type='text/css'/>
+        <link rel='stylesheet' href="{% static 'css/font-awesome.min.css' %}" type='text/css'/>
+
     </head>
+
     <body>
-        <div class="wrapper">
-            <div class="container">
-                <h1>
-                    {% block head %}{% endblock %}
-                </h1>
-                {% block content %}{% endblock %}
+
+        <!-- Top content -->
+        <div class="top-content">
+
+            <div class="inner-bg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-2 text">
+                            <h1>
+                                <strong>NITJ COMPILER
+                                </h1>
+                                <h3>
+                                    <strong>
+                                        Log in to save your editor progress, compile code and view the execution output</strong>
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 col-sm-offset-3 form-box">
+                                <div class="form-top">
+                                    <div class="form-top-left">
+                                        <h1>
+                                            {% block head %}{% endblock %}
+                                        </h1>
+                                    </div>
+                                    <div class="form-top-right">
+                                        <i class="fa fa-lock"></i>
+                                    </div>
+                                </div>
+
+                                <div class="form-bottom">
+                                    {% block content %}{% endblock %}
+                                    <!-- <form role="form" action="" method="post" class="login-form">
+                                            <label class="sr-only" for="form-username">Username</label>
+                                            <input type="text" name="form-username" placeholder="Username..." class="form-username form-control" id="form-username">
+                                        -->
+
+                                    <!-- <div class="form-group">
+                                            <label class="sr-only" for="form-password">Password</label>
+                                            <input type="password" name="form-password" placeholder="Password..." class="form-password form-control" id="form-password">
+                                        </div>
+                                        <button type="submit" class="btn">Sign in!</button>
+                                    </form> -->
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
-        </div>
-    </body>
-</html>
+
+            <!-- Javascript -->
+            <script src="{% static 'js/jquery-3.1.1.js' %}"></script>
+            <script src="{% static 'js/jquery.backstretch.js' %}"></script>
+            <script src="{% static 'js/login.js' %}"></script>
+        </body>
+
+    </html>
