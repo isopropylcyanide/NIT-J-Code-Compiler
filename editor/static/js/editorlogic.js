@@ -68,7 +68,7 @@ tabs.on("click", "span.ui-icon-close", function() {
     var panelId = $(this).closest("li").remove().attr("aria-controls");
     var indexRemoved = panelId.replace('tab', '');
     editorList.removeEditor(indexRemoved);
-    displayOutput('remove: ' + indexRemoved + ' now: ' + editorList.toString() + ' uid: ' + uniqueID+' currentActive: ' + activeIndex);
+    // displayOutput('remove: ' + indexRemoved + ' now: ' + editorList.toString() + ' uid: ' + uniqueID+' currentActive: ' + activeIndex);
     $("#" + panelId).remove();
     tabs.tabs("refresh");
 });
@@ -78,6 +78,6 @@ tabs.tabs({
         var panelId = ui.newPanel[0].id;
         var curIndex = panelId.replace('tab', '');
         editorList.setActiveEditor(curIndex);
-        displayOutput('act: ' + curIndex + ' now: ' + editorList.toString() + ' uid: ' + uniqueID+' currentActive: ' + activeIndex);
+        // displayOutput('act: ' + curIndex + ' now: ' + editorList.toString() + ' uid: ' + uniqueID+' currentActive: ' + activeIndex);
     }
 });

@@ -166,7 +166,7 @@
                         <select class="form-control" onchange="selectTheme()" id=selectTheme>
                             <option>default-theme</option>
                             <option>3024-day</option>
-                            <option selected="">3024-night</option>
+                            <option>3024-night</option>
                             <option>abcdef</option>
                             <option>ambiance</option>
                             <option>base16-dark</option>
@@ -182,7 +182,7 @@
                             <option>elegant</option>
                             <option>erlang-dark</option>
                             <option>hopscotch</option>
-                            <option>icecoder</option>
+                            <option selected="">icecoder</option>
                             <option>isotope</option>
                             <option>lesser-dark</option>
                             <option>liquibyte</option>
@@ -296,8 +296,9 @@
 <script src="{% static 'mode/clike/clike.js' %}" type="text/javascript"></script>
 <script src="{% static 'mode/python/python.js' %}" type="text/javascript"></script>
 <!-- codemirror js -->
-<script src="{% static 'js/editors.js' %}"></script>
+<script src="{% static 'js/editorlogic.js' %}"></script>
 <script src="{% static 'js/app.js' %}"></script>
+<script src="{% static 'js/treelogic.js' %}"></script>
 <!-- main editor js -->
 <script src="{% static 'js/zebra_dialog.js' %}"></script>
 <!-- custom alert box -->
