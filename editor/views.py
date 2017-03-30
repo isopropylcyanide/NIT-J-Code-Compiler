@@ -119,13 +119,13 @@ def saveFile(request):
 def index(request):
     """App invocation point: Return the editor page"""
     return render(request, 'editor/editorHome.html',
-                  context={'user': def_username})
+                  context={'user': 'new1'})
 
 
 def home(request):
     """App invocation point: Return the editor page"""
     return render(request, 'editor/editorWork.html',
-                  context={'user': def_username})
+                  context={'user': 'new1'})
 
 
 def createFile(text, extension, name="main", isSaved=False):

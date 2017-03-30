@@ -1,10 +1,5 @@
 import sftp
 import paramiko
-# Copyright (c) 2016 Aman Garg All Rights Reserved.
-
-def_host = "127.0.0.1"
-def_username = "new1"
-def_pass = "12"
 
 
 class FileExplorer:

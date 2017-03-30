@@ -66,7 +66,6 @@ $("#add-tab").click(function() {
 // Close icon: removing the tab on click
 tabs.on("click", "span.ui-icon-close", function() {
     var numTabs = Object.keys(editorMap).length;
-    displayOutput(numTabs);
     if (numTabs == 1){
         new $.Zebra_Dialog('Cannot close tab', {
             'buttons': false,

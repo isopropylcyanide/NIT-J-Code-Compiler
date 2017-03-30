@@ -1,3 +1,23 @@
+function getRemotePath(node) {
+    // given a tree node, recurse and return the absolute path for the remote
+    var path = node.title;
+    if (path === 'root')
+        return '.';
+    while (node.parent.title != 'root') {
+        node = node.parent;
+        path = node.title + '/' + path;
+    }
+    return path;
+}
+
+
+var tree_comparator = function(a, b) {
+    //Custom comparator for fancy tree
+    var x = (a.isFolder() ? "0" : "1") + a.title.toLowerCase(),
+        y = (b.isFolder() ? "0" : "1") + b.title.toLowerCase();
+    return x === y ? 0 : x > y ? 1 : -1;
+};
+
 
 var treeOptions = {
     //options for fancy tree
