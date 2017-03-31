@@ -20,11 +20,13 @@ var openFile = function(event) {
     reader.readAsText(input.files[0]);
 };
 
-function langChange(obj, clearEditor = true) {
+function langChange(obj, clearEditor = false) {
     //Listener on language choose spinner
     document.getElementById('fileButton').value = "";
+    let language = $('#languageSelect option:selected').text();
     if (obj.value === "c") {
         editorList.getActiveEditor().setOption("mode", "text/x-c");
+
         if (clearEditor)
             editorList.getActiveEditor().setValue("/*\n  Your C code goes here\n  Main method should return 0\n*/");
         document.getElementById('fname').value = '';
