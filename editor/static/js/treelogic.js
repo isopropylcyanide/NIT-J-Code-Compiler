@@ -123,7 +123,7 @@ var treeOptions = {
         //child operation control passed to parent
     }),
     edit: {
-        triggerStart: ["f2", "shift+click", "mac+enter"],
+        // triggerStart: ["f2", "shift+click", "mac+enter"],
         beforeEdit: function(event, data) {},
         edit: function(event, data) {},
         save: function(event, data) {
@@ -176,7 +176,7 @@ var treeOptions = {
         //Extract its full path and view if not a folder
         var node = data.node;
         if (node.folder) {
-            node.editStart();
+            return;
         }
         //Display the file in the editorList.getActiveEditor()
         else {

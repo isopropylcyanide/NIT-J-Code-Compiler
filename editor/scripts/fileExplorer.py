@@ -50,12 +50,12 @@ class FileExplorer:
         """
         # Prepare the python module for server upload
         # The module should be hidden
-        moveFile = 'fileLister.py'
-        self.sftp_server.upload('editor/scripts/%s' %
-                                (moveFile), "./.%s" % (moveFile))
+        moveFile = '.fileLister.py'
+        # self.sftp_server.upload('editor/scripts/%s' %
+        #                         (moveFile), "./.%s" % (moveFile))
 
         stdin, stdout, stderr = self.ssh_server.exec_command(
-            'python .' + moveFile, bufsize=-1)
+            'python ' + moveFile, bufsize=-1)
 
         # if stderr is empty, then success
         error, output = '', ''
