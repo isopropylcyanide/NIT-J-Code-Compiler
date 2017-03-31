@@ -42,11 +42,11 @@ $("#add-tab").click(function() {
     $("#tabs").append(
         "<div id='tab" + uniqueID + "'>" +
         "<div class=\"form-group\" class=\"text-editor-panel\">" +
-        "<textarea class=\"form-control\" id=\"codeEditor" + uniqueID + "\">//Your text goes here</textarea>" +
+        "<textarea class=\"form-control\" id=\"codeEditor" + uniqueID + "\"></textarea>" +
         "</div></div>"
     );
     //once the base textarea has been added
-    var localEditor = CodeMirror.fromTextArea(document.getElementById("codeEditor" + uniqueID), {
+    let localEditor = CodeMirror.fromTextArea(document.getElementById("codeEditor" + uniqueID), {
         // Create codemirror instance
         lineNumbers: true,
         lineWrapping: true,
@@ -55,7 +55,7 @@ $("#add-tab").click(function() {
         styleActiveLine: true
     });
     editorList.addEditor(uniqueID, localEditor);
-    $('#languageSelect').trigger("change");
+
     selectTheme();
     $("#tabs").tabs("refresh");
     //select the tab on load

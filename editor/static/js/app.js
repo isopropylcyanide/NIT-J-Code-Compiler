@@ -260,7 +260,8 @@ $(document).ready(function() {
     //Fire onchange event automatically
     $('#tabs').tabs();
     $('#add-tab').trigger("click");
-
+    $('#languageSelect').trigger("change");
+    
 
     //Allow only certain file extensions
     $('#fileButton').attr({
