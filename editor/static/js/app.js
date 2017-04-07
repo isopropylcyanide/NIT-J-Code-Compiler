@@ -5,7 +5,6 @@ function displayOutput(data) {
     document.getElementById('stdoutput').innerText = data;
 }
 
-
 var openFile = function(event) {
     // button that browses file and pastes content into editorList.getActiveEditor()
     var input = event.target;
@@ -261,7 +260,7 @@ $(document).ready(function() {
     $('#tabs').tabs();
     $('#add-tab').trigger("click");
     $('#languageSelect').trigger("change");
-    
+
 
     //Allow only certain file extensions
     $('#fileButton').attr({
