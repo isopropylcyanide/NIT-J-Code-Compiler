@@ -9,7 +9,7 @@ editorLang = {
 activeIndex = undefined;
 uniqueID = 0;
 var tabs = $('#tabs');
-
+var $langSelect = $('#languageSelect');
 
 class allEditors {
     //editor classes for initializing codemirror instances in tabbed panes
@@ -17,6 +17,9 @@ class allEditors {
         activeIndex = index;
         editorMap[index] = CodeMirrorInstance;
         editorLang[index] = getLanguageMode();
+        //set active language as the one selected
+        let curLang = $("#languageSelect option:selected").text();
+        this.setActiveEditorLang(curLang);
     }
     getActiveEditor() {
         //for code properties
@@ -30,6 +33,7 @@ class allEditors {
         //set language mode of current active editor
         editorLang[activeIndex] = lang;
         editorMap[activeIndex].setOption("mode", getLanguageMode(lang));
+        // displayOutput(' now: ' + editorList.toString() + ' uid: ' + uniqueID+' currentActive: ' + activeIndex + ' lang: ' + editorList.getActiveEditorLang() );
     }
 
     getActiveEditorLang(){
@@ -94,7 +98,7 @@ tabs.on("click", "span.ui-icon-close", function() {
     var panelId = $(this).closest("li").remove().attr("aria-controls");
     var indexRemoved = panelId.replace('tab', '');
     editorList.removeEditor(indexRemoved);
-    displayOutput('remove: ' + indexRemoved + ' now: ' + editorList.toString() + ' uid: ' + uniqueID+' currentActive: ' + activeIndex + ' whose lang: ' + editorList.getActiveEditorLang());
+    // displayOutput('remove: ' + indexRemoved + ' now: ' + editorList.toString() + ' uid: ' + uniqueID+' currentActive: ' + activeIndex + ' whose lang: ' + editorList.getActiveEditorLang());
     $("#" + panelId).remove();
     tabs.tabs("refresh");
 });
@@ -105,5 +109,9 @@ tabs.tabs({
         var curIndex = panelId.replace('tab', '');
         editorList.setActiveEditor(curIndex);
         displayOutput('act: ' + curIndex + ' now: ' + editorList.toString() + ' uid: ' + uniqueID+' currentActive: ' + activeIndex + ' lang: ' + editorList.getActiveEditorLang() );
+        //also set the current language as the one here
+
+        let langVal = $('#languageSelect option').filter(function () { return $(this).html() == editorList.getActiveEditorLang(); }).val();
+        $('#languageSelect').val(langVal).trigger('change');
     }
 });
