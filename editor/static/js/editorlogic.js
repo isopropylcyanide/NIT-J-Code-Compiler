@@ -1,6 +1,8 @@
 /*jshint esversion: 6 */
-//editor classes for initializing codemirror instances in tabbed panes
 editorMap = {
+    //mapping indices to editor instances
+};
+editorLang = {
     //mapping indices to editor instances
 };
 
@@ -8,12 +10,13 @@ activeIndex = undefined;
 uniqueID = 0;
 var tabs = $('#tabs');
 
+
 class allEditors {
-    // constructor containing
-    constructor() {}
+    //editor classes for initializing codemirror instances in tabbed panes
     addEditor(index, CodeMirrorInstance) {
-        editorMap[index] = CodeMirrorInstance;
         activeIndex = index;
+        editorMap[index] = CodeMirrorInstance;
+        editorLang[index] = getLanguageMode();
     }
     getActiveEditor() {
         //for code properties
@@ -23,9 +26,20 @@ class allEditors {
         //when a tab receives focus
         activeIndex = activeInd;
     }
+    setActiveEditorLang(lang){
+        //set language mode of current active editor
+        editorLang[activeIndex] = lang;
+        editorMap[activeIndex].setOption("mode", getLanguageMode(lang));
+    }
+
+    getActiveEditorLang(){
+        //get language mode of current active editor
+        return editorLang[activeIndex];
+    }
     removeEditor(removedIndex) {
         //when delete is called
         delete editorMap[removedIndex];
+        delete editorLang[removedIndex];
     }
     toString() {
         return Object.keys(editorMap);
@@ -80,7 +94,7 @@ tabs.on("click", "span.ui-icon-close", function() {
     var panelId = $(this).closest("li").remove().attr("aria-controls");
     var indexRemoved = panelId.replace('tab', '');
     editorList.removeEditor(indexRemoved);
-    // displayOutput('remove: ' + indexRemoved + ' now: ' + editorList.toString() + ' uid: ' + uniqueID+' currentActive: ' + activeIndex);
+    displayOutput('remove: ' + indexRemoved + ' now: ' + editorList.toString() + ' uid: ' + uniqueID+' currentActive: ' + activeIndex + ' whose lang: ' + editorList.getActiveEditorLang());
     $("#" + panelId).remove();
     tabs.tabs("refresh");
 });
@@ -90,6 +104,6 @@ tabs.tabs({
         var panelId = ui.newPanel[0].id;
         var curIndex = panelId.replace('tab', '');
         editorList.setActiveEditor(curIndex);
-        // displayOutput('act: ' + curIndex + ' now: ' + editorList.toString() + ' uid: ' + uniqueID+' currentActive: ' + activeIndex);
+        displayOutput('act: ' + curIndex + ' now: ' + editorList.toString() + ' uid: ' + uniqueID+' currentActive: ' + activeIndex + ' lang: ' + editorList.getActiveEditorLang() );
     }
 });

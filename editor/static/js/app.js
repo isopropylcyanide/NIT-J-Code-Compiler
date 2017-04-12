@@ -19,37 +19,29 @@ var openFile = function(event) {
     reader.readAsText(input.files[0]);
 };
 
-function langChange(obj, clearEditor = false) {
+function getLanguageMode(lang){
+    //get codemirror mode corresponding to the language
+    if (lang === "C") {
+        return "text/x-c";
+    } else if (lang === "C++") {
+        return "text/x-c++src";
+    } else if (lang === "Python") {
+        return "text/x-python";
+    } else if (lang === "Text") {
+        return "text/plain";
+    } else if (lang === "Java") {
+        return "text/x-java";
+    }
+}
+
+function langChange(obj) {
     //Listener on language choose spinner
     document.getElementById('fileButton').value = "";
-    let language = $('#languageSelect option:selected').text();
-    if (obj.value === "c") {
-        editorList.getActiveEditor().setOption("mode", "text/x-c");
-
-        if (clearEditor)
-            editorList.getActiveEditor().setValue("/*\n  Your C code goes here\n  Main method should return 0\n*/");
-        document.getElementById('fname').value = '';
-    } else if (obj.value === "cpp") {
-        document.getElementById('fname').value = '';
-        editorList.getActiveEditor().setOption("mode", "text/x-c++src");
-        if (clearEditor)
-            editorList.getActiveEditor().setValue("/*\n  Your C++ code goes here\n  Main method should return 0\n*/");
-    } else if (obj.value === "py") {
-        document.getElementById('fname').value = '';
-        editorList.getActiveEditor().setOption("mode", "text/x-python");
-        if (clearEditor)
-            editorList.getActiveEditor().setValue("#Your Python code goes here");
-    } else if (obj.value === "") {
-        document.getElementById('fname').value = '';
-        editorList.getActiveEditor().setOption("mode", "text/plain");
-        if (clearEditor)
-            editorList.getActiveEditor().setValue("");
-    } else if (obj.value === "java") {
-        document.getElementById('fname').value = '';
-        editorList.getActiveEditor().setOption("mode", "text/x-java");
-        if (clearEditor)
-            editorList.getActiveEditor().setValue("/*\n  Your Java code goes here\n  Name of class should be kept as main and public\n  If using a custom name to save the file, change the name of a class to the name of the program \n*/");
-    }
+    let langText = obj.options[obj.selectedIndex].innerText;
+    let mode = getLanguageMode(langText);
+    editorList.getActiveEditor().setOption("mode", mode);
+    editorList.setActiveEditorLang(langText);
+    document.getElementById('fname').value = '';
 }
 
 function selectRandomEditorTheme(){
