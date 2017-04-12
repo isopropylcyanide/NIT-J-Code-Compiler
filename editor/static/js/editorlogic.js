@@ -56,7 +56,7 @@ $("#add-tab").click(function() {
     });
     editorList.addEditor(uniqueID, localEditor);
 
-    selectTheme();
+    selectRandomEditorTheme();
     $("#tabs").tabs("refresh");
     //select the tab on load
     $("#tabs").tabs("option", "active", uniqueID);

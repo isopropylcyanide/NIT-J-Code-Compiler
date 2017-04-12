@@ -52,14 +52,20 @@ function langChange(obj, clearEditor = false) {
     }
 }
 
+function selectRandomEditorTheme(){
+    //select a random theme on a new tab
+    var $options = $('#selectTheme').find('option'),
+    random = ~~(Math.random() * $options.length);
+    $options.eq(random).prop('selected', true);
+    $select = $('#selectTheme');
+    let value = $select.find('option:eq(' + random + ')').val();
+    $select.val(value).change();
+}
 function selectTheme() {
     //select theme from dropdown -> triggered by default
     var input = document.getElementById("selectTheme");
     var theme = input.options[input.selectedIndex].textContent;
-    if (theme === "default-theme")
-        editorList.getActiveEditor().setOption("theme", "default");
-    else
-        editorList.getActiveEditor().setOption("theme", theme);
+    editorList.getActiveEditor().setOption("theme", theme);
 }
 
 
