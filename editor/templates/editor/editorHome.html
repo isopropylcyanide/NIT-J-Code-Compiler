@@ -263,7 +263,7 @@
     </div>
     <!-- editor panel closes -->
 
-    <div id="output-panel" class=" nopadding col-lg-2 col-md-2 col-sm-2">
+    <div id="output-panel" class=" col-lg-2 col-md-2 col-sm-2">
         <div class="nopadding panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">Code Output</h3>
@@ -288,6 +288,24 @@
     <!-- Output panel closes -->
 </div>
 
+<div id="terminal-workspace" class="container col-lg-12 col-md-12 col-sm-9 col-xs-3">
+    <!-- <iframe width=100% height=100% frameborder=0 src='http://127.0.0.1:3000/'></iframe> -->
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Terminal</h3>
+            <span class="pull-right clickable">
+                <i title="Reload terminal" role="button" id="reloadTerminal" class="glyphicon glyphicon-refresh"></i>
+                <i title="Minimize terminal" role="button" id="minimizeTerminal" class="glyphicon glyphicon-chevron-up"></i>
+                <i title="Close terminal" role="button" id="closeTerminal" class="glyphicon glyphicon-remove"></i>
+            </span>
+        </div>
+        <div class="nopadding panel-body" id="terminal-panel">
+            <iframe id="terminal-iframe" src="" height="100%" width="100%">Your browser doesnot support iframes. Please switch to Chrome/Firefox</iframe>
+        </div>
+    </div>
+</div>
+<!-- terminal closes -->
+
 <script src="{% static 'js/jquery-3.1.1.js' %}"></script>
 <script src="{% static 'js/jquery-ui.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
@@ -302,6 +320,7 @@
 <script src="{% static 'js/app.js' %}"></script>
 <script src="{% static 'js/editorlogic.js' %}"></script>
 <script src="{% static 'js/treelogic.js' %}"></script>
+<script src="{% static 'js/terminal_logic.js' %}"></script>
 <!-- main editor js -->
 <script src="{% static 'js/fancytree/jquery.fancytree.js' %}"></script>
 <script src="{% static 'js/fancytree/jquery.fancytree.edit.js' %}"></script>

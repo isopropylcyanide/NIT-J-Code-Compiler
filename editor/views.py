@@ -4,11 +4,41 @@ from django.views.decorators.csrf import csrf_exempt
 import scripts.littleChecker as checker
 import os
 import scripts.fileExplorer as filexp
+import scripts.terminal as wetty
 
 orig_dir = os.getcwd()
 def_host = "127.0.0.1"
 def_username = "new1"
 def_pass = "12"
+term_pid = None
+term_port = None
+
+
+@csrf_exempt
+def createWettyTerminal(request):
+    """Return the contents of the remote file at the server"""
+    global term_pid, term_port
+    if request.is_ajax():
+        try:
+            term_pid = wetty.terminal(def_username, term_port)
+            terminal_port = term_pid.allocate()
+            return HttpResponse(str(terminal_port))
+        except Exception as e:
+            return HttpResponseServerError(content=b'%s' % e.message)
+
+
+@csrf_exempt
+def stopWettyTerminal(request):
+    """Return the contents of the remote file at the server"""
+    global term_pid, term_port
+    if request.is_ajax():
+        try:
+            term_pid.terminate()
+            print 'closed wetty: ', term_port
+            term_pid = None
+            return HttpResponse('')
+        except Exception as e:
+            return HttpResponseServerError(content=b'%s' % e.message)
 
 
 @csrf_exempt
@@ -117,7 +147,12 @@ def saveFile(request):
 
 
 def index(request):
-    """App invocation point: Return the editor page"""
+    """App invocation point: Return the editor page
+        Also set up a new terminal port for use
+    """
+    global term_port
+    term_port = wetty.getUsablePort()
+    print 'usable port: ', term_port
     return render(request, 'editor/editorHome.html',
                   context={'user': 'new1'})
 

@@ -27,11 +27,10 @@ function getLanguageMode(lang){
         return "text/x-c++src";
     } else if (lang === "Python") {
         return "text/x-python";
-    } else if (lang === "Text") {
-        return "text/plain";
     } else if (lang === "Java") {
         return "text/x-java";
-    }
+    }else
+        return "text/plain";
 }
 
 function langChange(obj) {
@@ -68,7 +67,7 @@ function fillEditorView(content, filename) {
     var $lang = $('#languageSelect');
     var extArray = ['cpp', 'c', 'java', 'py'];
     if (extArray.indexOf(ext) <= -1)
-        $lang.val("txt");
+        $lang.val("");
     else
         $lang.val(ext);
     $lang.trigger("change");
@@ -259,7 +258,6 @@ $(document).ready(function() {
     $('#add-tab').trigger("click");
     $('#languageSelect').trigger("change");
 
-
     //Allow only certain file extensions
     $('#fileButton').attr({
         'accept': '.c,.cpp,.java,.py'
@@ -440,4 +438,32 @@ $(document).ready(function() {
         }
         $(this).closest('.panel').toggleClass('panel-fullscreen');
     });
+
+    //begin loading terminal
+    loadTerminal();
+
+    //stop terminal on clicking close
+    $('#closeTerminal').click(function(event) {
+        stopTerminal();
+    });
+
+    //stop terminal on clicking close
+    $('#reloadTerminal').click(function(event) {
+        reloadTerminal();
+    });
+
+});
+
+$(document).on('click', '#minimizeTerminal', function(e){
+    //panel collapse in terminal
+    var $this = $(this);
+	if(!$this.hasClass('panel-collapsed')) {
+		$this.parents('.panel').find('.panel-body').slideUp();
+		$this.addClass('panel-collapsed');
+		$this.find('i').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+	} else {
+		$this.parents('.panel').find('.panel-body').slideDown();
+		$this.removeClass('panel-collapsed');
+		$this.find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+	}
 });

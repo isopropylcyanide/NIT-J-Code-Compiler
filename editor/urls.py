@@ -10,5 +10,7 @@ urlpatterns = [
     url(r'^viewfilecontents$', views.viewfilecontents, name='viewfileconts'),
     url(r'^deleteRemoteDir$', views.deleteRemoteDir, name='delRemoteDir'),
     url(r'^renameRemoteFile$', views.renameRemoteFile, name='renameRemote'),
-    url(r'^makeRemoteDirectory$', views.makeRemoteDirectory, name='mkremdir')
+    url(r'^makeRemoteDirectory$', views.makeRemoteDirectory, name='mkremdir'),
+    url(r'^createWettyTerm$', views.createWettyTerminal, name='wettyCreate'),
+    url(r'^stopWettyTerm$', views.stopWettyTerminal, name='wettyCreate'),
 ]

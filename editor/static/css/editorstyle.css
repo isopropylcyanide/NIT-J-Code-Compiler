@@ -2,6 +2,27 @@
     height: 580px;
 }
 
+#minimizeTerminal{
+    margin-right: 10px;
+}
+
+#reloadTerminal{
+    margin-right: 10px;
+}
+
+.panel-heading span {
+	margin-top: -20px;
+	font-size: 15px;
+}
+
+#terminal-workspace{
+    margin-top: 50px;
+}
+
+#terminal-panel{
+    height: 150px;
+}
+
 .nopadding {
     padding: 0 !important;
     margin: 0 !important;
