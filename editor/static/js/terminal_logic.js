@@ -6,12 +6,8 @@ function fill_iframe(data) {
     });
 }
 
+//always close terminal when window is removed
 window.onbeforeunload = stopTerminal;
-
-// function confirmExit() {
-//     stopTerminal();
-//     return false;
-// }
 
 function reloadTerminal() {
     // reloads terminal

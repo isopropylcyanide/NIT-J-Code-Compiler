@@ -277,6 +277,7 @@
                 </ul>
             </div>
             <div class="panel-body">
+                <div id="spin"></div>
                 <label id="stdoutput">
                     Your code output appears here.
                     <br>
@@ -300,7 +301,7 @@
             </span>
         </div>
         <div class="nopadding panel-body" id="terminal-panel">
-            <iframe id="terminal-iframe" src="" height="100%" width="100%">Your browser doesnot support iframes. Please switch to Chrome/Firefox</iframe>
+            <iframe id="terminal-iframe" src="" height="100%" width="100%"></iframe>
         </div>
     </div>
 </div>
@@ -308,6 +309,7 @@
 
 <script src="{% static 'js/jquery-3.1.1.js' %}"></script>
 <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+<script src="{% static 'js/jquery.spinner.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 <!-- bootstrap js -->
 <script src="{% static 'js/codemirror.js' %}"></script>

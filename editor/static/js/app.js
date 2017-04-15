@@ -94,8 +94,6 @@ glyph_opts = {
     }
 };
 
-
-
 function makeRemoteDirectory(node, childNode, isFile = "False") {
     //AJAX call to add a remote directory
     ///node is the place where you add a childnode given by childNode
@@ -373,7 +371,6 @@ $(document).ready(function() {
     //Compiles code at the server by sending UI Data and outputting the response
     $('#executeButton').click(function() {
         // displayLoadingSpinner();
-
         var sourceCode = editorList.getActiveEditor().getValue();
         var sourceLang = document.getElementById("languageSelect").value;
         var sourceInp = document.getElementById("stdinText").value;

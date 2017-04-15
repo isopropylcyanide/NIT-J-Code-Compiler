@@ -69,3 +69,4 @@ class terminal:
         if self.pid is not None:
             self.running = False
             self.pid.terminate()
+            self.pid = None
