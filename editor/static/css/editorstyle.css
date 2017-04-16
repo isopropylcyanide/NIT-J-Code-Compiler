@@ -19,8 +19,11 @@
 	font-size: 15px;
 }
 
+#statusBar{
+    margin-top: -15px;
+}
 #terminal-workspace{
-    margin-top: 50px;
+    margin-top: 20px;
     padding-left: 0px;
     padding-right: 0px;
     margin-left: 0;
