@@ -6,6 +6,16 @@ function fill_iframe(data) {
     });
 }
 
+var delay = (function() {
+    //allows a delay of ms seconds
+    var timer = 0;
+    return function(callback, ms) {
+        clearTimeout(timer);
+        timer = setTimeout(callback, ms);
+    };
+})();
+
+
 //always close terminal when window is removed
 window.onbeforeunload = stopTerminal;
 
@@ -39,8 +49,10 @@ function loadTerminal() {
         data: {},
         success: function(data) {
             //this gets called when server returns an OK response
-            //now remove menu item from tree
-            fill_iframe(data);
+            //fill iframe allowing certain seconds of terminal bootup time
+            delay(function() {
+                fill_iframe(data);
+            }, 2000);
         },
         error: function(data) {}
     });

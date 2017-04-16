@@ -68,5 +68,5 @@ class terminal:
         """Closes the terminal session explicitly"""
         if self.pid is not None:
             self.running = False
-            self.pid.terminate()
+            self.pid.kill()
             self.pid = None

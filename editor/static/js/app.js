@@ -247,6 +247,9 @@ function displayFileinEditor(path, original_name) {
 
 $(document).ready(function() {
 
+    //begin loading terminal
+    loadTerminal();
+    
     //initialize file tree on document load
     $('#filetreepanel').fancytree(treeOptions);
     $('#treeData.fancytree-container').addClass('nopadding');
@@ -436,8 +439,6 @@ $(document).ready(function() {
         $(this).closest('.panel').toggleClass('panel-fullscreen');
     });
 
-    //begin loading terminal
-    loadTerminal();
 
     //stop terminal on clicking close
     $('#closeTerminal').click(function(event) {
