@@ -57,3 +57,18 @@ function loadTerminal() {
         error: function(data) {}
     });
 }
+
+//output terminal fullscreen
+$("#terminal-fullscreen").click(function(e) {
+    e.preventDefault();
+    var $panelhis = $(this);
+
+    if ($panelhis.hasClass('glyphicon-resize-full')) {
+        $panelhis.removeClass('glyphicon-resize-full');
+        $panelhis.addClass('glyphicon-resize-small');
+    } else if ($panelhis.hasClass('glyphicon-resize-small')) {
+        $panelhis.removeClass('glyphicon-resize-small');
+        $panelhis.addClass('glyphicon-resize-full');
+    }
+    $(this).closest('.panel').toggleClass('panel-fullscreen');
+});

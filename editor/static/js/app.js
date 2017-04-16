@@ -249,7 +249,7 @@ $(document).ready(function() {
 
     //begin loading terminal
     loadTerminal();
-    
+
     //initialize file tree on document load
     $('#filetreepanel').fancytree(treeOptions);
     $('#treeData.fancytree-container').addClass('nopadding');
