@@ -9,7 +9,7 @@ function fill_iframe(data) {
 //show a confirmation dialog box when close terminal is clicked
 $('#closeTerminal').bind('click', function(e) {
     e.preventDefault();
-    new $.Zebra_Dialog('This will close the current terminal. <br> Reload if you wish to restart the terminal. <br><br><strong>Continue ?</strong>', {
+    new $.Zebra_Dialog('This will close the current terminal. <br> Reload if you wish to restart. <br><br><strong>Continue ?</strong>', {
     'type':     'question',
     'title':    'Stop terminal',
     'buttons':  [
@@ -49,7 +49,7 @@ var delay = (function() {
 
 
 //always close terminal when window is removed
-// window.onbeforeunload = stopTerminal;
+window.onunload = stopTerminal;
 
 function reloadTerminal() {
     // reloads terminal
