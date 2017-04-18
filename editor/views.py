@@ -35,9 +35,9 @@ def stopWettyTerminal(request):
         try:
             term_pid.terminate()
             print 'closed wetty: ', term_port
-            term_pid = None
             return HttpResponse('')
         except Exception as e:
+            print 'except: ', e
             return HttpResponseServerError(content=b'%s' % e.message)
 
 
@@ -151,7 +151,11 @@ def index(request):
         Also set up a new terminal port for use
     """
     global term_port
-    term_port = wetty.getUsablePort()
+    if term_port is None:
+        # we have no instance already running
+        term_port = wetty.getUsablePort()
+    else:
+        print 'using prev port: ', term_port
     print 'usable port: ', term_port
     return render(request, 'editor/editorHome.html',
                   context={'user': 'new1'})
