@@ -48,7 +48,7 @@ var delay = (function() {
 })();
 
 
-//always close terminal when window is removed
+//always close terminal when window is removed no matter what
 window.onunload = stopTerminal;
 
 function reloadTerminal() {
@@ -65,7 +65,10 @@ function stopTerminal() {
         data: {},
         success: function(data) {
             //this gets called when server returns an OK response
-            //now remove menu item from tree
+            //display a background image in iframe
+            $('#terminal-iframe').attr({
+                src: ''
+            });
         },
         error: function(data) {}
     });
