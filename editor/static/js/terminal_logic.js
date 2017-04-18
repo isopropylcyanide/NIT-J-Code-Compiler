@@ -6,6 +6,38 @@ function fill_iframe(data) {
     });
 }
 
+//show a confirmation dialog box when close terminal is clicked
+$('#closeTerminal').bind('click', function(e) {
+    e.preventDefault();
+    new $.Zebra_Dialog('This will close the current terminal. <br> Reload if you wish to restart the terminal. <br><br><strong>Continue ?</strong>', {
+    'type':     'question',
+    'title':    'Stop terminal',
+    'buttons':  [
+                    {caption: 'Yes', callback: function() {
+                        stopTerminal();
+                    }},
+                    {caption: 'No', callback: function() {
+                    }},
+                ]
+});
+});
+
+//reload wetty instance on close
+$('#reloadTerminal').bind('click', function(e) {
+    e.preventDefault();
+    new $.Zebra_Dialog('This will close the reload the terminal. <br> Any environment terminal changes would be lost. <br><br><strong>Continue ?</strong>', {
+    'type':     'question',
+    'title':    'Reload terminal',
+    'buttons':  [
+                    {caption: 'Yes', callback: function() {
+                        reloadTerminal();
+                    }},
+                    {caption: 'No', callback: function() {
+                    }},
+                ]
+});
+});
+
 var delay = (function() {
     //allows a delay of ms seconds
     var timer = 0;
@@ -17,7 +49,7 @@ var delay = (function() {
 
 
 //always close terminal when window is removed
-window.onbeforeunload = stopTerminal;
+// window.onbeforeunload = stopTerminal;
 
 function reloadTerminal() {
     // reloads terminal

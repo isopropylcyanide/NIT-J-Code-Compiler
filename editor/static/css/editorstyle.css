@@ -14,6 +14,11 @@
     margin-right: 15px;
 }
 
+#terminal-iframe{
+    background-color: #3c3030;
+    background:url(rolling.gif) center center no-repeat;
+}
+
 .panel-heading span {
 	margin-top: -20px;
 	font-size: 15px;
@@ -32,6 +37,15 @@
 
 #terminal-panel{
     height: 100%;
+}
+
+.panel.noborder {
+    border: none;
+    box-shadow: none;
+}
+.panel.noborder > .panel-heading {
+    border: 1px solid #dddddd;
+    border-radius: 0;
 }
 
 .nopadding {

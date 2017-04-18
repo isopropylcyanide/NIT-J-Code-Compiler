@@ -440,16 +440,6 @@ $(document).ready(function() {
     });
 
 
-    //stop terminal on clicking close
-    $('#closeTerminal').click(function(event) {
-        stopTerminal();
-    });
-
-    //stop terminal on clicking close
-    $('#reloadTerminal').click(function(event) {
-        reloadTerminal();
-    });
-
 });
 
 $(document).on('click', '#minimizeTerminal', function(e){
