@@ -41,4 +41,5 @@ def path_to_dict(path):
     return d
 
 
+# By default return the directory listing of the current directory
 print '[%s]' % (json.dumps(path_to_dict('.'), indent=2))

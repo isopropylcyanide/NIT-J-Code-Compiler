@@ -1,33 +1,90 @@
+@import url(https://fonts.googleapis.com/css?family=Oswald:400,300);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Open Sans', Arial, Helvetica, Sans-serif, Verdana, Tahoma;
+    font-size:14px;
+}
+
+.navbar{
+    margin-bottom: 10px;
+}
+
+
+.dropdown-toggle {
+    font-size: 15px !important;
+}
+
+.dropdown {
+    -webkit-transition: all 0.4s ease;
+    -o-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+}
+
+.dropdown-menu>li>a {
+    color: #428bca;
+    -webkit-transition: all 0.4s ease;
+    -o-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+}
+
+.dropdown ul.dropdown-menu {
+    border-radius: 4px;
+    box-shadow: none;
+}
+
+.dropdown ul.dropdown-menu:before {
+    content: "";
+    border-bottom: 10px solid #fff;
+    border-right: 10px solid transparent;
+    border-left: 10px solid transparent;
+    position: absolute;
+    top: -8px;
+    right: 8px;
+    z-index: 10;
+}
+
+
 #editor-workspace {
     height: 580px;
+
 }
 
-#minimizeTerminal{
+#minimizeTerminal {
     margin-right: 15px;
 }
 
-#reloadTerminal{
+#reloadTerminal {
     margin-right: 15px;
 }
 
-#terminal-fullscreen{
+#terminal-fullscreen {
     margin-right: 15px;
 }
 
-#terminal-iframe{
+#terminal-iframe {
     background-color: #3c3030;
-    background:url(rolling.gif) center center no-repeat;
+    background: url(rolling.gif) center center no-repeat;
 }
 
 .panel-heading span {
-	margin-top: -20px;
-	font-size: 15px;
+    margin-top: -20px;
+    font-size: 15px;
 }
 
-#statusBar{
+#statusBar {
     margin-top: -15px;
 }
-#terminal-workspace{
+
+#terminal-workspace {
     margin-top: 20px;
     padding-left: 0px;
     padding-right: 0px;
@@ -35,7 +92,7 @@
     margin-right: 0;
 }
 
-#terminal-panel{
+#terminal-panel {
     height: 100%;
 }
 
@@ -43,7 +100,8 @@
     border: none;
     box-shadow: none;
 }
-.panel.noborder > .panel-heading {
+
+.panel.noborder>.panel-heading {
     border: 1px solid #dddddd;
     border-radius: 0;
 }
@@ -136,10 +194,10 @@ div.text-editor-panel {
     overflow-y: auto;
 }
 
-
 #filetree-panel {
     height: 100%;
     overflow: auto;
+
 }
 
 #filetreepanel .fancytree-container {
