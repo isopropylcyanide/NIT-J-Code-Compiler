@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from . import views
 
+
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^home$', views.home, name='home'),
@@ -13,4 +14,6 @@ urlpatterns = [
     url(r'^makeRemoteDirectory$', views.makeRemoteDirectory, name='mkremdir'),
     url(r'^createWettyTerm$', views.createWettyTerminal, name='wettyCreate'),
     url(r'^stopWettyTerm$', views.stopWettyTerminal, name='wettyCreate'),
+    url(r'^filemanager$', views.fileManagerIframe, name='fileManager')
+
 ]

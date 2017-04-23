@@ -146,6 +146,12 @@ def saveFile(request):
             userDir.close()
 
 
+def fileManagerIframe(request):
+    """for loading filemanager """
+    print 'here'
+    return render(request, "editor/fileManager.html")
+
+
 def index(request):
     """App invocation point: Return the editor page
         Also set up a new terminal port for use

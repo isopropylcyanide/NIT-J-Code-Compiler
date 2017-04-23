@@ -28,10 +28,15 @@ function setupUserProfile(){
 	var accordion = new Accordion($('#accordion'), false);
 }
 
+function load_filemanager() {
+     document.getElementById("filemanager").innerHTML='<object type="text/html" data="filemanager" ></object>';
+}
 
 $(function() {
 
     //load user profile pane
     setupUserProfile();
 
+    //load file manager
+    load_filemanager();
 });

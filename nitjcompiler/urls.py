@@ -16,9 +16,12 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
+
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     # Don't allow user to enter editor without logging in
     url(r'^editor/', include('editor.urls', namespace='editor')),
-    url(r'^', include('login.urls'))
+    url(r'^', include('login.urls')),
+
+
 ]
