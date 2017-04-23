@@ -9,8 +9,8 @@
         <link rel='stylesheet' href="{% static 'css/bootstrap.min.css' %}" type='text/css'/>
         <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet" type="text/css"/>
         <link href="{% static 'css/sideprofile.css' %}" rel="stylesheet">
-        <link href="{% static 'css/editorWork.css' %}" rel="stylesheet">
         <link href="{% static 'css/fileManager.css' %}" rel="stylesheet">
+        <link href="{% static 'css/editorWork.css' %}" rel="stylesheet">
         <!-- custom alert box css -->
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -169,7 +169,75 @@
         <!-- userprofile menu ends -->
 
         <!-- file manager starts -->
-        <div id="filemanager" class="container nopadding col-lg-10">
+        <div class="filemanager">
+
+            <div class="search">
+                <input placeholder="Find a file.." type="search">
+            </div>
+
+            <div class="breadcrumbs">
+                <span class="folderName">home</span>
+            </div>
+
+            <ul class="data animated" style="">
+                <li class="folders">
+                    <a href="home/frontend" title="home/frontend" class="folders">
+                        <span class="icon folder full"></span>
+                        <span class="name">frontend</span>
+                        <span class="details">2 items</span>
+                    </a>
+                </li>
+                <li class="files">
+                    <a href="home/LICENSE" title="home/LICENSE" class="files">
+                        <span class="icon file f-"></span>
+                        <span class="name">LICENSES</span>
+                        <span class="details">1 KB</span>
+                    </a>
+                </li>
+                <li class="files">
+                    <a href="home/Readme.md" title="home/Readme.md" class="files">
+                        <span class="icon file f-md">md</span>
+                        <span class="name">Readme.md</span>
+                        <span class="details">1 KB</span>
+                    </a>
+                </li>
+                <li class="files">
+                    <a href="home/cute-files.js" title="home/cute-files.js" class="files">
+                        <span class="icon file f-js">js</span>
+                        <span class="name">cute-files.js</span>
+                        <span class="details">1 KB</span>
+                    </a>
+                </li>
+                <li class="files">
+                    <a href="home/out" title="home/out" class="files">
+                        <span class="icon file f-"></span>
+                        <span class="name">out</span>
+                        <span class="details">19 KB</span>
+                    </a>
+                </li>
+                <li class="files">
+                    <a href="home/package.json" title="home/package.json" class="files">
+                        <span class="icon file f-json">json</span>
+                        <span class="name">package.json</span>
+                        <span class="details">3 KB</span>
+                    </a>
+                </li>
+                <li class="files">
+                    <a href="home/scan.js" title="home/scan.js" class="files">
+                        <span class="icon file f-js">js</span>
+                        <span class="name">scan.js</span>
+                        <span class="details">1 KB</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="nothingfound" style="display: none;">
+                <div class="nofiles"></div>
+                <span>No files here.</span>
+            </div>
+
+        </div>
+        <!-- <div id="filemanager" class="container nopadding col-lg-10">
             <div class="filemanager">
 
                 <div class="search">
@@ -187,7 +255,7 @@
 
             </div>
 
-        </div>
+        </div> -->
         <!-- filemanager ends -->
 
     </div>

@@ -101,7 +101,7 @@ $(document).ready(function() {
     // $.get('scan', function(data) {
         data = myList;
         var response = [data];
-        alert(JSON.stringify(response));
+        // alert(JSON.stringify(response));
         var  currentPath = '',
             breadcrumbsUrls = [];
         var folders = [],
@@ -339,7 +339,8 @@ $(document).ready(function() {
         // Render the HTML for the file manager
 
         function render(data) {
-
+            // alert('render: '+JSON.stringify(data));
+            return;
             var scannedFolders = [],
                 scannedFiles = [];
 
@@ -437,7 +438,7 @@ $(document).ready(function() {
                     var name = u.split('/');
 
                     if (i !== breadcrumbsUrls.length - 1) {
-                        url += '<a href="' + u + '"><span class="folderName">' + name[name.length - 1] + '</span></a> <span class="arrow">Ã¢â€ â€™</span> ';
+                        url += '<a href="' + u + '"><span class="folderName">' + name[name.length - 1] + '</span></a> <span class="arrow">→</span> ';
                     } else {
                         url += '<span class="folderName">' + name[name.length - 1] + '</span>';
                     }

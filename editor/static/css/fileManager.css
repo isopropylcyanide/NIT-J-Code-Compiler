@@ -5,21 +5,10 @@
 	Simple reset
 --------------------------*/
 
-*{
-	margin:0;
-	padding:0;
-}
-
-
 /*-------------------------
 	Demo page
 -------------------------*/
 
-body {
-	background-color: #23232e;
-	font: 14px normal Arial, Helvetica, sans-serif;
-	z-index: -4;
-}
 
 
 /*-------------------------
@@ -28,10 +17,11 @@ body {
 
 
 .filemanager {
-	width: 95%;
+	width: 100%;
 	max-width:1340px;
 	position: relative;
 	margin: 20px auto 50px;
+	margin-left: 50px;
 }
 
 @media all and (max-width: 965px) {
@@ -43,13 +33,13 @@ body {
 
 
 /*-------------------------
-	Breadcrumps
+	Breadcrumbs
 -------------------------*/
 
 
 .filemanager .breadcrumbs {
 	color: #ffffff;
-	margin-left:20px;
+	margin-left:200px;
 	font-size: 24px;
 	font-weight: 700;
 	line-height: 35px;
