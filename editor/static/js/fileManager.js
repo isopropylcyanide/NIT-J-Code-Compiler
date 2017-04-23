@@ -4,7 +4,7 @@ var myList = {
    path:'home',
    items:[
       {
-         name:'LICENSE',
+         name:'LICENSES',
          type:'file',
          path:'home/LICENSE',
          size:1082
@@ -22,7 +22,7 @@ var myList = {
          size:1355
       },
       {
-         name:'frontend',
+         name:'frontendhood',
          type:'folder',
          path:'home/frontend',
          items:[
@@ -89,6 +89,7 @@ var myList = {
 };
 
 
+
 $(document).ready(function() {
 
     var filemanager = $('.filemanager'),
@@ -100,6 +101,7 @@ $(document).ready(function() {
     // $.get('scan', function(data) {
         data = myList;
         var response = [data];
+        alert(JSON.stringify(response));
         var  currentPath = '',
             breadcrumbsUrls = [];
         var folders = [],

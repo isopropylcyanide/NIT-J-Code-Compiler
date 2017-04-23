@@ -10,6 +10,7 @@
         <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet" type="text/css"/>
         <link href="{% static 'css/sideprofile.css' %}" rel="stylesheet">
         <link href="{% static 'css/editorWork.css' %}" rel="stylesheet">
+        <link href="{% static 'css/fileManager.css' %}" rel="stylesheet">
         <!-- custom alert box css -->
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -169,9 +170,22 @@
 
         <!-- file manager starts -->
         <div id="filemanager" class="container nopadding col-lg-10">
-            <iframe id="filemanager-iframe" src="filemanager">
-                Your browser doesn't support iframes. Please switch to a compatible browser.
-            </iframe>
+            <div class="filemanager">
+
+                <div class="search">
+                    <input type="search" placeholder="Find a file.."/>
+                </div>
+
+                <div class="breadcrumbs"></div>
+
+                <ul class="data"></ul>
+
+                <div class="nothingfound">
+                    <div class="nofiles"></div>
+                    <span>No files here.</span>
+                </div>
+
+            </div>
 
         </div>
         <!-- filemanager ends -->
@@ -183,6 +197,7 @@
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <!-- bootstrap js -->
     <script src="{% static 'js/home.js' %}"></script>
+    <script src="{% static 'js/fileManager.js' %}"></script>
     <!-- main workspace js -->
 </body>
 </html>
