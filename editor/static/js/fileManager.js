@@ -1,217 +1,95 @@
 var myList = {
-   "name":"home",
-   "type":"folder",
-   "path":"home",
-   "items":[
+   name:'home',
+   type:'folder',
+   path:'home',
+   items:[
       {
-         "name":"LICENSE",
-         "type":"file",
-         "path":"home/LICENSE",
-         "size":1082
+         name:'LICENSE',
+         type:'file',
+         path:'home/LICENSE',
+         size:1082
       },
       {
-         "name":"Readme.md",
-         "type":"file",
-         "path":"home/Readme.md",
-         "size":1331
+         name:'Readme.md',
+         type:'file',
+         path:'home/Readme.md',
+         size:1331
       },
       {
-         "name":"cute-files.js",
-         "type":"file",
-         "path":"home/cute-files.js",
-         "size":1355
+         name:'cute-files.js',
+         type:'file',
+         path:'home/cute-files.js',
+         size:1355
       },
       {
-         "name":"files_my",
-         "type":"folder",
-         "path":"home/files_my",
-         "items":[
+         name:'frontend',
+         type:'folder',
+         path:'home/frontend',
+         items:[
             {
-               "name":"dd.py",
-               "type":"file",
-               "path":"home/files_my/dd.py",
-               "size":32
-            },
-            {
-               "name":"f2",
-               "type":"folder",
-               "path":"home/files_my/f2",
-               "items":[
+               name:'assets',
+               type:'folder',
+               path:'home/frontend/assets',
+               items:[
                   {
-                     "name":"f22",
-                     "type":"folder",
-                     "path":"home/files_my/f2/f22",
-                     "items":[
+                     name:'css',
+                     type:'folder',
+                     path:'home/frontend/assets/css',
+                     items:[
                         {
-                           "name":"test.py",
-                           "type":"file",
-                           "path":"home/files_my/f2/f22/test.py",
-                           "size":7013
+                           name:'styles.css',
+                           type:'file',
+                           path:'home/frontend/assets/css/styles.css',
+                           size:8353
+                        }
+                     ]
+                  },
+                  {
+                     name:'js',
+                     type:'folder',
+                     path:'home/frontend/assets/js',
+                     items:[
+                        {
+                           name:'script.js',
+                           type:'file',
+                           path:'home/frontend/assets/js/script.js',
+                           size:17285
                         }
                      ]
                   }
                ]
             },
             {
-               "name":"place your files here",
-               "type":"file",
-               "path":"home/files_my/place your files here",
-               "size":0
-            },
-            {
-               "name":"pp.cpp",
-               "type":"file",
-               "path":"home/files_my/pp.cpp",
-               "size":26
-            },
-            {
-               "name":"sss.c",
-               "type":"file",
-               "path":"home/files_my/sss.c",
-               "size":71
-            },
-            {
-               "name":"t.py",
-               "type":"file",
-               "path":"home/files_my/t.py",
-               "size":81
-            },
-            {
-               "name":"test",
-               "type":"folder",
-               "path":"home/files_my/test",
-               "items":[
-                  {
-                     "name":"f2",
-                     "type":"folder",
-                     "path":"home/files_my/test/f2",
-                     "items":[
-                        {
-                           "name":"fromterm_with_love",
-                           "type":"file",
-                           "path":"home/files_my/test/f2/fromterm_with_love",
-                           "size":53
-                        }
-                     ]
-                  },
-                  {
-                     "name":"hi",
-                     "type":"folder",
-                     "path":"home/files_my/test/hi",
-                     "items":[
-                        {
-                           "name":"hi2",
-                           "type":"folder",
-                           "path":"home/files_my/test/hi/hi2",
-                           "items":[
-                              {
-                                 "name":"test.cpp",
-                                 "type":"file",
-                                 "path":"home/files_my/test/hi/hi2/test.cpp",
-                                 "size":0
-                              },
-                              {
-                                 "name":"treeOps.cpp",
-                                 "type":"file",
-                                 "path":"home/files_my/test/hi/hi2/treeOps.cpp",
-                                 "size":17158
-                              }
-                           ]
-                        }
-                     ]
-                  },
-                  {
-                     "name":"jk",
-                     "type":"folder",
-                     "path":"home/files_my/test/jk",
-                     "items":[
-
-                     ]
-                  },
-                  {
-                     "name":"pp.c",
-                     "type":"file",
-                     "path":"home/files_my/test/pp.c",
-                     "size":8
-                  }
-               ]
-            },
-            {
-               "name":"wish_a",
-               "type":"file",
-               "path":"home/files_my/wish_a",
-               "size":122
+               name:'index.html',
+               type:'file',
+               path:'home/frontend/index.html',
+               size:767
             }
          ]
       },
       {
-         "name":"frontend",
-         "type":"folder",
-         "path":"home/frontend",
-         "items":[
-            {
-               "name":"assets",
-               "type":"folder",
-               "path":"home/frontend/assets",
-               "items":[
-                  {
-                     "name":"css",
-                     "type":"folder",
-                     "path":"home/frontend/assets/css",
-                     "items":[
-                        {
-                           "name":"styles.css",
-                           "type":"file",
-                           "path":"home/frontend/assets/css/styles.css",
-                           "size":8354
-                        }
-                     ]
-                  },
-                  {
-                     "name":"js",
-                     "type":"folder",
-                     "path":"home/frontend/assets/js",
-                     "items":[
-                        {
-                           "name":"script.js",
-                           "type":"file",
-                           "path":"home/frontend/assets/js/script.js",
-                           "size":11034
-                        }
-                     ]
-                  }
-               ]
-            },
-            {
-               "name":"index.html",
-               "type":"file",
-               "path":"home/frontend/index.html",
-               "size":767
-            }
-         ]
+         name:'out',
+         type:'file',
+         path:'home/out',
+         size:19643
       },
       {
-         "name":"out",
-         "type":"file",
-         "path":"home/out",
-         "size":19643
+         name:'package.json',
+         type:'file',
+         path:'home/package.json',
+         size:2763
       },
       {
-         "name":"package.json",
-         "type":"file",
-         "path":"home/package.json",
-         "size":2763
-      },
-      {
-         "name":"scan.js",
-         "type":"file",
-         "path":"home/scan.js",
-         "size":1079
+         name:'scan.js',
+         type:'file',
+         path:'home/scan.js',
+         size:1081
       }
    ]
 };
 
-$(function() {
+
+$(document).ready(function() {
 
     var filemanager = $('.filemanager'),
         breadcrumbs = $('.breadcrumbs'),
@@ -222,7 +100,6 @@ $(function() {
     // $.get('scan', function(data) {
         data = myList;
         var response = [data];
-        // alert(JSON.stringify(response));
         var  currentPath = '',
             breadcrumbsUrls = [];
         var folders = [],
@@ -558,7 +435,7 @@ $(function() {
                     var name = u.split('/');
 
                     if (i !== breadcrumbsUrls.length - 1) {
-                        url += '<a href="' + u + '"><span class="folderName">' + name[name.length - 1] + '</span></a> <span class="arrow">â†’</span> ';
+                        url += '<a href="' + u + '"><span class="folderName">' + name[name.length - 1] + '</span></a> <span class="arrow">Ã¢â€ â€™</span> ';
                     } else {
                         url += '<span class="folderName">' + name[name.length - 1] + '</span>';
                     }

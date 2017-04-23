@@ -240,7 +240,7 @@ body {
 	line-height: 11.4em;
 }
 .filemanager .nothingfound .nofiles:after {
-	content: '×';
+	content: 'Ã—';
 	position: absolute;
 	color: #ffffff;
 	font-size: 14em;
@@ -341,9 +341,7 @@ body {
 	position: relative;
 	overflow: hidden;
 	box-shadow: 1.74em -2.1em 0 0 #A4A7AC inset;
-	text-overflow: ellipsis;
 }
-
 .icon.file:first-line {
 	font-size: 13px;
 	font-weight: 700;
