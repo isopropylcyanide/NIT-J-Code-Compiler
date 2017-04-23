@@ -148,7 +148,6 @@ def saveFile(request):
 
 def fileManagerIframe(request):
     """for loading filemanager """
-    print 'here'
     return render(request, "editor/fileManager.html")
 
 

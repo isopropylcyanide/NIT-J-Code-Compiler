@@ -38,5 +38,5 @@ $(function() {
     setupUserProfile();
 
     //load file manager
-    load_filemanager();
+    // load_filemanager();
 });

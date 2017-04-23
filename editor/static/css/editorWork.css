@@ -8,7 +8,6 @@
     box-sizing: border-box;
 }
 
-
 #filemanager {
     height: 600px;
     overflow: hidden;
@@ -19,9 +18,12 @@ object {
     height: 100%;
 }
 
+#filemanager-iframe {
+    width: 100%;
+    height: 100%;
+}
 
-
-a.i{
+a.i {
     float: right;
 }
 
@@ -31,7 +33,7 @@ body {
     z-index: -4;
 }
 
-.navbar{
+.navbar {
     margin-bottom: 10px;
 }
 
