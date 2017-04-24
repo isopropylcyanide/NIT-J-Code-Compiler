@@ -10,18 +10,11 @@
 -------------------------*/
 
 
-
-/*-------------------------
-	File manager
--------------------------*/
-
-
 .filemanager {
-	width: 100%;
+	width: 95%;
 	max-width:1340px;
 	position: relative;
-	margin: 20px auto 50px;
-	margin-left: 50px;
+	margin: 10px auto 50px;
 }
 
 @media all and (max-width: 965px) {
@@ -33,13 +26,13 @@
 
 
 /*-------------------------
-	Breadcrumbs
+	Breadcrumps
 -------------------------*/
 
 
 .filemanager .breadcrumbs {
 	color: #ffffff;
-	margin-left:200px;
+	margin-left:20px;
 	font-size: 24px;
 	font-weight: 700;
 	line-height: 35px;
@@ -230,7 +223,7 @@
 	line-height: 11.4em;
 }
 .filemanager .nothingfound .nofiles:after {
-	content: 'Ã—';
+	content: '×';
 	position: absolute;
 	color: #ffffff;
 	font-size: 14em;
@@ -460,4 +453,84 @@
 .icon.file.f-saas:after,
 .icon.file.f-scss:after {
 	border-bottom-color: #30837c;
+}
+
+
+/*----------------------------
+	The Demo Footer
+-----------------------------*/
+
+
+footer {
+
+	width: 770px;
+	font: normal 16px Arial, Helvetica, sans-serif;
+	padding: 15px 35px;
+	position: fixed;
+	bottom: 0;
+	left: 50%;
+	margin-left: -420px;
+
+	background-color:#1f1f1f;
+	background-image:linear-gradient(to bottom, #1f1f1f, #101010);
+
+	border-radius:2px 2px 0 0;
+	box-shadow: 0 -1px 4px rgba(0,0,0,0.4);
+	z-index:1;
+}
+
+footer a.tz{
+	font-weight:normal;
+	font-size:16px !important;
+	text-decoration:none !important;
+	display:block;
+	margin-right: 300px;
+	text-overflow:ellipsis;
+	white-space: nowrap;
+	color:#bfbfbf !important;
+	z-index:1;
+}
+
+footer a.tz:before{
+	content: '';
+	background: url('http://cdn.tutorialzine.com/misc/enhance/v2_footer_bg.png') no-repeat 0 -53px;
+	width: 138px;
+	height: 20px;
+	display: inline-block;
+	position: relative;
+	bottom: -3px;
+}
+
+footer .close{
+	position: absolute;
+	cursor: pointer;
+	width: 8px;
+	height: 8px;
+	background: url('http://cdn.tutorialzine.com/misc/enhance/v2_footer_bg.png') no-repeat 0 0px;
+	top:10px;
+	right:10px;
+	z-index: 3;
+}
+
+footer #tzine-actions{
+	position: absolute;
+	top: 8px;
+	width: 500px;
+	right: 50%;
+	margin-right: -650px;
+	text-align: right;
+	z-index: 2;
+}
+
+footer #tzine-actions iframe{
+	display: inline-block;
+	height: 21px;
+	width: 95px;
+	position: relative;
+	float: left;
+	margin-top: 11px;
+}
+
+@media (max-width: 1024px) {
+	#bsaHolder, footer{ display:none;}
 }
