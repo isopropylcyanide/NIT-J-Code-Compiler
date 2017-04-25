@@ -15,6 +15,21 @@ term_port = None
 
 
 @csrf_exempt
+def getJSONListing(request):
+    """Return the contents of the remote file at the server"""
+    if request.is_ajax():
+        try:
+            userDir = filexp.FileExplorer(def_username, def_pass, def_host)
+            outputResponse = userDir.executeJSONList(def_username)
+            return HttpResponse(outputResponse)
+        except Exception as e:
+            print 'error:', e
+            return HttpResponseServerError(content=b'%s' % e.message)
+        finally:
+            userDir.close()
+
+
+@csrf_exempt
 def createWettyTerminal(request):
     """Return the contents of the remote file at the server"""
     global term_pid, term_port

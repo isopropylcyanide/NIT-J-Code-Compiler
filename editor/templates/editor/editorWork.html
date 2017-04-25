@@ -11,6 +11,7 @@
         <link href="{% static 'css/sideprofile.css' %}" rel="stylesheet">
         <link href="{% static 'css/fileManager.css' %}" rel="stylesheet">
         <link href="{% static 'css/editorWork.css' %}" rel="stylesheet">
+        <link href="{% static 'css/zebra-alert/zebra_dialog.css' %}" rel="stylesheet" type="text/css"/>
         <!-- custom alert box css -->
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -167,42 +168,6 @@
             </ul>
         </div>
         <!-- userprofile menu ends -->
-        <!--
-        <div class="filemanager">
-
-    <div class="search">
-        <input placeholder="Find a file.." type="search">
-    </div>
-
-    <div class="breadcrumbs">
-        <span class="folderName">home</span>
-    </div>
-
-    <ul class="data animated" style="">
-        <li class="folders">
-            <a href="home/frontend" title="home/frontend" class="folders">
-                <span class="icon folder full"></span>
-                <span class="name">frontend</span>
-                <span class="details">2 items</span>
-            </a>
-
-        </li>
-        <li class="files">
-            <a href="home/LICENSE" title="home/LICENSE" class="files">
-                <span class="icon file f-"></span>
-                <span class="name">LICENSES</span>
-                <span class="details">1 KB</span>
-            </a>
-        </li>
-    </ul>
-
-    <div class="nothingfound" style="display: none;">
-        <div class="nofiles"></div>
-        <span>No files here.</span>
-    </div>
-
-</div>
-        -->
 
         <!-- file manager starts -->
         <div id="filemanager" class="container nopadding col-lg-10">
@@ -232,6 +197,8 @@
     <script src="{% static 'js/jquery-3.1.1.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <!-- bootstrap js -->
+    <script src="{% static 'js/zebra_dialog.js' %}"></script>
+    <!-- custom alert box -->
     <script src="{% static 'js/home.js' %}"></script>
     <script src="{% static 'js/fileManager.js' %}"></script>
     <!-- main workspace js -->

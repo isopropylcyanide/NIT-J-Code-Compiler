@@ -67,6 +67,28 @@ class FileExplorer:
             output += line
         return output
 
+    def executeJSONList(self, username):
+        """Recursively list all files and return their JSON
+            for use in the file explorer window in home
+        """
+        # The jsonPyFile will be executed and the result captured
+        jsonPyFile = '.dirExplorer.py'
+        # self.sftp_server.upload('editor/scripts/%s' %
+        #                         (moveFile), "./.%s" % (moveFile))
+        stdin, stdout, stderr = self.ssh_server.exec_command(
+            'python ' + '/%s %s' % (jsonPyFile, username), bufsize=-1)
+
+        # if stderr is empty, then success
+        error, output = '', ''
+        for line in stderr.readlines():
+            error += line
+        if error != '':
+            raise Exception(error)
+        for line in stdout.readlines():
+            output += line
+        # print 'output: ', output
+        return output
+
     def viewRemoteFile(self, remote_path):
         """View file contents of the remote_path at the server"""
         cmd = "cat \"%s\"" % (remote_path)
