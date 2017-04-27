@@ -1,45 +1,4 @@
-
-
 var myList = {};
-
-
-
-function receiveJSON(){
-    //send an ajax request that retrieves json of the current directory
-    //file will be executed under /home/username
-        return $.ajax({
-            method: 'POST',
-            url: "getJSONListing",
-            data: {
-            },
-            success: function(data) {
-                //this gets called when server returns an OK response
-                //now remove menu item from tree
-                new $.Zebra_Dialog('Connected successfully', {
-                    'buttons': false,
-                    'modal': false,
-                    'position': ['right - 20', 'top + 20'],
-                    'auto_close': 1500,
-                    'type': 'confirmation',
-                    'title': 'Workspace'
-                });
-                //display the file manager now
-                myList = data;
-                alert(data);
-                showFileManager();
-            },
-            error: function(data) {
-                new $.Zebra_Dialog("Error occured while connecting to workspace", {
-                    'buttons': false,
-                    'modal': false,
-                    'position': ['right - 20', 'top + 20'],
-                    'auto_close': 1500,
-                    'type': 'error',
-                    'title': 'Workspace Error'
-                });
-            }
-        });
-}
 
 function showFileManager(){
 
@@ -47,10 +6,8 @@ function showFileManager(){
             breadcrumbs = $('.breadcrumbs'),
             fileList = filemanager.find('.data');
 
-        // Start by fetching the file data from scan route with an AJAX request
-
-        // $.get('scan', function(data) {
-        var data = myList;
+        //parse data from the ajax to JSON
+        var data = JSON.parse(myList);
         var response = [data];
         // alert(JSON.stringify(response));
         var currentPath = '',
@@ -59,7 +16,6 @@ function showFileManager(){
             files = [];
         // This event listener monitors changes on the URL. We use it to
         // capture back/forward navigation in the browser.
-
         $(window).on('hashchange', function() {
             goto(window.location.hash);
             // We are triggering the event. This will execute
@@ -202,7 +158,6 @@ function showFileManager(){
                     }
                 }
             }
-
             demo = flag ? demo : [];
             return demo;
         }
@@ -344,6 +299,46 @@ function showFileManager(){
             var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
             return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
         }
+}
+
+
+
+
+
+function receiveJSON(){
+    //send an ajax request that retrieves json of the current directory
+    //file will be executed under /home/username
+        return $.ajax({
+            method: 'POST',
+            url: "getJSONListing",
+            data: {
+            },
+            success: function(data) {
+                //this gets called when server returns an OK response
+                //now remove menu item from tree
+                new $.Zebra_Dialog('Connected successfully', {
+                    'buttons': false,
+                    'modal': false,
+                    'position': ['right - 20', 'top + 20'],
+                    'auto_close': 1500,
+                    'type': 'confirmation',
+                    'title': 'Workspace'
+                });
+                //display the file manager now
+                myList = data;
+                showFileManager();
+            },
+            error: function(data) {
+                new $.Zebra_Dialog("Error occured while connecting to workspace", {
+                    'buttons': false,
+                    'modal': false,
+                    'position': ['right - 20', 'top + 20'],
+                    'auto_close': 1500,
+                    'type': 'error',
+                    'title': 'Workspace Error'
+                });
+            }
+        });
 }
 
 

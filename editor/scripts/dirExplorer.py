@@ -49,9 +49,6 @@ def path_to_dict(path):
     return d
 
 
-# By default return the directory listing of the current directory
-# print '%s' % (json.dumps(path_to_dict('.'), indent=2))
-
 if __name__ == '__main__':
     """Receives the user id of the directory where this script is to be run
         Param : user id
@@ -59,7 +56,7 @@ if __name__ == '__main__':
     if len(sys.argv) != 2:
         exit()
     else:
-        print sys.argv
-        print 'we have: /home/%s' % (sys.argv[1])
+        # print 'we have: /home/%s' % (sys.argv[1])
+        os.chdir('%s' % (sys.argv[1]))
         print '%s' % (json.dumps(path_to_dict
-                                 ('/home/%s' % (sys.argv[1])), indent=2))
+                                 ('.'), indent=2))

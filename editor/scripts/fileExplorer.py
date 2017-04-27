@@ -76,7 +76,7 @@ class FileExplorer:
         # self.sftp_server.upload('editor/scripts/%s' %
         #                         (moveFile), "./.%s" % (moveFile))
         stdin, stdout, stderr = self.ssh_server.exec_command(
-            'python ' + '/%s %s' % (jsonPyFile, username), bufsize=-1)
+            'python ' + '/%s /home/%s' % (jsonPyFile, username), bufsize=-1)
 
         # if stderr is empty, then success
         error, output = '', ''
