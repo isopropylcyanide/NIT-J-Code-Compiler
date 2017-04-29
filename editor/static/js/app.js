@@ -378,6 +378,10 @@ $(document).ready(function() {
         var sourceLang = document.getElementById("languageSelect").value;
         var sourceInp = document.getElementById("stdinText").value;
         var sourceName = document.getElementById("fname").value;
+        var currentNode = $('#filetreepanel').fancytree("getActiveNode");
+        //we will create the output file here in this path
+        var parentPath = getRemotePath(currentNode.parent);
+        var curPath = getRemotePath(currentNode);
         if (sourceName === "") {
             //user didn't specify a file name. Default to main
             sourceName = "main";
@@ -389,7 +393,9 @@ $(document).ready(function() {
                 'sourceCode': sourceCode,
                 'sourceLang': sourceLang,
                 'sourceInp': sourceInp,
-                'sourceName': sourceName
+                'sourceName': sourceName,
+                'parentDir':parentPath,
+                'curPath':curPath,
             },
             success: function(data) {
                 //this gets called when server returns an OK response

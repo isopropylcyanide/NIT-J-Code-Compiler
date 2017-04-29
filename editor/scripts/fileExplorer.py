@@ -173,3 +173,34 @@ class FileExplorer:
         if error != '':
             print error
             raise Exception(error)
+
+    def execute_CompileCode(self, code, lang, uid, inp, name, parDir, curDir):
+        """Recursively list all files and return their JSON
+            for use in the file explorer window in home
+        """
+        if lang != "":
+            name = '%s.%s' % (name, lang)
+        try:
+            # Save current file to remote
+            self.saveFileToRemote(parDir, name, code)
+            # Now begin compiling and running the code
+            # The jsonPyFile will be executed and the result captured
+            executePyFile = '.codeExecuter.py'
+            cmd = "python  /%s  \"%s\"  \"%s\" \"%s\"\
+            \"%s\" \"%s\"" % (
+                executePyFile, curDir, lang, uid, inp, name)
+            stdin, stdout, stderr = self.ssh_server.exec_command(
+                cmd, timeout=5)
+
+            # if stderr is empty, then success
+            error, output = '', ''
+            for line in stderr.readlines():
+                error += line
+            if error != '':
+                raise Exception(error)
+            for line in stdout.readlines():
+                output += line
+            print 'retuning hang: ', output
+            return output
+        except Exception as e:
+            return e

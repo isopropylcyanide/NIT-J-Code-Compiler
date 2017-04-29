@@ -1,9 +1,6 @@
 import os
-import filecmp
 import re
 import sys
-
-
 """
 Script that monitors compilation and running of an output program.
 Return errors if any , with the appropriate error code
@@ -113,15 +110,6 @@ class program:
             raise IOError
             return 400
 
-    def match(self):
-        # Match output with a testcase, if any
-        print self.actualout, self.expectedout
-        if os.path.isfile(self.actualout) and os.path.isfile(self.expectedout):
-            b = filecmp.cmp(self.actualout, self.expectedout)
-            return b
-        else:
-            return 404
-
     def readOutput(self):
         # Read the actualOutput
         out = ""
@@ -132,9 +120,8 @@ class program:
 
 
 def main(file_name, inp_file, prog_name):
-    pwd = os.getcwd()
-    os.chdir('editor/scripts/')
-
+    """Proposed entry point for compilation init"""
+    print 'ggagagagaga'
     if inp_file is None:
         inp_file = ""
     print 'filename: ', file_name, ' and inp: ', inp_file
@@ -174,7 +161,6 @@ def main(file_name, inp_file, prog_name):
             if (os.path.isfile("stdin")):
                 os.remove("stdin")
 
-            os.chdir(pwd)
             return output
 
     except Exception, e:
@@ -198,12 +184,45 @@ def main(file_name, inp_file, prog_name):
         return output
 
 
+"""
+The following snippet receives the following parameters
+file: Source file which is to be executed
+Lang: Source Lang
+Name: Name of source program(main by default)
+User: The directory where code has to be compiled and run
+This file is located at / in chroot environment, it creates a file based on
+above params & calls the littleChecker module that serves and compiles the code
+"""
+
+destination_directory = ""
+
+
+def createFile(text, extension, userID, name="main"):
+    global destination_directory
+    # Creates a file in editor/tmp directory if not isSaved
+    destination_directory = "/home/%s" % (userID)
+    os.chdir(destination_directory)
+
+    if extension == "":
+        file_name = '%s' % (name)
+    else:
+        file_name = '%s.%s' % (name, extension)
+    with open(file_name, 'w') as f:
+        f.write(text)
+    return file_name
+
 if __name__ == '__main__':
-    # receive arguments name.extension stdin
-    inp_file = ""
-    if len(sys.argv) < 2:
-        print '\n Usage: python littleChecker.py name.ext stdin(maybe_empty)\n'
-        exit()
-    elif len(sys.argv) > 4:
-        inp_file = sys.argv[2].strip()
-    print main(sys.argv[1], inp_file, sys.argv[3])
+    codefile = sys.argv[1]
+    lang = sys.argv[2]
+    uid = sys.argv[3]
+    inp = sys.argv[4]
+    name = sys.argv[5]
+    # Begin creating the file and call littleChecker
+    try:
+        print 'hha'
+        output = main(codefile, inp, name)
+        print 'what I got: ', output
+    except Exception as e:
+        if os.path.isfile(created):
+            os.remove(created)
+        print e.message

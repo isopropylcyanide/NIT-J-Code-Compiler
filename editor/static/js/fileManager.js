@@ -326,7 +326,7 @@ function receiveJSON() {
                 'buttons': false,
                 'modal': false,
                 'position': ['right - 20', 'top + 20'],
-                'auto_close': 500,
+                'auto_close': 1000,
                 'type': 'confirmation',
                 'title': 'Workspace'
             });

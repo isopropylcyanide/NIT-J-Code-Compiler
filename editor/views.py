@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseServerError
 from django.views.decorators.csrf import csrf_exempt
-import scripts.littleChecker as checker
 import os
 import scripts.fileExplorer as filexp
 import scripts.terminal as wetty
@@ -16,7 +15,7 @@ term_port = None
 
 @csrf_exempt
 def getJSONListing(request):
-    """Return the contents of the remote file at the server"""
+    """Return the contents of the file directory at the user's account"""
     if request.is_ajax():
         try:
             userDir = filexp.FileExplorer(def_username, def_pass, def_host)
@@ -182,25 +181,8 @@ def home(request):
                   context={'user': 'new1'})
 
 
-def createFile(text, extension, name="main", isSaved=False):
-    # Creates a file in editor/tmp directory if not isSaved
-    if not isSaved:
-        os.chdir(orig_dir)
-        os.chdir('editor/scripts/')
-    print 'Current directory: ', orig_dir
-    if extension == "":
-        file_name = '%s' % (name)
-    else:
-        file_name = '%s.%s' % (name, extension)
-    with open(file_name, 'w') as f:
-        f.write(text)
-    if not isSaved:
-        os.chdir(orig_dir)
-    return file_name
-
-
 @csrf_exempt
-def execute(request):
+def executeCode(request):
     """Create a file on server code.language
         compile it using the script provided
         and return the result
@@ -210,17 +192,14 @@ def execute(request):
         lang = request.POST.get('sourceLang', '')
         inp = request.POST.get('sourceInp', '')
         name = request.POST.get('sourceName', '')
-        print ('Received: Code: %s \n lang: %s \n inp: %s \n name: %s\n ' %
-               (code, lang, inp, name))
-        output = ""
+        parentDir = request.POST.get('parentDir', '')
+        curPath = request.POST.get('curPath', '')
         try:
-            created = createFile(code, lang, name)
-            print 'Created file %s successfully' % (created)
-            output = checker.main(created, inp, name)
-            return HttpResponse(output)
+            userDir = filexp.FileExplorer(def_username, def_pass, def_host)
+            outputResponse = userDir.execute_CompileCode(
+                code, lang, def_username, inp, name, parentDir, curPath)
+            return HttpResponse(outputResponse)
         except Exception as e:
-            if os.path.isfile(created):
-                os.remove(created)
             return HttpResponseServerError(content=b'%s' % e.message)
         finally:
-            os.chdir(orig_dir)
+            userDir.close()
