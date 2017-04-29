@@ -115,6 +115,7 @@ def viewfilecontents(request):
             outputResponse = userDir.viewRemoteFile(remote_path)
             return HttpResponse(outputResponse)
         except Exception as e:
+            print 'error while viewing file: ', e
             return HttpResponseServerError(content=b'%s' % e.message)
         finally:
             userDir.close()

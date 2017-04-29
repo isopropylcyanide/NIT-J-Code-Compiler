@@ -247,6 +247,9 @@ function displayFileinEditor(path, original_name) {
 
 $(document).ready(function() {
 
+    //Set bottom tabs
+    $('#bottomTabs').tabs();
+
     //begin loading terminal
     loadTerminal();
 

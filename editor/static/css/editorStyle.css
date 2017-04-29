@@ -76,20 +76,11 @@ body{
 }
 
 .panel-heading span {
-    margin-top: -20px;
-    font-size: 15px;
+    margin-top: -10px;
 }
 
 #statusBar {
     margin-top: -15px;
-}
-
-#terminal-workspace {
-    margin-top: 20px;
-    padding-left: 0px;
-    padding-right: 0px;
-    margin-left: 0;
-    margin-right: 0;
 }
 
 #terminal-panel {
@@ -102,7 +93,7 @@ body{
 }
 
 .panel.noborder>.panel-heading {
-    border: 1px solid #dddddd;
+    border: 0px solid #dddddd;
     border-radius: 0;
 }
 
