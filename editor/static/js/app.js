@@ -403,6 +403,8 @@ $(document).ready(function() {
             success: function(data) {
                 //this gets called when server returns an OK response
                 displayOutput(data);
+                //also toggle the output tab instead of the terminal
+                $( "#bottomTabs" ).tabs( "option", "active", 1 );
             },
             error: function(data) {
                 new $.Zebra_Dialog("Error occured during execution: " + "<br><br>" + data.responseText, {
