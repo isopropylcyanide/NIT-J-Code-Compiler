@@ -48,11 +48,11 @@ class program:
             if self.lang == 'java':
                 r = os.system('javac ' + self.file_name + ' 2> ' + self.log)
             elif self.lang == 'c':
-                r = os.system('gcc -std=c11 -lgraph -lpthread \
+                r = os.system('gcc   \
                  -lm -o ' + self.name + ' ' +
                               self.file_name + ' 2> ' + self.log)
             elif self.lang == 'cpp':
-                r = os.system('g++  -std=c++1y  -lgraph \
+                r = os.system('g++  \
                 -lpthread -lm -o ' + self.name + ' ' +
                               self.file_name + ' 2> ' + self.log)
 
@@ -94,13 +94,13 @@ class program:
                           'stdin' + ' > ' + self.actualout + ' 2>&1 ')
 
         # Perform cleanup
-        if self.lang == 'java':
-            # Remove all class files
-            for classfile in os.listdir(os.getcwd()):
-                if '.class' in classfile:
-                    os.remove(classfile)
-        elif self.lang in ['c', 'cpp']:
-            os.remove(self.name)
+        # if self.lang == 'java':
+        #     # Remove all class files
+        #     for classfile in os.listdir(os.getcwd()):
+        #         if '.class' in classfile:
+        #             os.remove(classfile)
+        # elif self.lang in ['c', 'cpp']:
+        #     os.remove(self.name)
 
         if r == 0:
             return 200
@@ -121,10 +121,8 @@ class program:
 
 def main(file_name, inp_file, prog_name):
     """Proposed entry point for compilation init"""
-    print 'ggagagagaga'
     if inp_file is None:
         inp_file = ""
-    print 'filename: ', file_name, ' and inp: ', inp_file
     timeout = '2'  # secs
 
     new_program = program(file_name, inp_file, timeout, prog_name)
@@ -150,10 +148,10 @@ def main(file_name, inp_file, prog_name):
                     output += i
 
             # output += '\n\n%s' % (new_program.readOutput())
-            if (os.path.isfile(new_program.file_name)):
-                os.remove(new_program.file_name)
-            if (os.path.isfile(new_program.actualout)):
-                os.remove(new_program.actualout)
+            # if (os.path.isfile(new_program.file_name)):
+            #     os.remove(new_program.file_name)
+            # if (os.path.isfile(new_program.actualout)):
+            #     os.remove(new_program.actualout)
             if (os.path.isfile(new_program.inp_file)):
                 os.remove(new_program.inp_file)
             if (os.path.isfile(new_program.log)):
@@ -170,10 +168,10 @@ def main(file_name, inp_file, prog_name):
             for i in f.readlines():
                 output += i
         # remove log
-        if (os.path.isfile(new_program.file_name)):
-            os.remove(new_program.file_name)
-        if (os.path.isfile(new_program.actualout)):
-            os.remove(new_program.actualout)
+        # if (os.path.isfile(new_program.file_name)):
+        #     os.remove(new_program.file_name)
+        # if (os.path.isfile(new_program.actualout)):
+        #     os.remove(new_program.actualout)
         if (os.path.isfile(new_program.inp_file)):
             os.remove(new_program.inp_file)
         if (os.path.isfile(new_program.log)):
@@ -194,22 +192,6 @@ This file is located at / in chroot environment, it creates a file based on
 above params & calls the littleChecker module that serves and compiles the code
 """
 
-destination_directory = ""
-
-
-def createFile(text, extension, userID, name="main"):
-    global destination_directory
-    # Creates a file in editor/tmp directory if not isSaved
-    destination_directory = "/home/%s" % (userID)
-    os.chdir(destination_directory)
-
-    if extension == "":
-        file_name = '%s' % (name)
-    else:
-        file_name = '%s.%s' % (name, extension)
-    with open(file_name, 'w') as f:
-        f.write(text)
-    return file_name
 
 if __name__ == '__main__':
     codefile = sys.argv[1]
@@ -217,12 +199,12 @@ if __name__ == '__main__':
     uid = sys.argv[3]
     inp = sys.argv[4]
     name = sys.argv[5]
+    destination_directory = '/home/%s' % (uid)
+    os.chdir(destination_directory)
+    # print codefile, lang, uid, inp, name, ' hhhh'
     # Begin creating the file and call littleChecker
     try:
-        print 'hha'
         output = main(codefile, inp, name)
-        print 'what I got: ', output
+        print output
     except Exception as e:
-        if os.path.isfile(created):
-            os.remove(created)
         print e.message

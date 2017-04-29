@@ -128,9 +128,9 @@ class FileExplorer:
         print '***********'
         cmd = "cat > \"%s/%s\" << \'endmsg\'\n%s\nendmsg" % (
             remote_path, file_name, content)
-        print 'cmd: ', cmd
         stdin, stdout, stderr = self.ssh_server.exec_command(
             cmd, timeout=2)
+        print 'save: ', cmd
         # if stderr is empty, then success
         error = ''
         for line in stderr.readlines():
@@ -178,11 +178,9 @@ class FileExplorer:
         """Recursively list all files and return their JSON
             for use in the file explorer window in home
         """
-        if lang != "":
-            name = '%s.%s' % (name, lang)
         try:
             # Save current file to remote
-            self.saveFileToRemote(parDir, name, code)
+            self.saveFileToRemote(parDir, '%s.%s' % (name, lang), code)
             # Now begin compiling and running the code
             # The jsonPyFile will be executed and the result captured
             executePyFile = '.codeExecuter.py'
@@ -200,7 +198,6 @@ class FileExplorer:
                 raise Exception(error)
             for line in stdout.readlines():
                 output += line
-            print 'retuning hang: ', output
             return output
         except Exception as e:
             return e
