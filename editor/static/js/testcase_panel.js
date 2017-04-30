@@ -10,13 +10,15 @@ var addTestCase = function() {
     //Also create a new file in /home/user/Testcases directory
     id = id + 1;
     var fileName = 'Testcase' + id;
-    var myRadioChild = '<div class="funkyradio-success">' +
-        '                        <input type="radio" name="radio" id="radio' + id + '"/>' +
-        '                        <label for="radio' + id + '">Testcase' + id + '</label>' +
-        '                        <span class="pull-right clickable">' +
-        '                            <i title="Delete" role="button" id="removeCase' + id + '" class="glyphicon glyphicon-minus-sign removeCase"></i>' +
-        '                        </span>' +
-        '                    </div>';
+
+var myRadioChild = '<div class="funkyradio-success">'+
+'                        <input type="radio" name="radio" id="radio' + id + '"/>'+
+'                        <label for="radio' + id + '" class="testLabel" id="Testcase' + id + '">Testcase' + id + '</label>'+
+'                        <span class="pull-right clickable">'+
+'                            <i title="Add" role="button" id="removeCase" class="glyphicon glyphicon-minus-sign text-danger"></i>'+
+'                        </span>'+
+'                    </div>';
+
 
     //create the corresponding file to the user server
     return $.ajax({
@@ -124,13 +126,25 @@ var saveInitialFile = function() {
             });
         }
     });
+};
 
+
+var openTestCase = function(){
+    // Opens the selected testcase in a new tab
+    var fileName = $(this).attr('id');
+    alert('clicked button with id: ' + fileName);
+    //open a new tab
+    $('#add-tab').trigger("click");
+    var path = './Testcases/' + fileName;
+    displayFileinEditor(path, fileName);
 };
 
 $(document).ready(function() {
     //create first testcase file
     saveInitialFile();
+
 });
 
 $(document).on('click', ".removeCase", removeTestCase);
 $(document).on('click', "#addCase", addTestCase);
+$(document).on('click', ".testLabel", openTestCase);
