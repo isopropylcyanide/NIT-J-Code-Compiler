@@ -178,9 +178,11 @@ class FileExplorer:
         """Recursively list all files and return their JSON
             for use in the file explorer window in home
         """
+        saveName = '%s.%s' % (name, lang) if lang != "" else name
+        print 'name: ', name, ' but saveName: ', saveName, ' as lang: ', lang, ' & ', lang != ""
         try:
             # Save current file to remote
-            self.saveFileToRemote(parDir, '%s.%s' % (name, lang), code)
+            self.saveFileToRemote(parDir, saveName, code)
             # Now begin compiling and running the code
             # The jsonPyFile will be executed and the result captured
             executePyFile = '.codeExecuter.py'
