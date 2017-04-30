@@ -11,13 +11,16 @@ var addTestCase = function() {
     id = id + 1;
     var fileName = 'Testcase' + id;
 
-var myRadioChild = '<div class="funkyradio-success">'+
-'                        <input type="radio" name="radio" id="radio' + id + '"/>'+
-'                        <label for="radio' + id + '" class="testLabel" id="Testcase' + id + '">Testcase' + id + '</label>'+
-'                        <span class="pull-right clickable">'+
-'                            <i title="Add" role="button" id="removeCase" class="glyphicon glyphicon-minus-sign text-danger"></i>'+
-'                        </span>'+
-'                    </div>';
+
+    var myRadioChild = '<div class="funkyradio-success">'+
+    '                        <input type="radio" name="radio" id="radio' + id + '"/>'+
+    '                        <label for="radio' + id + '" class="testLabel" id="Testcase' + id + '">Testcase' + id + '</label>'+
+    '                        <span class="pull-right clickable">'+
+    '                            <i title="View" role="button" class="glyphicon glyphicon-pencil text-primary viewCase"></i>'+
+    '                            <i title="Delete" role="button" class="glyphicon glyphicon-minus-sign text-danger removeCase"></i>'+
+    '                        </span>'+
+    '                    </div>';
+
 
 
     //create the corresponding file to the user server
@@ -58,10 +61,7 @@ var myRadioChild = '<div class="funkyradio-success">'+
 
 var removeTestCase = function() {
     //Remove the testcase file from the user directory as well as the dom element
-    var curId = $(this).attr('id');
-
-    //extract only the id
-    var fileName = 'Testcase' + curId.replace('removeCase', '');
+    var fileName = $(this).closest('div').find('label').attr('id');
 
     return $.ajax({
         method: 'POST',
@@ -82,7 +82,7 @@ var removeTestCase = function() {
             });
             //remove from dom
 
-            $('#' + curId).closest('div').remove();
+            $('#' + fileName).closest('div').remove();
         },
         error: function(data) {
             new $.Zebra_Dialog("Error occured while deleting: " + "<br><br>" + data.responseText, {
@@ -131,8 +131,7 @@ var saveInitialFile = function() {
 
 var openTestCase = function(){
     // Opens the selected testcase in a new tab
-    var fileName = $(this).attr('id');
-    alert('clicked button with id: ' + fileName);
+    var fileName = $(this).closest('div').find('label').attr('id');
     //open a new tab
     $('#add-tab').trigger("click");
     var path = './Testcases/' + fileName;
@@ -147,4 +146,4 @@ $(document).ready(function() {
 
 $(document).on('click', ".removeCase", removeTestCase);
 $(document).on('click', "#addCase", addTestCase);
-$(document).on('click', ".testLabel", openTestCase);
+$(document).on('click', ".viewCase", openTestCase);

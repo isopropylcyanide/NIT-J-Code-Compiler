@@ -382,6 +382,7 @@ $(document).ready(function() {
         var sourceInp = document.getElementById("stdinText").value;
         var sourceName = document.getElementById("fname").value;
         var currentNode = $('#filetreepanel').fancytree("getActiveNode");
+
         //we will create the output file here in this path
         var parentPath = getRemotePath(currentNode.parent);
         var curPath = getRemotePath(currentNode);
