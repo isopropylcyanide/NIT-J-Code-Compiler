@@ -87,6 +87,17 @@ body{
     height: 100%;
 }
 
+.list-item {
+    padding-bottom: 0.25em;
+}
+.list-remove {
+    display: none;
+}
+
+#testcase-panel{
+    background: lightblue;
+    height: 100%;
+}
 .panel.noborder {
     border: none;
     box-shadow: none;
