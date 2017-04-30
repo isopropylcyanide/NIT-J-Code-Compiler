@@ -71,6 +71,9 @@
         <link rel='stylesheet' href="{% static 'theme/zenburn.css' %}"/>
         <!-- themes for editor -->
 
+        <link rel='stylesheet' href="{% static 'css/funkyRadio.css' %}"/>
+        <!-- funky radio button css -->
+
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
@@ -272,9 +275,22 @@
 
     <!-- testcase panel starts -->
     <div id="testcase-panel" class="container nopadding col-lg-2">
-        <div class="nopadding panel panel-default noborder">
+        <div class=" panel panel-default noborder">
             <div class="panel-heading">Testcases</div>
-            <div class="nopadding panel-body"></div>
+
+            <div class="nopadding panel-body">
+
+                <div class="funkyradio">
+                    <div class="funkyradio-success">
+                        <input type="radio" name="radio" id="radio1"/>
+                        <label for="radio1">Testcase1</label>
+                        <span class="pull-right clickable">
+                            <i title="Add" role="button" id="addCase" class="glyphicon glyphicon-plus-sign"></i>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
     <!-- testcase panel ends -->
@@ -350,6 +366,7 @@
 <script src="{% static 'js/editorlogic.js' %}"></script>
 <script src="{% static 'js/treelogic.js' %}"></script>
 <script src="{% static 'js/terminal_logic.js' %}"></script>
+<script src="{% static 'js/testcase_panel.js' %}"></script>
 <!-- main editor js -->
 <script src="{% static 'js/fancytree/jquery.fancytree.js' %}"></script>
 <script src="{% static 'js/fancytree/jquery.fancytree.edit.js' %}"></script>

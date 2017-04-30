@@ -91,7 +91,16 @@ body{
 #testcase-panel{
     background: lightblue;
     height: 100%;
+    overflow: hidden;
 }
+
+
+#testcase-panel>.panel {
+    height: 100%;
+    overflow-y: scroll;
+}
+
+
 .panel.noborder {
     border: none;
     box-shadow: none;
