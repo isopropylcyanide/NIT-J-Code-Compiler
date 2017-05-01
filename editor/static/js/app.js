@@ -318,24 +318,26 @@ $(document).ready(function() {
             var currentNode = $('#filetreepanel').fancytree("getActiveNode");
 
             var savePath = "";
-            if (currentNode === null) {
+            if (!currentNode) {
                 //save at the root location instead
-                new $.Zebra_Dialog('Select a <strong>folder</strong>', {
+                new $.Zebra_Dialog('Select a <strong>file to save</strong>', {
                     'buttons': false,
                     'modal': false,
                     'position': ['right - 20', 'top + 20'],
                     'auto_close': 1000
                 });
                 return;
-            } else if (!(currentNode.folder)) {
-                new $.Zebra_Dialog('Select a <strong>folder</strong><br><br> File Selected', {
+            } else if ((currentNode.folder)) {
+                new $.Zebra_Dialog('Select a <strong>file</strong>', {
                     'buttons': false,
                     'modal': false,
                     'position': ['right - 20', 'top + 20'],
-                    'auto_close': 1000
+                    'auto_close': 1000,
+                    'title':'Folder Selected'
                 });
                 return;
-            } else savePath = getRemotePath(currentNode);
+            } else savePath = getRemotePath(currentNode.parent);
+            alert('savePath: ' + savePath);
             $.ajax({
                 method: 'POST',
                 url: "saveFile",
