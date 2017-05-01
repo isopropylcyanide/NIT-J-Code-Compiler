@@ -245,136 +245,123 @@
                 </div>
                 <!-- text area close -->
                 <div class="row " id="statusBar">
-                    <div class="col-lg-3 pull-left">
+                    <div class="col-lg-6 pull-left nopadding">
                         <button type="button" id="executeButton" class="btn btn-success">Execute
                         </button>
                     </div>
 
-                    <div class="col-lg-7 center">
-                        <button type="button" id="stdinButton" class="btn btn-primary">Enter custom input</button>
+                    <div class="col-lg-6 center nopadding">
+                        <button type="button" id="execTestButton" class="btn btn-danger">Run tests</button>
                     </div>
-                    <div class="wrapper">
-                        <div class="col-lg-7 panel panel-info nopadding" id="stdinPanel">
-                            <div class="panel-heading">
-                                <p>Specify stdin input here
-                                    <span role="button" title="Clear stdin" id="stdinClearButton" class=" glyphicon glyphicon-remove pull-right"></span>
-                                </span>
-                            </p>
-                        </div>
-                        <div class="panel-body form-group nopadding">
-                            <textarea class="form-control" rows="10" id="stdinText"></textarea>
-                        </div>
-                    </div>
+
                 </div>
-                <!-- Stdin panel ends -->
+                <!-- Status row ends -->
             </div>
-            <!-- Status row ends -->
         </div>
-    </div>
-    <!-- editor panel closes -->
+        <!-- editor panel closes -->
 
-    <!-- testcase panel starts -->
-    <div id="testcase-panel" class="container nopadding col-lg-2">
-        <div class=" panel panel-default noborder">
-            <div class="panel-heading">Testcases</div>
+        <!-- testcase panel starts -->
+        <div id="testcase-panel" class="container nopadding col-lg-2">
+            <div class=" panel panel-default noborder">
+                <div class="panel-heading">Testcases</div>
 
-            <div class="nopadding panel-body">
+                <div class="nopadding panel-body">
 
-                <div class="funkyradio">
-                    <div class="funkyradio-success">
-                        <input type="radio" name="radio" id="radio1"/>
-                        <label for="radio1" class="testLabel" id="Testcase1">Testcase1</label>
-                        <span class="pull-right clickable">
-                            <i title="View" role="button" class="glyphicon glyphicon-pencil text-primary viewCase"></i>
-                            <i title="Add" role="button" id="addCase" class="glyphicon glyphicon-plus-sign text-success"></i>
-                        </span>
+                    <div class="funkyradio">
+                        <div class="funkyradio-success">
+                            <input type="radio" name="radio" id="radio1"/>
+                            <label for="radio1" class="testLabel" id="Testcase1">Testcase1</label>
+                            <span class="pull-right clickable">
+                                <i title="View" role="button" class="glyphicon glyphicon-pencil text-primary viewCase"></i>
+                                <i title="Add" role="button" id="addCase" class="glyphicon glyphicon-plus-sign text-success"></i>
+                            </span>
+                        </div>
                     </div>
+
                 </div>
-
             </div>
         </div>
+        <!-- testcase panel ends -->
+
     </div>
-    <!-- testcase panel ends -->
+    <!-- editor workspace ends -->
 
-</div>
-<!-- editor workspace ends -->
+    <div id="bottomTabs" class="container col-lg-12">
+        <ul>
+            <li>
+                <a href="#terminal-tab">Terminal</a>
+            </li>
+            <li>
+                <a href="#output-panel">Output</a>
+            </li>
+        </ul>
 
-<div id="bottomTabs" class="container col-lg-12">
-    <ul>
-        <li>
-            <a href="#terminal-tab">Terminal</a>
-        </li>
-        <li>
-            <a href="#output-panel">Output</a>
-        </li>
-    </ul>
-
-    <div id="terminal-tab">
-        <div class="panel panel-primary noborder">
-            <div class="panel-heading">
-                <span class="pull-right clickable">
-                    <i title="Toggle fullscreen" role="button" id="terminal-fullscreen" class="glyphicon glyphicon-resize-full"></i>
-                    <i title="Reload terminal" role="button" id="reloadTerminal" class="glyphicon glyphicon-refresh clickable"></i>
-                    <i title="Minimize terminal" role="button" id="minimizeTerminal" class="glyphicon glyphicon-chevron-up clickable"></i>
-                    <i title="Close terminal" role="button" id="closeTerminal" class="glyphicon glyphicon-remove clickable"></i>
-                </span>
-            </div>
-            <div class="nopadding panel-body" id="terminal-panel">
-                <iframe id="terminal-iframe" allowtransparency="true" src="" height="100%" width="100%">
-                    Your browser doesn't support iframes. Please switch to a compatible browser.
-                </iframe>
+        <div id="terminal-tab">
+            <div class="panel panel-primary noborder">
+                <div class="panel-heading">
+                    <span class="pull-right clickable">
+                        <i title="Toggle fullscreen" role="button" id="terminal-fullscreen" class="glyphicon glyphicon-resize-full"></i>
+                        <i title="Reload terminal" role="button" id="reloadTerminal" class="glyphicon glyphicon-refresh clickable"></i>
+                        <i title="Minimize terminal" role="button" id="minimizeTerminal" class="glyphicon glyphicon-chevron-up clickable"></i>
+                        <i title="Close terminal" role="button" id="closeTerminal" class="glyphicon glyphicon-remove clickable"></i>
+                    </span>
+                </div>
+                <div class="nopadding panel-body" id="terminal-panel">
+                    <iframe id="terminal-iframe" allowtransparency="true" src="" height="100%" width="100%">
+                        Your browser doesn't support iframes. Please switch to a compatible browser.
+                    </iframe>
+                </div>
             </div>
         </div>
-    </div>
-    <!-- terminal closes -->
-    <div id="output-panel">
-        <div class="nopadding panel panel-default">
-            <div class="panel-heading">
-                <ul class="list-inline panel-actions">
-                    <span id="clearOutputWindow" role="button" title="Reset Output" class="glyphicon glyphicon glyphicon-remove-sign"></span>
-                    <li>
-                        <a href="#" id="panel-fullscreen" role="button" title="Toggle fullscreen">
-                            <i class="glyphicon glyphicon-resize-full"></i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="nopadding panel-body">
-                <label id="stdoutput">
-                    Your code output appears here.
-                    <br>
-                    <br>Click the resize icon in the top right to make this fullscreen.
-                </label>
+        <!-- terminal closes -->
+        <div id="output-panel">
+            <div class="nopadding panel panel-default">
+                <div class="panel-heading">
+                    <ul class="list-inline panel-actions">
+                        <span id="clearOutputWindow" role="button" title="Reset Output" class="glyphicon glyphicon glyphicon-remove-sign"></span>
+                        <li>
+                            <a href="#" id="panel-fullscreen" role="button" title="Toggle fullscreen">
+                                <i class="glyphicon glyphicon-resize-full"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="nopadding panel-body">
+                    <label id="stdoutput">
+                        Your code output appears here.
+                        <br>
+                        <br>Click the resize icon in the top right to make this fullscreen.
+                    </label>
+                </div>
             </div>
         </div>
+        <!-- Output panel closes -->
     </div>
-    <!-- Output panel closes -->
-</div>
 
-<script src="{% static 'js/jquery-3.1.1.js' %}"></script>
-<script src="{% static 'js/jquery-ui.min.js' %}"></script>
-<script src="{% static 'js/jquery.spinner.min.js' %}"></script>
-<script src="{% static 'js/bootstrap.min.js' %}"></script>
-<!-- bootstrap js -->
-<script src="{% static 'js/codemirror.js' %}"></script>
-<script src="{% static 'mode/clike/clike.js' %}" type="text/javascript"></script>
-<script src="{% static 'mode/python/python.js' %}" type="text/javascript"></script>
-<!-- codemirror js -->
+    <script src="{% static 'js/jquery-3.1.1.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'js/jquery.spinner.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <!-- bootstrap js -->
+    <script src="{% static 'js/codemirror.js' %}"></script>
+    <script src="{% static 'mode/clike/clike.js' %}" type="text/javascript"></script>
+    <script src="{% static 'mode/python/python.js' %}" type="text/javascript"></script>
+    <!-- codemirror js -->
 
-<script src="{% static 'js/zebra_dialog.js' %}"></script>
-<!-- custom alert box -->
-<script src="{% static 'js/app.js' %}"></script>
-<script src="{% static 'js/editorlogic.js' %}"></script>
-<script src="{% static 'js/treelogic.js' %}"></script>
-<script src="{% static 'js/terminal_logic.js' %}"></script>
-<script src="{% static 'js/testcase_panel.js' %}"></script>
-<!-- main editor js -->
-<script src="{% static 'js/fancytree/jquery.fancytree.js' %}"></script>
-<script src="{% static 'js/fancytree/jquery.fancytree.edit.js' %}"></script>
-<script src="{% static 'js/fancytree/jquery.fancytree.glyph.js' %}"></script>
-<script src="{% static 'js/fancytree/jquery.contextMenu.min.js' %}"></script>
-<script src="{% static 'js/fancytree/jquery.fancytree.contextMenu.js' %}"></script>
-<script src="{% static 'js/fancytree/jquery.fancytree.childcounter.js' %}"></script>
-<!-- fancy tree -->
+    <script src="{% static 'js/zebra_dialog.js' %}"></script>
+    <!-- custom alert box -->
+    <script src="{% static 'js/app.js' %}"></script>
+    <script src="{% static 'js/editorlogic.js' %}"></script>
+    <script src="{% static 'js/treelogic.js' %}"></script>
+    <script src="{% static 'js/terminal_logic.js' %}"></script>
+    <script src="{% static 'js/testcase_panel.js' %}"></script>
+    <!-- main editor js -->
+    <script src="{% static 'js/fancytree/jquery.fancytree.js' %}"></script>
+    <script src="{% static 'js/fancytree/jquery.fancytree.edit.js' %}"></script>
+    <script src="{% static 'js/fancytree/jquery.fancytree.glyph.js' %}"></script>
+    <script src="{% static 'js/fancytree/jquery.contextMenu.min.js' %}"></script>
+    <script src="{% static 'js/fancytree/jquery.fancytree.contextMenu.js' %}"></script>
+    <script src="{% static 'js/fancytree/jquery.fancytree.childcounter.js' %}"></script>
+    <!-- fancy tree -->
 </body>
 </html>

@@ -5,11 +5,15 @@ editorMap = {
 editorLang = {
     //mapping indices to editor instances
 };
+editorFname = {
+    //mapping indices to filenames
+};
 
 activeIndex = undefined;
 uniqueID = 0;
 var tabs = $('#tabs');
 var $langSelect = $('#languageSelect');
+
 
 class allEditors {
     //editor classes for initializing codemirror instances in tabbed panes
@@ -40,6 +44,15 @@ class allEditors {
         //get language mode of current active editor
         return editorLang[activeIndex];
     }
+    setActiveEditorFname(fname){
+        //set fname of current active editor
+        editorFname[activeIndex] = fname;
+    }
+    getActiveEditorFname(){
+        //set fname of current active editor
+        return editorFname[activeIndex];
+    }
+
     removeEditor(removedIndex) {
         //when delete is called
         delete editorMap[removedIndex];
@@ -108,8 +121,9 @@ tabs.tabs({
         var panelId = ui.newPanel[0].id;
         var curIndex = panelId.replace('tab', '');
         editorList.setActiveEditor(curIndex);
-        // displayOutput('act: ' + curIndex + ' now: ' + editorList.toString() + ' uid: ' + uniqueID+' currentActive: ' + activeIndex + ' lang: ' + editorList.getActiveEditorLang() );
+        // displayOutput('act: ' + curIndex + ' now: ' + editorList.toString() + ' uid: ' + uniqueID+' currentActive: ' + activeIndex + ' lang: ' + editorList.getActiveEditorLang()  + ' fname: '+ editorList.getActiveEditorFname());
         //also set the current language as the one here
+        document.getElementById('fname').value = editorList.getActiveEditorFname();
 
         let langVal = $('#languageSelect option').filter(function () { return $(this).html() == editorList.getActiveEditorLang(); }).val();
         $('#languageSelect').val(langVal).trigger('change');

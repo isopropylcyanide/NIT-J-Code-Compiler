@@ -144,13 +144,11 @@ div.text-editor-panel {
 }
 
 #executeButton {
-    margin-left: 20px;
     width: 100%;
 }
 
-#stdinButton {
+#execTestButton {
     width: 100%;
-    margin-left: 20%;
 }
 
 .CodeMirror {
@@ -226,12 +224,6 @@ div.text-editor-panel {
     /* Opera 7 */
     word-wrap: break-word;
     /* Internet Explorer 5.5+ */
-}
-
-#stdinPanel {
-    /*sliding panel is hidden by default*/
-    display: none;
-    position: absolute;
 }
 
 #filetreepanel {

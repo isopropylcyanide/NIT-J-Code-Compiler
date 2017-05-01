@@ -15,6 +15,7 @@ var openFile = function(event) {
         editorList.getActiveEditor().setValue(text);
         var _file_less_ext = (input.files[0].name).replace(/\..+$/, '');
         document.getElementById("fname").value = _file_less_ext;
+        editorList.setActiveEditorFname(_file_less_ext);
     };
     reader.readAsText(input.files[0]);
 };
@@ -40,7 +41,6 @@ function langChange(obj) {
     let mode = getLanguageMode(langText);
     editorList.getActiveEditor().setOption("mode", mode);
     editorList.setActiveEditorLang(langText);
-    document.getElementById('fname').value = '';
 }
 
 function selectRandomEditorTheme(){
@@ -230,6 +230,7 @@ function displayFileinEditor(path, original_name) {
             fillEditorView(data, original_name);
             var _file_less_ext = (original_name).replace(/\..+$/, '');
             $('#fname').val(_file_less_ext);
+            editorList.setActiveEditorFname(_file_less_ext);
         },
         error: function(data) {
             new $.Zebra_Dialog("Error occured while viewing: " + "<br><br>" + data.responseText, {
@@ -379,10 +380,20 @@ $(document).ready(function() {
         // displayLoadingSpinner();
         var sourceCode = editorList.getActiveEditor().getValue();
         var sourceLang = document.getElementById("languageSelect").value;
-        var sourceInp = document.getElementById("stdinText").value;
+        var sourceInp = "";
         var sourceName = document.getElementById("fname").value;
         var currentNode = $('#filetreepanel').fancytree("getActiveNode");
 
+        if (!currentNode){
+            new $.Zebra_Dialog("Select a file in the tree first", {
+                'buttons': false,
+                'modal': false,
+                'position': ['right - 20', 'top + 20'],
+                'auto_close': 1500,
+                'type': 'error',
+                'title': 'No file selected'
+            });
+        }
         //we will create the output file here in this path
         var parentPath = getRemotePath(currentNode.parent);
         var curPath = getRemotePath(currentNode);
@@ -418,21 +429,6 @@ $(document).ready(function() {
                 });
             }
         });
-    });
-
-    // Stdin panel toggle when custom input is clicked
-    $('#stdinButton').click(function(event) {
-        event.preventDefault();
-        var $panel = $('#stdinPanel');
-        var $text = $('#stdinText');
-
-        $panel.slideToggle("fast");
-
-    });
-
-    //clear stdin textarea when stdinClearButton is clicked
-    $('#stdinClearButton').click(function(event) {
-        $('#stdinText').val("");
     });
 
 
