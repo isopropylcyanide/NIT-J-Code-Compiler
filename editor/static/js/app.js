@@ -20,7 +20,7 @@ var openFile = function(event) {
     reader.readAsText(input.files[0]);
 };
 
-function getLanguageMode(lang){
+function getLanguageMode(lang) {
     //get codemirror mode corresponding to the language
     if (lang === "C") {
         return "text/x-c";
@@ -30,7 +30,7 @@ function getLanguageMode(lang){
         return "text/x-python";
     } else if (lang === "Java") {
         return "text/x-java";
-    }else
+    } else
         return "text/plain";
 }
 
@@ -43,15 +43,16 @@ function langChange(obj) {
     editorList.setActiveEditorLang(langText);
 }
 
-function selectRandomEditorTheme(){
+function selectRandomEditorTheme() {
     //select a random theme on a new tab
     var $options = $('#selectTheme').find('option'),
-    random = ~~(Math.random() * $options.length);
+        random = ~~(Math.random() * $options.length);
     $options.eq(random).prop('selected', true);
     $select = $('#selectTheme');
     let value = $select.find('option:eq(' + random + ')').val();
     $select.val(value).change();
 }
+
 function selectTheme() {
     //select theme from dropdown -> triggered by default
     var input = document.getElementById("selectTheme");
@@ -302,6 +303,10 @@ $(document).ready(function() {
     //  check file name not empty
     $('#saveButton').click(function() {
         var sourceName = $('#fname').val();
+        var savePath = "";
+        var sourceCode = editorList.getActiveEditor().getValue();
+        var sourceLang = $("#languageSelect").val();
+
         if (sourceName === "") {
             new $.Zebra_Dialog('File name cannot be <strong>empty</strong>', {
                 'buttons': false,
@@ -313,67 +318,104 @@ $(document).ready(function() {
             });
         } else {
             //Save file..must include the directory of the active folder
-            var sourceCode = editorList.getActiveEditor().getValue();
-            var sourceLang = $("#languageSelect").val();
-            var currentNode = $('#filetreepanel').fancytree("getActiveNode");
+            if (editorList.getEditorisTestCase()) {
+                //savepath uses .TestCase first
+                savePath = './Testcases';
+                return $.ajax({
+                    method: 'POST',
+                    url: "saveFile",
+                    data: {
+                        'sourceCode': sourceCode,
+                        'sourceLang': sourceLang,
+                        'sourceName': sourceName,
+                        'remotePath': savePath
+                    },
+                    success: function(data) {
+                        //this gets called when server returns an OK response
+                        new $.Zebra_Dialog(data, {
+                            'buttons': false,
+                            'modal': false,
+                            'position': ['right - 20', 'top + 20'],
+                            'auto_close': 1500,
+                            'type': 'confirmation',
+                            'title': 'Testcase saved'
+                        });
+                        //refresh file tree again
+                        $.ui.fancytree.getTree("#filetreepanel").reload({
+                            url: "refreshDirectory"
+                        });
 
-            var savePath = "";
-            if (!currentNode) {
-                //save at the root location instead
-                new $.Zebra_Dialog('Select a <strong>file to save</strong>', {
-                    'buttons': false,
-                    'modal': false,
-                    'position': ['right - 20', 'top + 20'],
-                    'auto_close': 1000
+                    },
+                    error: function(data) {
+                        new $.Zebra_Dialog("Error occured while saving: " + "<br><br>" + data.responseText, {
+                            'buttons': false,
+                            'modal': false,
+                            'position': ['right - 20', 'top + 20'],
+                            'auto_close': 1500,
+                            'type': 'error',
+                            'title': 'Testcase unsaved'
+                        });
+                    }
                 });
-                return;
-            } else if ((currentNode.folder)) {
-                new $.Zebra_Dialog('Select a <strong>file</strong>', {
-                    'buttons': false,
-                    'modal': false,
-                    'position': ['right - 20', 'top + 20'],
-                    'auto_close': 1000,
-                    'title':'Folder Selected'
-                });
-                return;
-            } else savePath = getRemotePath(currentNode.parent);
-            alert('savePath: ' + savePath);
-            $.ajax({
-                method: 'POST',
-                url: "saveFile",
-                data: {
-                    'sourceCode': sourceCode,
-                    'sourceLang': sourceLang,
-                    'sourceName': sourceName,
-                    'remotePath': savePath
-                },
-                success: function(data) {
-                    //this gets called when server returns an OK response
-                    new $.Zebra_Dialog(data, {
+            } else {
+                var currentNode = $('#filetreepanel').fancytree("getActiveNode");
+
+                if (!currentNode) {
+                    //save at the root location instead
+                    new $.Zebra_Dialog('Select a <strong>file to save</strong>', {
                         'buttons': false,
                         'modal': false,
                         'position': ['right - 20', 'top + 20'],
-                        'auto_close': 1500,
-                        'type': 'confirmation',
-                        'title': sourceName
+                        'auto_close': 1000
                     });
-                    //refresh file tree again
-                    $.ui.fancytree.getTree("#filetreepanel").reload({
-                        url: "refreshDirectory"
-                    });
-
-                },
-                error: function(data) {
-                    new $.Zebra_Dialog("Error occured while saving: " + "<br><br>" + data.responseText, {
+                    return;
+                } else if ((currentNode.folder)) {
+                    new $.Zebra_Dialog('Select a <strong>file</strong>', {
                         'buttons': false,
                         'modal': false,
                         'position': ['right - 20', 'top + 20'],
-                        'auto_close': 1500,
-                        'type': 'error',
-                        'title': sourceName + '.' + sourceLang
+                        'auto_close': 1000,
+                        'title': 'Folder Selected'
                     });
-                }
-            });
+                    return;
+                } else savePath = getRemotePath(currentNode.parent);
+                $.ajax({
+                    method: 'POST',
+                    url: "saveFile",
+                    data: {
+                        'sourceCode': sourceCode,
+                        'sourceLang': sourceLang,
+                        'sourceName': sourceName,
+                        'remotePath': savePath
+                    },
+                    success: function(data) {
+                        //this gets called when server returns an OK response
+                        new $.Zebra_Dialog(data, {
+                            'buttons': false,
+                            'modal': false,
+                            'position': ['right - 20', 'top + 20'],
+                            'auto_close': 1500,
+                            'type': 'confirmation',
+                            'title': sourceName
+                        });
+                        //refresh file tree again
+                        $.ui.fancytree.getTree("#filetreepanel").reload({
+                            url: "refreshDirectory"
+                        });
+
+                    },
+                    error: function(data) {
+                        new $.Zebra_Dialog("Error occured while saving: " + "<br><br>" + data.responseText, {
+                            'buttons': false,
+                            'modal': false,
+                            'position': ['right - 20', 'top + 20'],
+                            'auto_close': 1500,
+                            'type': 'error',
+                            'title': sourceName + '.' + sourceLang
+                        });
+                    }
+                });
+            }
         }
     });
 
@@ -386,7 +428,7 @@ $(document).ready(function() {
         var sourceName = document.getElementById("fname").value;
         var currentNode = $('#filetreepanel').fancytree("getActiveNode");
 
-        if (!currentNode){
+        if (!currentNode) {
             new $.Zebra_Dialog("Select a file in the tree first", {
                 'buttons': false,
                 'modal': false,
@@ -411,14 +453,14 @@ $(document).ready(function() {
                 'sourceLang': sourceLang,
                 'sourceInp': sourceInp,
                 'sourceName': sourceName,
-                'parentDir':parentPath,
-                'curPath':curPath,
+                'parentDir': parentPath,
+                'curPath': curPath,
             },
             success: function(data) {
                 //this gets called when server returns an OK response
                 displayOutput(data);
                 //also toggle the output tab instead of the terminal
-                $( "#bottomTabs" ).tabs( "option", "active", 1 );
+                $("#bottomTabs").tabs("option", "active", 1);
             },
             error: function(data) {
                 new $.Zebra_Dialog("Error occured during execution: " + "<br><br>" + data.responseText, {
@@ -452,16 +494,16 @@ $(document).ready(function() {
 
 });
 
-$(document).on('click', '#minimizeTerminal', function(e){
+$(document).on('click', '#minimizeTerminal', function(e) {
     //panel collapse in terminal
     var $this = $(this);
-	if(!$this.hasClass('panel-collapsed')) {
-		$this.parents('.panel').find('.panel-body').slideUp();
-		$this.addClass('panel-collapsed');
-		$this.find('i').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
-	} else {
-		$this.parents('.panel').find('.panel-body').slideDown();
-		$this.removeClass('panel-collapsed');
-		$this.find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
-	}
+    if (!$this.hasClass('panel-collapsed')) {
+        $this.parents('.panel').find('.panel-body').slideUp();
+        $this.addClass('panel-collapsed');
+        $this.find('i').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+    } else {
+        $this.parents('.panel').find('.panel-body').slideDown();
+        $this.removeClass('panel-collapsed');
+        $this.find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+    }
 });

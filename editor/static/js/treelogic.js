@@ -84,7 +84,7 @@ var treeOptions = {
                 case "open_new":
                     //create a new tab
                     //open file in the editorList.getActiveEditor()
-                    $('#add-tab').trigger("click");
+                    $('#add-tab').trigger("click",["false"]);
                     displayFileinEditor(path, node.title);
                     break;
                 case "remove":

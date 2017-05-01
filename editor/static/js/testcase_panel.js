@@ -133,7 +133,7 @@ var openTestCase = function(){
     // Opens the selected testcase in a new tab
     var fileName = $(this).closest('div').find('label').attr('id');
     //open a new tab
-    $('#add-tab').trigger("click");
+    $('#add-tab').trigger("click",["true"]);
     var path = './Testcases/' + fileName;
     displayFileinEditor(path, fileName);
 };

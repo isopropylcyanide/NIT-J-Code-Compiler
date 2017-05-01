@@ -8,6 +8,10 @@ editorLang = {
 editorFname = {
     //mapping indices to filenames
 };
+editorIsTestcase = {
+    //check whether editor instance is a testcase in which
+    // ./TestCases is added on clicking save Button
+};
 
 activeIndex = undefined;
 uniqueID = 0;
@@ -33,6 +37,17 @@ class allEditors {
         //when a tab receives focus
         activeIndex = activeInd;
     }
+
+    setEditorisTestCase(index){
+        //set an editor instance to be a testcase
+        editorIsTestcase[index] = true;
+    }
+
+    getEditorisTestCase(){
+        //return true if current editor is a testcase
+        return editorIsTestcase[activeIndex];
+    }
+
     setActiveEditorLang(lang){
         //set language mode of current active editor
         editorLang[activeIndex] = lang;
@@ -66,7 +81,7 @@ class allEditors {
 var editorList = new allEditors();
 
 //add tab button is clicked
-$("#add-tab").click(function() {
+$("#add-tab").bind("click",function(event, isTestCase="false") {
     $("#tabs ul").append(
         "<li><a href='#tab" + uniqueID + "'> New Tab"+(uniqueID)+" </a><span class=\"ui-icon ui-icon-close\"</li>"
     );
@@ -86,6 +101,8 @@ $("#add-tab").click(function() {
         styleActiveLine: true
     });
     editorList.addEditor(uniqueID, localEditor);
+    if (isTestCase === "true")
+        editorList.setEditorisTestCase(uniqueID);
 
     selectRandomEditorTheme();
     $("#tabs").tabs("refresh");
@@ -118,10 +135,16 @@ tabs.on("click", "span.ui-icon-close", function() {
 
 tabs.tabs({
     activate: function(event, ui) {
+
+        // if (editorList.getEditorisTestCase()){
+        //     alert('testcase hai ye');
+        // }
+
         var panelId = ui.newPanel[0].id;
         var curIndex = panelId.replace('tab', '');
         editorList.setActiveEditor(curIndex);
-        // displayOutput('act: ' + curIndex + ' now: ' + editorList.toString() + ' uid: ' + uniqueID+' currentActive: ' + activeIndex + ' lang: ' + editorList.getActiveEditorLang()  + ' fname: '+ editorList.getActiveEditorFname());
+        displayOutput('act: ' + curIndex + ' now: ' + editorList.toString() + ' uid: ' + uniqueID+' currentActive: ' + activeIndex + ' lang: ' + editorList.getActiveEditorLang()  + ' fname: '+ editorList.getActiveEditorFname() +
+    " isTest: " + editorList.getEditorisTestCase());
         //also set the current language as the one here
         document.getElementById('fname').value = editorList.getActiveEditorFname();
 
