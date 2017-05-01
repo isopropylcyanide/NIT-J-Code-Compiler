@@ -182,12 +182,24 @@ def main(file_name, inp_file, prog_name):
         return output
 
 
+def readFile(fname):
+    """Return the contents of the file"""
+    contents = ""
+    fileLocation = "./Testcases/%s" % (fname)
+    if os.path.isfile(fileLocation):
+        with open('./Testcases/%s' % (fname), "r") as f:
+            for i in f.readlines():
+                contents += i
+    return contents
+
+
 """
 The following snippet receives the following parameters
 file: Source file which is to be executed
 Lang: Source Lang
 Name: Name of source program(main by default)
 User: The directory where code has to be compiled and run
+inp: Name of the testcase which has to be run
 This file is located at / in chroot environment, it creates a file based on
 above params & calls the littleChecker module that serves and compiles the code
 """
@@ -201,10 +213,12 @@ if __name__ == '__main__':
     name = sys.argv[5]
     destination_directory = '/home/%s' % (uid)
     os.chdir(destination_directory)
-    # print codefile, lang, uid, inp, name, ' hhhh'
+
+    stdinContents = readFile(inp)
+
     # Begin creating the file and call littleChecker
     try:
-        output = main(codefile, inp, name)
+        output = main(codefile, stdinContents, name)
         print output
     except Exception as e:
         print e.message

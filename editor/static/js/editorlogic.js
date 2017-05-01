@@ -137,14 +137,14 @@ tabs.tabs({
     activate: function(event, ui) {
 
         // if (editorList.getEditorisTestCase()){
-        //     alert('testcase hai ye');
+        //     alert('testcase tab : save accordingly');
         // }
 
         var panelId = ui.newPanel[0].id;
         var curIndex = panelId.replace('tab', '');
         editorList.setActiveEditor(curIndex);
-        displayOutput('act: ' + curIndex + ' now: ' + editorList.toString() + ' uid: ' + uniqueID+' currentActive: ' + activeIndex + ' lang: ' + editorList.getActiveEditorLang()  + ' fname: '+ editorList.getActiveEditorFname() +
-    " isTest: " + editorList.getEditorisTestCase());
+    //     displayOutput('act: ' + curIndex + ' now: ' + editorList.toString() + ' uid: ' + uniqueID+' currentActive: ' + activeIndex + ' lang: ' + editorList.getActiveEditorLang()  + ' fname: '+ editorList.getActiveEditorFname() +
+    // " isTest: " + editorList.getEditorisTestCase());
         //also set the current language as the one here
         document.getElementById('fname').value = editorList.getActiveEditorFname();
 

@@ -420,11 +420,12 @@ $(document).ready(function() {
     });
 
     //Compiles code at the server by sending UI Data and outputting the response
-    $('#executeButton').click(function() {
+    $('#executeButton').bind("click", function(event, stdinName) {
         // displayLoadingSpinner();
+
         var sourceCode = editorList.getActiveEditor().getValue();
         var sourceLang = document.getElementById("languageSelect").value;
-        var sourceInp = "";
+        var sourceInp = stdinName === undefined ? "" : stdinName;
         var sourceName = document.getElementById("fname").value;
         var currentNode = $('#filetreepanel').fancytree("getActiveNode");
 
@@ -435,7 +436,7 @@ $(document).ready(function() {
                 'position': ['right - 20', 'top + 20'],
                 'auto_close': 1500,
                 'type': 'error',
-                'title': 'No file selected'
+                'title': 'No file selected for execution'
             });
         }
         //we will create the output file here in this path

@@ -43,7 +43,7 @@ var addTestCase = function() {
                 'title': 'Testcase added'
             });
             //on success, append the dom element
-            $(".funkyradio").append(myRadioChild);
+            $(".funkyradio form").append(myRadioChild);
         },
         error: function(data) {
             new $.Zebra_Dialog("Error occured while creating: " + "<br><br>" + data.responseText, {
@@ -138,6 +138,23 @@ var openTestCase = function(){
     displayFileinEditor(path, fileName);
 };
 
+var execTestCase = function(){
+    //Get the corresponding radio button and its test case contents
+    //Call execute button with the test case
+    var testName = $('form input[type=radio]:checked').closest('div').find('label').attr('id');
+    if (testName === undefined){
+        return new $.Zebra_Dialog("Select a testcase from the panel: ", {
+                        'buttons': false,
+                        'modal': false,
+                        'position': ['right - 20', 'top + 20'],
+                        'auto_close': 1000,
+                        'type': 'error',
+                        'title': 'No testcase selected'
+                    });
+    }
+    $('#executeButton').trigger("click",[testName]);
+};
+
 $(document).ready(function() {
     //create first testcase file
     saveInitialFile();
@@ -147,3 +164,4 @@ $(document).ready(function() {
 $(document).on('click', ".removeCase", removeTestCase);
 $(document).on('click', "#addCase", addTestCase);
 $(document).on('click', ".viewCase", openTestCase);
+$(document).on('click', "#execTestButton", execTestCase);

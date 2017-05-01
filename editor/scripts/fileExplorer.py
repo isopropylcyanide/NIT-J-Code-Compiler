@@ -179,7 +179,6 @@ class FileExplorer:
             for use in the file explorer window in home
         """
         saveName = '%s.%s' % (name, lang) if lang != "" else name
-        print 'name: ', name, ' but saveName: ', saveName, ' as lang: ', lang, ' & ', lang != ""
         try:
             # Save current file to remote
             self.saveFileToRemote(parDir, saveName, code)

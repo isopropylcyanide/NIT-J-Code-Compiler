@@ -79,7 +79,14 @@ var treeOptions = {
             switch (action) {
                 case "open":
                     //open file in the editorList.getActiveEditor()
-                    displayFileinEditor(path, node.title);
+                    if (editorList.getEditorisTestCase()) {
+                        //open in new tab in that case
+                        $('#add-tab').trigger("click",["false"]);
+                        displayFileinEditor(path, node.title);
+                    }
+                    else{
+                        displayFileinEditor(path, node.title);
+                    }
                     break;
                 case "open_new":
                     //create a new tab
@@ -181,7 +188,14 @@ var treeOptions = {
         //Display the file in the editorList.getActiveEditor()
         else {
             var path = getRemotePath(node);
-            displayFileinEditor(path, node.title);
+            if (editorList.getEditorisTestCase()) {
+                //open in new tab in that case
+                $('#add-tab').trigger("click",["false"]);
+                displayFileinEditor(path, node.title);
+            }
+            else{
+                displayFileinEditor(path, node.title);
+            }
         }
     }),
 };
