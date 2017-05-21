@@ -4,11 +4,12 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Home</title>
+        <title>Profile</title>
         {% load staticfiles %}
         <link rel='stylesheet' href="{% static 'css/bootstrap.min.css' %}" type='text/css'/>
         <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet" type="text/css"/>
         <link href="{% static 'css/profile.css' %}" rel="stylesheet">
+        <link href="{% static 'css/bootstrap-tagsinput.css' %}" rel="stylesheet">
         <link href="{% static 'css/zebra-alert/zebra_dialog.css' %}" rel="stylesheet" type="text/css"/>
         <!-- custom alert box css -->
 
@@ -73,19 +74,29 @@
         <!-- /.container-fluid -->
     </nav>
 
-    <div id="profile-workspace" class="container">
+    <div id="profile-workspace" class="container nopadding col-lg-12">
         <div class="row">
             <!-- left column -->
-            <div class="col-md-3">
-                <div class="text-center">
+            <div class="col-md-3 nopadding">
+                <div id="userImage" class="text-center">
                     <img src="{% static 'css/images/new1.jpg' %}" class="img-responsive avatar img-circle" alt="avatar">
 
+                </div>
+                <div id="picUpload">
                     <input class="form-control" type="file">
                 </div>
+
+                <div class="headingBar">
+                    <div id="skillDiv">
+                        <h3>Skills</h3>
+                        <input id="skillTag" type="text" value="" data-role="tagsinput"/>
+                    </div>
+                </div>
+
             </div>
 
             <!-- edit form column -->
-            <div class="col-md-9 personal-info">
+            <div class="col-md-9 personal-info nopadding">
                 <div class="alert alert-info alert-dismissable">
                     <a class="panel-close close" data-dismiss="alert">×</a>
                     <i class="fa fa-coffee"></i>
@@ -95,6 +106,7 @@
                 </div>
                 <div class="headingBar">
                     <h3>About</h3>
+
                 </div>
 
                 <form class="form-horizontal" role="form">
@@ -165,6 +177,8 @@
     <hr>
 
     <script src="{% static 'js/jquery-3.1.1.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap-tagsinput.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <!-- bootstrap js -->
     <script src="{% static 'js/zebra_dialog.js' %}"></script>

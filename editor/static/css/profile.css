@@ -1,6 +1,35 @@
 
 .headingBar{
-    margin-top:50px;
     background: #EAEAEA;
-    text-align: left;
+    text-align: center;
+}
+
+h3{
+    font-size: 16px;
+}
+
+#skillDiv{
+    background: #373743;
+    margin-top: 20px;
+    color: white;
+    padding:5px;
+    border-radius: 10px;
+}
+
+#picUpload{
+    margin-top: 50px;
+}
+
+#userImage{
+    margin-left: 50px;
+    width:200px;
+    height: 200px;
+}
+
+#tagInput{
+    width: 100%;
+}
+
+label{
+    text-align: center;
 }

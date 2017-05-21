@@ -139,7 +139,6 @@ tabs.tabs({
         // if (editorList.getEditorisTestCase()){
         //     alert('testcase tab : save accordingly');
         // }
-
         var panelId = ui.newPanel[0].id;
         var curIndex = panelId.replace('tab', '');
         editorList.setActiveEditor(curIndex);
