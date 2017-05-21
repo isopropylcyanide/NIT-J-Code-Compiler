@@ -182,6 +182,12 @@ def home(request):
                   context={'user': 'new1'})
 
 
+def profile(request):
+    """App invocation point: Return the profile page"""
+    return render(request, 'editor/profile.html',
+                  context={'user': 'new1'})
+
+
 @csrf_exempt
 def executeCode(request):
     """Create a file on server code.language

@@ -1,0 +1,175 @@
+<!-- home.html -->
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Home</title>
+        {% load staticfiles %}
+        <link rel='stylesheet' href="{% static 'css/bootstrap.min.css' %}" type='text/css'/>
+        <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet" type="text/css"/>
+        <link href="{% static 'css/profile.css' %}" rel="stylesheet">
+        <link href="{% static 'css/zebra-alert/zebra_dialog.css' %}" rel="stylesheet" type="text/css"/>
+        <!-- custom alert box css -->
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">NITJ COMPILER</a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li >
+                            <a href="{% url 'editor:home' %}">Home
+                                <i class="fa fa-home" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'editor:index' %}">Editor
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li class="active">
+                            <a href="{% url 'editor:profile' %}">Profile
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <div class="btn-group" style="margin-top:5px">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{user}}
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li class="well-sm">
+                                    <a href="#">Account
+                                        <i style="margin-left:20px;" class="fa fa-briefcase"></i>
+                                    </a>
+                                </li>
+                                <li class="well-sm">
+                                    <a href="/logout/">Logout
+                                        <i style="margin-left:30px;" class="fa fa-sign-out"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <div id="profile-workspace" class="container">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-3">
+                <div class="text-center">
+                    <img src="{% static 'css/images/new1.jpg' %}" class="img-responsive avatar img-circle" alt="avatar">
+
+                    <input class="form-control" type="file">
+                </div>
+            </div>
+
+            <!-- edit form column -->
+            <div class="col-md-9 personal-info">
+                <div class="alert alert-info alert-dismissable">
+                    <a class="panel-close close" data-dismiss="alert">×</a>
+                    <i class="fa fa-coffee"></i>
+                    Changes you make to the
+                    <strong>profile</strong>
+                    will be visible here.
+                </div>
+                <div class="headingBar">
+                    <h3>About</h3>
+                </div>
+
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Name:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" value="" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Address:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" value="" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Email:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" value="" type="email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Contact:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" value="" type="tel">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Date of Birth:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" value="" type="date">
+                        </div>
+                    </div>
+
+                    <div class="headingBar">
+                        <h3>Account</h3>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Username:</label>
+                        <div class="col-md-8">
+                            <input disabled class="form-control" value="{{user}}" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Password:</label>
+                        <div class="col-md-8">
+                            <input class="form-control" value="11111122333" type="password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Confirm password:</label>
+                        <div class="col-md-8">
+                            <input class="form-control" value="11111122333" type="password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label"></label>
+                        <div class="col-md-8">
+                            <input class="btn btn-primary" value="Save Changes" type="button">
+                            <span></span>
+                            <input class="btn btn-default" value="Cancel" type="reset">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    <script src="{% static 'js/jquery-3.1.1.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <!-- bootstrap js -->
+    <script src="{% static 'js/zebra_dialog.js' %}"></script>
+    <!-- custom alert box -->
+    <script src="{% static 'js/profile.js' %}"></script>
+    <!-- main workspace js -->
+</body>
+</html>
