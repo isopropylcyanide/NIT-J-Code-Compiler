@@ -55,7 +55,7 @@ def updateProfile(request):
         try:
             data = {
                 'name': request.POST.get('name'),
-                'addr': request.POST.get('addr'),
+                'roll': request.POST.get('roll'),
                 'email': request.POST.get('email'),
                 'tel': request.POST.get('tel'),
                 'dob': request.POST.get('dob'),

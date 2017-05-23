@@ -32,11 +32,40 @@ function load_filemanager() {
      document.getElementById("filemanager").innerHTML='<object type="text/html" data="filemanager" ></object>';
 }
 
+
+function getUserProfile(){
+    //gets user profile from his directory
+    return $.ajax({
+        method: 'POST',
+        url: "getProfile",
+        data: {},
+        success: function(data) {
+            //this gets called when server returns an OK response
+            //now remove menu item from tree
+            data = JSON.parse(data);
+            $('#homeName').text(data.name);
+            $('#homeRoll').text(data.roll);
+            $('#homeTel').text(data.tel);
+            $('#homeDob').text(data.dob);
+            $('#homeEmail').text(data.email);
+            data.skill.split(',').forEach(function(skill){
+                    //add skill tag for each
+                    var cmd = '<span class="tags">'+skill+'</span>';
+                    $('#homeSkill').append(cmd);
+            });
+        },
+        error: function(data) {
+
+        }
+    });
+}
+
 $(function() {
+
 
     //load user profile pane
     setupUserProfile();
 
-    //load file manager
-    // load_filemanager();
+    //fetch user profile
+    getUserProfile();
 });

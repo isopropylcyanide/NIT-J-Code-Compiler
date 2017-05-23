@@ -1,6 +1,6 @@
 
 var $name = $('#profName');
-var $addr = $('#profAddr');
+var $roll = $('#profRoll');
 var $email = $('#profEmail');
 var $tel = $('#profTel');
 var $dob = $('#profDate');
@@ -16,7 +16,7 @@ var resetProfile = function(){
         url: "updateProfile",
         data: {
             'name': '',
-            'addr': '',
+            'roll': '',
             'email': '',
             'tel': '',
             'dob': '',
@@ -46,7 +46,7 @@ var saveProfile = function() {
             url: "updateProfile",
             data: {
                 'name': $name.val(),
-                'addr': $addr.val(),
+                'roll': $roll.val(),
                 'email': $email.val(),
                 'tel': $tel.val(),
                 'dob': $dob.val(),
@@ -78,7 +78,7 @@ function getUserProfile(){
             //now remove menu item from tree
             data = JSON.parse(data);
             $name.val(data.name);
-            $addr.val(data.addr);
+            $roll.val(data.roll);
             $tel.val(data.tel);
             $dob.val(data.dob);
             $email.val(data.email);
