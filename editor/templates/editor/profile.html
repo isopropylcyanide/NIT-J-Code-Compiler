@@ -97,7 +97,7 @@
 
             <!-- edit form column -->
             <div class="col-md-9 personal-info nopadding">
-                <div class="alert alert-info alert-dismissable">
+                <div id="profAlert" class="alert alert-info alert-dismissable">
                     <a class="panel-close close" data-dismiss="alert">×</a>
                     <i class="fa fa-coffee"></i>
                     Changes you make to the
@@ -113,31 +113,31 @@
                     <div class="form-group">
                         <label class="col-lg-3 control-label">Name:</label>
                         <div class="col-lg-8">
-                            <input class="form-control" value="" type="text">
+                            <input id="profName" class="form-control" value="" type="text">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-lg-3 control-label">Address:</label>
                         <div class="col-lg-8">
-                            <input class="form-control" value="" type="text">
+                            <input id="profAddr" class="form-control" value="" type="text">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-lg-3 control-label">Email:</label>
                         <div class="col-lg-8">
-                            <input class="form-control" value="" type="email">
+                            <input id="profEmail" class="form-control" value="" type="text">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-lg-3 control-label">Contact:</label>
                         <div class="col-lg-8">
-                            <input class="form-control" value="" type="tel">
+                            <input id="profTel" class="form-control" value="" type="text">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-lg-3 control-label">Date of Birth:</label>
                         <div class="col-lg-8">
-                            <input class="form-control" value="" type="date">
+                            <input id="profDate" class="form-control" value="" type="text">
                         </div>
                     </div>
 
@@ -153,19 +153,19 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label">Password:</label>
                         <div class="col-md-8">
-                            <input class="form-control" value="11111122333" type="password">
+                            <input id="profPass1" class="form-control" value="11111122333" type="password">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label">Confirm password:</label>
                         <div class="col-md-8">
-                            <input class="form-control" value="11111122333" type="password">
+                            <input id="profPass2" class="form-control" value="11111122333" type="password">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label"></label>
                         <div class="col-md-8">
-                            <input class="btn btn-primary" value="Save Changes" type="button">
+                            <input id="saveProfileButton" class="btn btn-primary" value="Save Changes" type="button">
                             <span></span>
                             <input class="btn btn-default" value="Cancel" type="reset">
                         </div>

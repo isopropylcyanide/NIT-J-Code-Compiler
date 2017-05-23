@@ -3,6 +3,7 @@ function fill_iframe(data) {
     $term_iframe = $('#terminal-iframe');
     $term_iframe.attr({
         'src': 'http://127.0.0.1:' + data,
+        // 'src': 'http://10.10.131.139:' + data,
     });
 }
 

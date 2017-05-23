@@ -122,6 +122,35 @@ class FileExplorer:
             print error
             raise Exception(error)
 
+    def saveUserConfig(self, data):
+        """Saves user data to a config file"""
+        configFile = '.config'
+        text = ''
+        for k, v in data.iteritems():
+            text += '%s: %s\n' % (k, v)
+        print 'Im saving text: ', text
+        cmd = "cat > %s << \'endmsg\'\n%s\nendmsg" % (
+            configFile, text)
+        stdin, stdout, stderr = self.ssh_server.exec_command(
+            cmd, timeout=2)
+        error = ''
+        for line in stderr.readlines():
+            error += line
+        if error != '':
+            print error
+            raise Exception(error)
+
+    def loadUserConfig(self, data):
+        """Loads user data from a config file"""
+        configFile = '.config'
+        userConfig = self.viewRemoteFile(configFile)[:-1]
+        userConfigData = {}
+        for i in userConfig.split('\n'):
+            for k, v in i.split(':'):
+                userConfigData[k] = v
+        print 'I have read: ', userConfigData
+        return userConfigData
+
     def saveFileToRemote(self, remote_path, file_name, content):
         """View file contents of the remote_path at the server"""
         print remote_path, file_name, content

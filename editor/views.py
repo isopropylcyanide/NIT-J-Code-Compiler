@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 import os
 import scripts.fileExplorer as filexp
 import scripts.terminal as wetty
+from django.contrib.auth.models import User
 
 orig_dir = os.getcwd()
 def_host = "127.0.0.1"
@@ -11,6 +12,68 @@ def_username = "new1"
 def_pass = "12"
 term_pid = None
 term_port = None
+
+
+def validate(passA, passB):
+    """Validates if two passwords are equal"""
+    print passA, passB
+    if passA != passB:
+        print 'Two passwords do not match'
+        return 'Two passwords do not match'
+    currentUser = User.objects.get(username=def_username)
+    if not currentUser.check_password(passA):
+        print 'Incorrect password'
+        return 'Incorrect password'
+    # else save the password
+    print 'changing password'
+    currentUser.set_password(passA)
+    return ""
+
+
+@csrf_exempt
+def getProfile(request):
+    """Gets the user profile. Take care while changing passwords"""
+    if request.is_ajax():
+        try:
+            userDir = filexp.FileExplorer(def_username, def_pass, def_host)
+            userData = userDir.loadConfig(data)
+            return HttpResponse(userData)
+        except Exception as e:
+            return HttpResponseServerError(content=b'%s' % e.message)
+        finally:
+            userDir.close()
+
+
+@csrf_exempt
+def updateProfile(request):
+    """Update the user profile. Take care while changing passwords"""
+    if request.is_ajax():
+        try:
+            data = {
+                'name': request.POST.get('name'),
+                'addr': request.POST.get('addr'),
+                'email': request.POST.get('email'),
+                'tel': request.POST.get('tel'),
+                'dob': request.POST.get('dob'),
+            }
+            print ' I got data: ', data
+            pass1 = request.POST.get('pass1')
+            pass2 = request.POST.get('pass2')
+            outputResponse = validate(pass1, pass2)
+            if outputResponse != "":
+                return HttpResponseServerError(content=b'%s' % outputResponse)
+            else:
+                outputResponse = 'Profile updated successfully'
+            # if user is validated, save the config file
+            print 'User validated now'
+            userDir = filexp.FileExplorer(def_username, def_pass, def_host)
+            userDir.saveUserConfig(data)
+            userDir.close()
+            return HttpResponse(outputResponse)
+        except Exception as e:
+            return HttpResponseServerError(content=b'%s' % e.message)
+        finally:
+            pass
 
 
 @csrf_exempt
