@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseServerError
 from django.views.decorators.csrf import csrf_exempt
 import os
+import json
 import scripts.fileExplorer as filexp
 import scripts.terminal as wetty
 from django.contrib.auth.models import User
@@ -38,12 +39,13 @@ def getProfile(request):
         try:
             userDir = filexp.FileExplorer(def_username, def_pass, def_host)
             userData = userDir.loadUserConfig()
+            userDir.close()
             print 'received dir: ', userData
-            return HttpResponse(userData)
+            return HttpResponse(json.dumps(userData))
         except Exception as e:
             return HttpResponseServerError(content=b'%s' % e.message)
         finally:
-            userDir.close()
+            pass
 
 
 @csrf_exempt
@@ -57,6 +59,7 @@ def updateProfile(request):
                 'email': request.POST.get('email'),
                 'tel': request.POST.get('tel'),
                 'dob': request.POST.get('dob'),
+                'skill': request.POST.get('skill')
             }
             pass1 = request.POST.get('pass1')
             pass2 = request.POST.get('pass2')

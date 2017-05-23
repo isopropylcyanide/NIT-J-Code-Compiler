@@ -1,33 +1,66 @@
+
+var $name = $('#profName');
+var $addr = $('#profAddr');
+var $email = $('#profEmail');
+var $tel = $('#profTel');
+var $dob = $('#profDate');
+var $pass1 = $('#profPass1');
+var $pass2 = $('#profPass2');
+var $profAlert = $('#profAlert');
+var $profSkill = $('#skillTag');
+
+var resetProfile = function(){
+    //resets user profile to his directory
+    return $.ajax({
+        method: 'POST',
+        url: "updateProfile",
+        data: {
+            'name': '',
+            'addr': '',
+            'email': '',
+            'tel': '',
+            'dob': '',
+            'skill': '',
+            'pass1': $pass1.val(),
+            'pass2': $pass2.val()
+        },
+        success: function(data) {
+            //this gets called when server returns an OK response
+            //now remove menu item from tree
+            $profAlert.text(data);
+            getUserProfile();
+        },
+        error: function(data) {
+            $profAlert.text(data.responseText);
+        }
+    });
+
+};
+
+
 var saveProfile = function() {
     // Saves user profile to his directory
     $('#saveProfileButton').click(function(event) {
-        var $name = $('#profName').val();
-        var $addr = $('#profAddr').val();
-        var $email = $('#profEmail').val();
-        var $tel = $('#profTel').val();
-        var $dob = $('#profDate').val();
-
-        var $pass1 = $('#profPass1').val();
-        var $pass2 = $('#profPass2').val();
         return $.ajax({
             method: 'POST',
             url: "updateProfile",
             data: {
-                'name': $name,
-                'addr': $addr,
-                'email': $email,
-                'tel': $tel,
-                'dob': $dob,
-                'pass1': $pass1,
-                'pass2': $pass2
+                'name': $name.val(),
+                'addr': $addr.val(),
+                'email': $email.val(),
+                'tel': $tel.val(),
+                'dob': $dob.val(),
+                'pass1': $pass1.val(),
+                'pass2': $pass2.val(),
+                'skill': $profSkill.val()
             },
             success: function(data) {
                 //this gets called when server returns an OK response
                 //now remove menu item from tree
-                $('#profAlert').text(data);
+                $profAlert.text(data);
             },
             error: function(data) {
-                $('#profAlert').text(data.responseText);
+                $profAlert.text(data.responseText);
             }
         });
 
@@ -43,10 +76,17 @@ function getUserProfile(){
         success: function(data) {
             //this gets called when server returns an OK response
             //now remove menu item from tree
-            $('#profAlert').text(data);
+            data = JSON.parse(data);
+            $name.val(data.name);
+            $addr.val(data.addr);
+            $tel.val(data.tel);
+            $dob.val(data.dob);
+            $email.val(data.email);
+            $profSkill.tagsinput('add',data.skill);
+            $profAlert.text("Profile loaded successfully");
         },
         error: function(data) {
-            $('#profAlert').text('Error fetching profile: ' + data.responseText);
+            $profAlert.text('Error fetching profile: ' + data.responseText);
         }
     });
 }
@@ -54,6 +94,11 @@ function getUserProfile(){
 $(document).ready(function() {
     // Load profile data
     getUserProfile();
+
+    $profAlert.bind('DOMNodeInserted', function(event) {
+        $profAlert.effect('highlight',{},2000);
+    });
 });
 
 $(document).on('click', "#saveProfileButton", saveProfile);
+$(document).on('click', "#resetProfileButton", resetProfile);

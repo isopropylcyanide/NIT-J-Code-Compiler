@@ -33,3 +33,15 @@ h3{
 label{
     text-align: center;
 }
+
+#saveProfileButton{
+    height: 40px;
+    width: 150px;
+    color:white;
+}
+
+#resetProfileButton{
+    float: right;
+    height: 40px;
+    width: 150px;
+}

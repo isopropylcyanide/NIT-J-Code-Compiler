@@ -143,15 +143,11 @@ class FileExplorer:
     def loadUserConfig(self):
         """Loads user data from a config file"""
         configFile = '.config'
-        print 'stuff file: ', configFile
         userConfig = self.viewRemoteFile(configFile)
         userConfigData = {}
-        print userConfig.split('\n')
-        print 'nre'
         for i in userConfig.strip().split("\n"):
             k, v = i.split(':')
             userConfigData[k] = v
-        print 'I have read: ', userConfigData
         return userConfigData
 
     def saveFileToRemote(self, remote_path, file_name, content):
