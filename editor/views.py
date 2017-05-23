@@ -15,7 +15,7 @@ term_port = None
 
 
 def validate(passA, passB):
-    """Validates if two passwords are equal"""
+    """Validates if two passwords are equal and updates them in the database"""
     print passA, passB
     if passA != passB:
         print 'Two passwords do not match'
@@ -27,6 +27,7 @@ def validate(passA, passB):
     # else save the password
     print 'changing password'
     currentUser.set_password(passA)
+    currentUser.save()
     return ""
 
 
@@ -36,7 +37,8 @@ def getProfile(request):
     if request.is_ajax():
         try:
             userDir = filexp.FileExplorer(def_username, def_pass, def_host)
-            userData = userDir.loadConfig(data)
+            userData = userDir.loadUserConfig()
+            print 'received dir: ', userData
             return HttpResponse(userData)
         except Exception as e:
             return HttpResponseServerError(content=b'%s' % e.message)
@@ -56,7 +58,6 @@ def updateProfile(request):
                 'tel': request.POST.get('tel'),
                 'dob': request.POST.get('dob'),
             }
-            print ' I got data: ', data
             pass1 = request.POST.get('pass1')
             pass2 = request.POST.get('pass2')
             outputResponse = validate(pass1, pass2)

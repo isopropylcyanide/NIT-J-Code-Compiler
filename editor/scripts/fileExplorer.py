@@ -140,14 +140,17 @@ class FileExplorer:
             print error
             raise Exception(error)
 
-    def loadUserConfig(self, data):
+    def loadUserConfig(self):
         """Loads user data from a config file"""
         configFile = '.config'
-        userConfig = self.viewRemoteFile(configFile)[:-1]
+        print 'stuff file: ', configFile
+        userConfig = self.viewRemoteFile(configFile)
         userConfigData = {}
-        for i in userConfig.split('\n'):
-            for k, v in i.split(':'):
-                userConfigData[k] = v
+        print userConfig.split('\n')
+        print 'nre'
+        for i in userConfig.strip().split("\n"):
+            k, v = i.split(':')
+            userConfigData[k] = v
         print 'I have read: ', userConfigData
         return userConfigData
 

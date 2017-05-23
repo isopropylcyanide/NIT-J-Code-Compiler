@@ -1,4 +1,5 @@
 var saveProfile = function() {
+    // Saves user profile to his directory
     $('#saveProfileButton').click(function(event) {
         var $name = $('#profName').val();
         var $addr = $('#profAddr').val();
@@ -33,6 +34,26 @@ var saveProfile = function() {
     });
 };
 
-$(document).ready(function() {});
+function getUserProfile(){
+    //gets user profile from his directory
+    return $.ajax({
+        method: 'POST',
+        url: "getProfile",
+        data: {},
+        success: function(data) {
+            //this gets called when server returns an OK response
+            //now remove menu item from tree
+            $('#profAlert').text(data);
+        },
+        error: function(data) {
+            $('#profAlert').text('Error fetching profile: ' + data.responseText);
+        }
+    });
+}
+
+$(document).ready(function() {
+    // Load profile data
+    getUserProfile();
+});
 
 $(document).on('click', "#saveProfileButton", saveProfile);
