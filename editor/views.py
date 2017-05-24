@@ -40,7 +40,6 @@ def getProfile(request):
             userDir = filexp.FileExplorer(def_username, def_pass, def_host)
             userData = userDir.loadUserConfig()
             userDir.close()
-            print 'received dir: ', userData
             return HttpResponse(json.dumps(userData))
         except Exception as e:
             return HttpResponseServerError(content=b'%s' % e.message)
@@ -59,7 +58,8 @@ def updateProfile(request):
                 'email': request.POST.get('email'),
                 'tel': request.POST.get('tel'),
                 'dob': request.POST.get('dob'),
-                'skill': request.POST.get('skill')
+                'skill': request.POST.get('skill'),
+                'picture': request.POST.get('picture')
             }
             pass1 = request.POST.get('pass1')
             pass2 = request.POST.get('pass2')

@@ -48,6 +48,7 @@ function getUserProfile(){
             $('#homeTel').text(data.tel);
             $('#homeDob').text(data.dob);
             $('#homeEmail').text(data.email);
+            $('#homePicture').attr('src',data.picture);
             data.skill.split(',').forEach(function(skill){
                     //add skill tag for each
                     var cmd = '<span class="tags">'+skill+'</span>';

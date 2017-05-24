@@ -1,4 +1,3 @@
-
 var $name = $('#profName');
 var $roll = $('#profRoll');
 var $email = $('#profEmail');
@@ -8,8 +7,9 @@ var $pass1 = $('#profPass1');
 var $pass2 = $('#profPass2');
 var $profAlert = $('#profAlert');
 var $profSkill = $('#skillTag');
+var $profPic = $('#userImage img');
 
-var resetProfile = function(){
+var resetProfile = function() {
     //resets user profile to his directory
     return $.ajax({
         method: 'POST',
@@ -52,12 +52,16 @@ var saveProfile = function() {
                 'dob': $dob.val(),
                 'pass1': $pass1.val(),
                 'pass2': $pass2.val(),
-                'skill': $profSkill.val()
+                'skill': $profSkill.val(),
+                'picture':$profPic.attr('src')
             },
             success: function(data) {
                 //this gets called when server returns an OK response
                 //now remove menu item from tree
                 $profAlert.text(data);
+                //clear password fields
+                $pass1.val("");
+                $pass2.val("");
             },
             error: function(data) {
                 $profAlert.text(data.responseText);
@@ -67,7 +71,7 @@ var saveProfile = function() {
     });
 };
 
-function getUserProfile(){
+function getUserProfile() {
     //gets user profile from his directory
     return $.ajax({
         method: 'POST',
@@ -82,8 +86,12 @@ function getUserProfile(){
             $tel.val(data.tel);
             $dob.val(data.dob);
             $email.val(data.email);
-            $profSkill.tagsinput('add',data.skill);
+            $profSkill.tagsinput('add', data.skill);
+            $profPic.attr('src', data.picture);
             $profAlert.text("Profile loaded successfully");
+            //clear password fields
+            $pass1.val("");
+            $pass2.val("");
         },
         error: function(data) {
             $profAlert.text('Error fetching profile: ' + data.responseText);
@@ -91,12 +99,26 @@ function getUserProfile(){
     });
 }
 
+var uploadPic = function(event) {
+    // button that browses file and pastes content into editorList.getActiveEditor()
+    var preview = document.querySelector('img');
+    var file = document.querySelector('input[type=file]').files[0];
+    var reader = new FileReader();
+    reader.addEventListener("load", function() {
+        preview.src = reader.result;
+    }, false);
+
+    if (file) {
+        reader.readAsDataURL(file);
+    }
+};
+
 $(document).ready(function() {
     // Load profile data
     getUserProfile();
 
     $profAlert.bind('DOMNodeInserted', function(event) {
-        $profAlert.effect('highlight',{},2000);
+        $profAlert.effect('highlight', {}, 2000);
     });
 
     $('#uploadPicButton').attr({

@@ -125,14 +125,22 @@ class FileExplorer:
     def saveUserConfig(self, data):
         """Saves user data to a config file"""
         configFile = '.config'
+        pictureFile = '.picture'
         text = ''
+        pictureText = data['picture']
+
         for k, v in data.iteritems():
-            text += '%s: %s\n' % (k, v)
+            if k != 'picture':
+                text += '%s: %s\n' % (k, v)
         print 'Im saving text: ', text
         cmd = "cat > %s << \'endmsg\'\n%s\nendmsg" % (
             configFile, text)
         stdin, stdout, stderr = self.ssh_server.exec_command(
             cmd, timeout=2)
+        storeFileCmd = "cat > %s << \'endmsg\'\n%s\nendmsg" % (
+            pictureFile, pictureText)
+        stdin, stdout, stderr = self.ssh_server.exec_command(
+            storeFileCmd, timeout=2)
         error = ''
         for line in stderr.readlines():
             error += line
@@ -143,8 +151,12 @@ class FileExplorer:
     def loadUserConfig(self):
         """Loads user data from a config file"""
         configFile = '.config'
+        pictureFile = '.picture'
         userConfig = self.viewRemoteFile(configFile)
         userConfigData = {}
+        pictureConfig = str(self.viewRemoteFile(pictureFile))
+        userConfigData['picture'] = str(pictureConfig)
+
         for i in userConfig.strip().split("\n"):
             k, v = i.split(':')
             userConfigData[k] = v
