@@ -98,6 +98,11 @@ $(document).ready(function() {
     $profAlert.bind('DOMNodeInserted', function(event) {
         $profAlert.effect('highlight',{},2000);
     });
+
+    $('#uploadPicButton').attr({
+        'accept': '.jpg,.jpeg,.png'
+    });
+
 });
 
 $(document).on('click', "#saveProfileButton", saveProfile);
