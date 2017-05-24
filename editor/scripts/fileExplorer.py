@@ -229,7 +229,7 @@ class FileExplorer:
             \"%s\" \"%s\"" % (
                 executePyFile, curDir, lang, uid, inp, name)
             stdin, stdout, stderr = self.ssh_server.exec_command(
-                cmd, timeout=5)
+                cmd, timeout=3)
 
             # if stderr is empty, then success
             error, output = '', ''

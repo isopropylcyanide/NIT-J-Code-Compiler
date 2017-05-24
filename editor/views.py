@@ -29,7 +29,7 @@ def validate(passA, passB):
     print 'changing password'
     currentUser.set_password(passA)
     currentUser.save()
-    return ""
+    return "OK"
 
 
 @csrf_exempt
@@ -43,8 +43,6 @@ def getProfile(request):
             return HttpResponse(json.dumps(userData))
         except Exception as e:
             return HttpResponseServerError(content=b'%s' % e.message)
-        finally:
-            pass
 
 
 @csrf_exempt
@@ -64,7 +62,7 @@ def updateProfile(request):
             pass1 = request.POST.get('pass1')
             pass2 = request.POST.get('pass2')
             outputResponse = validate(pass1, pass2)
-            if outputResponse != "":
+            if outputResponse != "OK":
                 return HttpResponseServerError(content=b'%s' % outputResponse)
             else:
                 outputResponse = 'Profile updated successfully'
@@ -76,8 +74,6 @@ def updateProfile(request):
             return HttpResponse(outputResponse)
         except Exception as e:
             return HttpResponseServerError(content=b'%s' % e.message)
-        finally:
-            pass
 
 
 @csrf_exempt
@@ -87,12 +83,11 @@ def getJSONListing(request):
         try:
             userDir = filexp.FileExplorer(def_username, def_pass, def_host)
             outputResponse = userDir.executeJSONList(def_username)
+            userDir.close()
             return HttpResponse(outputResponse)
         except Exception as e:
             print 'error:', e
             return HttpResponseServerError(content=b'%s' % e.message)
-        finally:
-            userDir.close()
 
 
 @csrf_exempt
@@ -132,11 +127,10 @@ def renameRemoteFile(request):
             new_path = request.POST.get('new_path')
             userDir = filexp.FileExplorer(def_username, def_pass, def_host)
             userDir.renameRemoteFile(remote_path, new_path)
+            userDir.close()
             return HttpResponse(outputResponse)
         except Exception as e:
             return HttpResponseServerError(content=b'%s' % e.message)
-        finally:
-            userDir.close()
 
 
 @csrf_exempt
@@ -149,11 +143,10 @@ def makeRemoteDirectory(request):
             is_file = request.POST.get('is_file')
             userDir = filexp.FileExplorer(def_username, def_pass, def_host)
             outputResponse = userDir.makeRemoteDirectory(remote_path, is_file)
+            userDir.close()
             return HttpResponse(outputResponse)
         except Exception as e:
             return HttpResponseServerError(content=b'%s' % e.message)
-        finally:
-            userDir.close()
 
 
 @csrf_exempt
@@ -165,11 +158,10 @@ def deleteRemoteDir(request):
             remote_path = request.POST.get('remote_path')
             userDir = filexp.FileExplorer(def_username, def_pass, def_host)
             userDir.deleteRemoteFile(remote_path)
+            userDir.close()
             return HttpResponse(outputResponse)
         except Exception as e:
             return HttpResponseServerError(content=b'%s' % e.message)
-        finally:
-            userDir.close()
 
 
 @csrf_exempt
@@ -180,12 +172,11 @@ def viewfilecontents(request):
             remote_path = request.POST.get('remote_path')
             userDir = filexp.FileExplorer(def_username, def_pass, def_host)
             outputResponse = userDir.viewRemoteFile(remote_path)
+            userDir.close()
             return HttpResponse(outputResponse)
         except Exception as e:
             print 'error while viewing file: ', e
             return HttpResponseServerError(content=b'%s' % e.message)
-        finally:
-            userDir.close()
 
 
 @csrf_exempt
@@ -195,12 +186,10 @@ def refreshDirectory(request):
         try:
             userDir = filexp.FileExplorer(def_username, def_pass, def_host)
             outputResponse = userDir.listFiles()
+            userDir.close()
             return HttpResponse(outputResponse)
         except Exception as e:
             return HttpResponseServerError(content=b'%s' % e.message)
-            # raise e
-        finally:
-            userDir.close()
 
 
 @csrf_exempt
@@ -221,11 +210,10 @@ def saveFile(request):
         try:
             userDir = filexp.FileExplorer(def_username, def_pass, def_host)
             userDir.saveFileToRemote(path_to_save, file_name, code)
+            userDir.close()
             return HttpResponse(output_message)
         except Exception as e:
             return HttpResponseServerError(content=b'%s' % e.message)
-        finally:
-            userDir.close()
 
 
 def index(request):
@@ -273,7 +261,6 @@ def executeCode(request):
             outputResponse = userDir.execute_CompileCode(
                 code, lang, def_username, inp, name, parentDir, curPath)
             return HttpResponse(outputResponse)
+            userDir.close()
         except Exception as e:
             return HttpResponseServerError(content=b'%s' % e.message)
-        finally:
-            userDir.close()
