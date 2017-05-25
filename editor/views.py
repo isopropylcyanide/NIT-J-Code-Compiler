@@ -6,6 +6,7 @@ import json
 import scripts.fileExplorer as filexp
 import scripts.terminal as wetty
 from django.contrib.auth.models import User
+from login.views import saved_user
 
 orig_dir = os.getcwd()
 def_host = "127.0.0.1"
@@ -220,7 +221,9 @@ def index(request):
     """App invocation point: Return the editor page
         Also set up a new terminal port for use
     """
-    global term_port
+    global term_port, def_username
+    # def_username = saved_user
+    # print 'now : ', def_username, saved_user
     if term_port is None:
         # we have no instance already running
         term_port = wetty.getUsablePort()
@@ -228,7 +231,7 @@ def index(request):
         print 'using prev port: ', term_port
     print 'usable port: ', term_port
     return render(request, 'editor/editorHome.html',
-                  context={'user': 'new1'})
+                  context={'user': def_username})
 
 
 def home(request):

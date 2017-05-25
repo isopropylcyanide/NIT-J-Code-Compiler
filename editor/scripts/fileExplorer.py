@@ -51,8 +51,11 @@ class FileExplorer:
         # Prepare the python module for server upload
         # The module should be hidden
         moveFile = '.fileLister.py'
-        # self.sftp_server.upload('editor/scripts/%s' %
-        #                         (moveFile), "./.%s" % (moveFile))
+        # First copy the file from root to user directory, in case user has
+        # deleted it accidentally, file is already present at root and that
+        # version cannot be deleted
+        cmd = "cp /%s ." % (moveFile)
+        stdin, stdout, stderr = self.ssh_server.exec_command(cmd, bufsize=-1)
 
         stdin, stdout, stderr = self.ssh_server.exec_command(
             'python ' + moveFile, bufsize=-1)
@@ -71,7 +74,8 @@ class FileExplorer:
         """Recursively list all files and return their JSON
             for use in the file explorer window in home
         """
-        # The jsonPyFile will be executed and the result captured
+        # The jsonPyFile (stored at root) will be executed and the result
+        # captured
         jsonPyFile = '.dirExplorer.py'
         # self.sftp_server.upload('editor/scripts/%s' %
         #                         (moveFile), "./.%s" % (moveFile))

@@ -9,6 +9,9 @@ from django.shortcuts import render_to_response, redirect
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
 
+saved_user = ""
+saved_pass = ""
+
 
 @csrf_exempt
 def register(request):
@@ -46,7 +49,7 @@ def logout_page(request):
 
 @login_required
 def home(request):
-    return redirect(
-        '/editor/',
-        {'user': request.user}
-    )
+    global saved_user
+    saved_user = request.user
+    print 'set : ', saved_user
+    return redirect('/editor/')
