@@ -10,7 +10,7 @@ from login.views import saved_user
 
 orig_dir = os.getcwd()
 def_host = "127.0.0.1"
-def_username = "new1"
+def_username = "new3"
 def_pass = "12"
 term_pid = None
 term_port = None

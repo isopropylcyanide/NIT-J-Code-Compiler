@@ -186,6 +186,13 @@ class FileExplorer:
     def makeRemoteDirectory(self, remote_path, is_file):
         """View file contents of the remote_path at the server"""
         outputResponse = "File created successfully"
+        # Also check whether .Testcases folder exists or not,
+        # if not create it. Hint: use mkdir -p command
+        testcaseFolder = 'Testcases'
+        cmd = 'mkdir -p %s' % (testcaseFolder)
+        stdin, stdout, stderr = self.ssh_server.exec_command(
+            cmd, timeout=2)
+
         cmd = 'touch \"%s\"' % (remote_path)
         if is_file == "False":
             outputResponse = "Folder created successfully"
