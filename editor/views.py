@@ -1,3 +1,4 @@
+# mod
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseServerError
 from django.views.decorators.csrf import csrf_exempt
@@ -6,17 +7,16 @@ import json
 import scripts.fileExplorer as filexp
 import scripts.terminal as wetty
 from django.contrib.auth.models import User
-from login.views import saved_user
 
 orig_dir = os.getcwd()
 def_host = "127.0.0.1"
-def_username = "new3"
 def_pass = "12"
 term_pid = None
 term_port = None
 
 
 def validate(passA, passB):
+    from login.views import saved_user as def_username
     """Validates if two passwords are equal and updates them in the database"""
     print passA, passB
     if passA != passB:
@@ -35,6 +35,7 @@ def validate(passA, passB):
 
 @csrf_exempt
 def getProfile(request):
+    from login.views import saved_user as def_username
     """Gets the user profile. Take care while changing passwords"""
     if request.is_ajax():
         try:
@@ -48,6 +49,7 @@ def getProfile(request):
 
 @csrf_exempt
 def updateProfile(request):
+    from login.views import saved_user as def_username
     """Update the user profile. Take care while changing passwords"""
     if request.is_ajax():
         try:
@@ -79,6 +81,7 @@ def updateProfile(request):
 
 @csrf_exempt
 def getJSONListing(request):
+    from login.views import saved_user as def_username
     """Return the contents of the file directory at the user's account"""
     if request.is_ajax():
         try:
@@ -93,10 +96,12 @@ def getJSONListing(request):
 
 @csrf_exempt
 def createWettyTerminal(request):
+    from login.views import saved_user as def_username
     """Return the contents of the remote file at the server"""
     global term_pid, term_port
     if request.is_ajax():
         try:
+            print 'trying to allocate: ', def_username
             term_pid = wetty.terminal(def_username, term_port)
             terminal_port = term_pid.allocate()
             return HttpResponse(str(terminal_port))
@@ -120,6 +125,7 @@ def stopWettyTerminal(request):
 
 @csrf_exempt
 def renameRemoteFile(request):
+    from login.views import saved_user as def_username
     """Return the contents of the remote file at the server"""
     if request.is_ajax():
         try:
@@ -136,10 +142,10 @@ def renameRemoteFile(request):
 
 @csrf_exempt
 def makeRemoteDirectory(request):
+    from login.views import saved_user as def_username
     """Return the contents of the remote file at the server"""
     if request.is_ajax():
         try:
-
             remote_path = request.POST.get('remote_path')
             is_file = request.POST.get('is_file')
             userDir = filexp.FileExplorer(def_username, def_pass, def_host)
@@ -152,6 +158,7 @@ def makeRemoteDirectory(request):
 
 @csrf_exempt
 def deleteRemoteDir(request):
+    from login.views import saved_user as def_username
     """Return the contents of the remote file at the server"""
     if request.is_ajax():
         try:
@@ -167,6 +174,7 @@ def deleteRemoteDir(request):
 
 @csrf_exempt
 def viewfilecontents(request):
+    from login.views import saved_user as def_username
     """Return the contents of the remote file at the server"""
     if request.is_ajax():
         try:
@@ -182,9 +190,12 @@ def viewfilecontents(request):
 
 @csrf_exempt
 def refreshDirectory(request):
+    from login.views import saved_user as def_username
+    print 'i received username: ', def_username
     """List all files in directory"""
     if request.is_ajax():
         try:
+            print 'before resp using ', def_username, '', type(def_username)
             userDir = filexp.FileExplorer(def_username, def_pass, def_host)
             outputResponse = userDir.listFiles()
             userDir.close()
@@ -195,6 +206,7 @@ def refreshDirectory(request):
 
 @csrf_exempt
 def saveFile(request):
+    from login.views import saved_user as def_username
     """Save file as requested by the user to his location"""
     if request.is_ajax():
         code = request.POST.get('sourceCode', '')
@@ -218,12 +230,11 @@ def saveFile(request):
 
 
 def index(request):
+    global term_port
+    from login.views import saved_user as def_username
     """App invocation point: Return the editor page
         Also set up a new terminal port for use
     """
-    global term_port, def_username
-    # def_username = saved_user
-    # print 'now : ', def_username, saved_user
     if term_port is None:
         # we have no instance already running
         term_port = wetty.getUsablePort()
@@ -235,19 +246,22 @@ def index(request):
 
 
 def home(request):
+    from login.views import saved_user as def_username
     """App invocation point: Return the editor page"""
     return render(request, 'editor/editorWork.html',
-                  context={'user': 'new1'})
+                  context={'user': def_username})
 
 
 def profile(request):
+    from login.views import saved_user as def_username
     """App invocation point: Return the profile page"""
     return render(request, 'editor/profile.html',
-                  context={'user': 'new1'})
+                  context={'user': def_username})
 
 
 @csrf_exempt
 def executeCode(request):
+    from login.views import saved_user as def_username
     """Create a file on server code.language
         compile it using the script provided
         and return the result

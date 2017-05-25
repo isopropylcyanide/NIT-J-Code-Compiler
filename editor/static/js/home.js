@@ -61,9 +61,7 @@ function getUserProfile(){
     });
 }
 
-$(function() {
-
-
+$(document).ready(function() {
     //load user profile pane
     setupUserProfile();
 

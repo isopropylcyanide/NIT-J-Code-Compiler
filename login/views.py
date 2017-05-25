@@ -50,6 +50,6 @@ def logout_page(request):
 @login_required
 def home(request):
     global saved_user
-    saved_user = request.user
+    saved_user = str(request.user.username)
     print 'set : ', saved_user
     return redirect('/editor/')
