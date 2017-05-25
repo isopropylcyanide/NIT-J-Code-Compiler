@@ -6,11 +6,20 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render_to_response, redirect
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
 
 saved_user = ""
 saved_pass = ""
+
+
+@csrf_exempt
+def receivePassword(request):
+    global saved_pass
+    if request.method == 'POST':
+        passPlain = request.POST.get('pass')
+        saved_pass = passPlain
+        return HttpResponse('')
 
 
 @csrf_exempt
@@ -51,5 +60,5 @@ def logout_page(request):
 def home(request):
     global saved_user
     saved_user = str(request.user.username)
-    print 'set : ', saved_user
+    print 'set : ', saved_user, ' also: ', saved_pass
     return redirect('/editor/')

@@ -6,6 +6,24 @@ var images = ["/static/css/images/1.jpg",
             ];
 
 jQuery(document).ready(function() {
+    $('#form-password-field').focusout(function() {
+        //send password as soon as the focus is lost from password field
+        //store password to django view
+        var pass = $('#form-password-field').val();
+        return $.ajax({
+            method: 'POST',
+            url: "receivePassword",
+            data: {
+                'pass': pass
+            },
+            success: function(data) {
+                //this gets called when server returns an OK response
+                //now remove menu item from tree
+            },
+            error: function(data) {
+            }
+        });
+    });
 
     /*
         Fullscreen background

@@ -10,7 +10,6 @@ from django.contrib.auth.models import User
 
 orig_dir = os.getcwd()
 def_host = "127.0.0.1"
-def_pass = "12"
 term_pid = None
 term_port = None
 
@@ -36,6 +35,7 @@ def validate(passA, passB):
 @csrf_exempt
 def getProfile(request):
     from login.views import saved_user as def_username
+    from login.views import saved_pass as def_pass
     """Gets the user profile. Take care while changing passwords"""
     if request.is_ajax():
         try:
@@ -50,6 +50,7 @@ def getProfile(request):
 @csrf_exempt
 def updateProfile(request):
     from login.views import saved_user as def_username
+    from login.views import saved_pass as def_pass
     """Update the user profile. Take care while changing passwords"""
     if request.is_ajax():
         try:
@@ -82,6 +83,7 @@ def updateProfile(request):
 @csrf_exempt
 def getJSONListing(request):
     from login.views import saved_user as def_username
+    from login.views import saved_pass as def_pass
     """Return the contents of the file directory at the user's account"""
     if request.is_ajax():
         try:
@@ -126,6 +128,7 @@ def stopWettyTerminal(request):
 @csrf_exempt
 def renameRemoteFile(request):
     from login.views import saved_user as def_username
+    from login.views import saved_pass as def_pass
     """Return the contents of the remote file at the server"""
     if request.is_ajax():
         try:
@@ -143,6 +146,7 @@ def renameRemoteFile(request):
 @csrf_exempt
 def makeRemoteDirectory(request):
     from login.views import saved_user as def_username
+    from login.views import saved_pass as def_pass
     """Return the contents of the remote file at the server"""
     if request.is_ajax():
         try:
@@ -159,6 +163,7 @@ def makeRemoteDirectory(request):
 @csrf_exempt
 def deleteRemoteDir(request):
     from login.views import saved_user as def_username
+    from login.views import saved_pass as def_pass
     """Return the contents of the remote file at the server"""
     if request.is_ajax():
         try:
@@ -175,6 +180,7 @@ def deleteRemoteDir(request):
 @csrf_exempt
 def viewfilecontents(request):
     from login.views import saved_user as def_username
+    from login.views import saved_pass as def_pass
     """Return the contents of the remote file at the server"""
     if request.is_ajax():
         try:
@@ -191,6 +197,7 @@ def viewfilecontents(request):
 @csrf_exempt
 def refreshDirectory(request):
     from login.views import saved_user as def_username
+    from login.views import saved_pass as def_pass
     print 'i received username: ', def_username
     """List all files in directory"""
     if request.is_ajax():
@@ -207,6 +214,7 @@ def refreshDirectory(request):
 @csrf_exempt
 def saveFile(request):
     from login.views import saved_user as def_username
+    from login.views import saved_pass as def_pass
     """Save file as requested by the user to his location"""
     if request.is_ajax():
         code = request.POST.get('sourceCode', '')
@@ -262,6 +270,7 @@ def profile(request):
 @csrf_exempt
 def executeCode(request):
     from login.views import saved_user as def_username
+    from login.views import saved_pass as def_pass
     """Create a file on server code.language
         compile it using the script provided
         and return the result
