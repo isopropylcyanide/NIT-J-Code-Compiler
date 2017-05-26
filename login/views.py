@@ -60,5 +60,6 @@ def logout_page(request):
 def home(request):
     global saved_user
     saved_user = str(request.user.username)
+    request.session['def_username'] = saved_user
     print 'set : ', saved_user, ' also: ', saved_pass
     return redirect('/editor/')

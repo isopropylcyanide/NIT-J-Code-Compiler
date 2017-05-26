@@ -12,16 +12,18 @@ orig_dir = os.getcwd()
 def_host = "127.0.0.1"
 term_pid = None
 term_port = None
+session_user = 'def_username'
 
 
-def validate(passA, passB):
-    from login.views import saved_user as def_username
+def validate(passA, passB, def_username):
     """Validates if two passwords are equal and updates them in the database"""
     print passA, passB
     if passA != passB:
         print 'Two passwords do not match'
         return 'Two passwords do not match'
     currentUser = User.objects.get(username=def_username)
+    if not currentUser:
+        return 'USER DOESNT EXIST'
     if not currentUser.check_password(passA):
         print 'Incorrect password'
         return 'Incorrect password'
@@ -34,8 +36,10 @@ def validate(passA, passB):
 
 @csrf_exempt
 def getProfile(request):
-    from login.views import saved_user as def_username
+    def_username = ""
     from login.views import saved_pass as def_pass
+    if session_user in request.session:
+        def_username = request.session['def_username']
     """Gets the user profile. Take care while changing passwords"""
     if request.is_ajax():
         try:
@@ -49,8 +53,10 @@ def getProfile(request):
 
 @csrf_exempt
 def updateProfile(request):
-    from login.views import saved_user as def_username
+    def_username = ""
     from login.views import saved_pass as def_pass
+    if session_user in request.session:
+        def_username = request.session['def_username']
     """Update the user profile. Take care while changing passwords"""
     if request.is_ajax():
         try:
@@ -65,7 +71,7 @@ def updateProfile(request):
             }
             pass1 = request.POST.get('pass1')
             pass2 = request.POST.get('pass2')
-            outputResponse = validate(pass1, pass2)
+            outputResponse = validate(pass1, pass2, def_username)
             if outputResponse != "OK":
                 return HttpResponseServerError(content=b'%s' % outputResponse)
             else:
@@ -82,8 +88,10 @@ def updateProfile(request):
 
 @csrf_exempt
 def getJSONListing(request):
-    from login.views import saved_user as def_username
+    def_username = ""
     from login.views import saved_pass as def_pass
+    if session_user in request.session:
+        def_username = request.session['def_username']
     """Return the contents of the file directory at the user's account"""
     if request.is_ajax():
         try:
@@ -98,7 +106,9 @@ def getJSONListing(request):
 
 @csrf_exempt
 def createWettyTerminal(request):
-    from login.views import saved_user as def_username
+    def_username = ""
+    if session_user in request.session:
+        def_username = request.session['def_username']
     """Return the contents of the remote file at the server"""
     global term_pid, term_port
     if request.is_ajax():
@@ -127,8 +137,10 @@ def stopWettyTerminal(request):
 
 @csrf_exempt
 def renameRemoteFile(request):
-    from login.views import saved_user as def_username
+    def_username = ""
     from login.views import saved_pass as def_pass
+    if session_user in request.session:
+        def_username = request.session['def_username']
     """Return the contents of the remote file at the server"""
     if request.is_ajax():
         try:
@@ -145,8 +157,10 @@ def renameRemoteFile(request):
 
 @csrf_exempt
 def makeRemoteDirectory(request):
-    from login.views import saved_user as def_username
+    def_username = ""
     from login.views import saved_pass as def_pass
+    if session_user in request.session:
+        def_username = request.session['def_username']
     """Return the contents of the remote file at the server"""
     if request.is_ajax():
         try:
@@ -162,8 +176,10 @@ def makeRemoteDirectory(request):
 
 @csrf_exempt
 def deleteRemoteDir(request):
-    from login.views import saved_user as def_username
+    def_username = ""
     from login.views import saved_pass as def_pass
+    if session_user in request.session:
+        def_username = request.session['def_username']
     """Return the contents of the remote file at the server"""
     if request.is_ajax():
         try:
@@ -179,8 +195,10 @@ def deleteRemoteDir(request):
 
 @csrf_exempt
 def viewfilecontents(request):
-    from login.views import saved_user as def_username
+    def_username = ""
     from login.views import saved_pass as def_pass
+    if session_user in request.session:
+        def_username = request.session['def_username']
     """Return the contents of the remote file at the server"""
     if request.is_ajax():
         try:
@@ -196,9 +214,10 @@ def viewfilecontents(request):
 
 @csrf_exempt
 def refreshDirectory(request):
-    from login.views import saved_user as def_username
+    def_username = ""
     from login.views import saved_pass as def_pass
-    print 'i received username: ', def_username
+    if session_user in request.session:
+        def_username = request.session['def_username']
     """List all files in directory"""
     if request.is_ajax():
         try:
@@ -213,8 +232,10 @@ def refreshDirectory(request):
 
 @csrf_exempt
 def saveFile(request):
-    from login.views import saved_user as def_username
+    def_username = ""
     from login.views import saved_pass as def_pass
+    if session_user in request.session:
+        def_username = request.session['def_username']
     """Save file as requested by the user to his location"""
     if request.is_ajax():
         code = request.POST.get('sourceCode', '')
@@ -239,10 +260,13 @@ def saveFile(request):
 
 def index(request):
     global term_port
-    from login.views import saved_user as def_username
+    def_username = ""
+    if session_user in request.session:
+        def_username = request.session['def_username']
     """App invocation point: Return the editor page
         Also set up a new terminal port for use
     """
+
     term_port = wetty.getUsablePort()
     # if term_port is None:
     #     # we have no instance already running
@@ -255,14 +279,18 @@ def index(request):
 
 
 def home(request):
-    from login.views import saved_user as def_username
+    def_username = ""
     """App invocation point: Return the editor page"""
+    if session_user in request.session:
+        def_username = request.session['def_username']
     return render(request, 'editor/editorWork.html',
                   context={'user': def_username})
 
 
 def profile(request):
-    from login.views import saved_user as def_username
+    def_username = ""
+    if session_user in request.session:
+        def_username = request.session['def_username']
     """App invocation point: Return the profile page"""
     return render(request, 'editor/profile.html',
                   context={'user': def_username})
@@ -270,8 +298,10 @@ def profile(request):
 
 @csrf_exempt
 def executeCode(request):
-    from login.views import saved_user as def_username
+    def_username = ""
     from login.views import saved_pass as def_pass
+    if session_user in request.session:
+        def_username = request.session['def_username']
     """Create a file on server code.language
         compile it using the script provided
         and return the result
