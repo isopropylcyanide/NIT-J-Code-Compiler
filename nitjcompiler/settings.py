@@ -27,7 +27,7 @@ SECRET_KEY = 'rydm*$+*j-gme21+kh6de7646t!587p1a8kun*8byj@ps#6&g7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition

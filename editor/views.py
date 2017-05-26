@@ -243,11 +243,12 @@ def index(request):
     """App invocation point: Return the editor page
         Also set up a new terminal port for use
     """
-    if term_port is None:
-        # we have no instance already running
-        term_port = wetty.getUsablePort()
-    else:
-        print 'using prev port: ', term_port
+    term_port = wetty.getUsablePort()
+    # if term_port is None:
+    #     # we have no instance already running
+    #     term_port = wetty.getUsablePort()
+    # else:
+    #     print 'using prev port: ', term_port
     print 'usable port: ', term_port
     return render(request, 'editor/editorHome.html',
                   context={'user': def_username})
