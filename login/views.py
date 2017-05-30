@@ -11,6 +11,7 @@ from django.template import RequestContext
 
 saved_user = ""
 saved_pass = ""
+session_user_pass_map = {}
 
 
 @csrf_exempt
@@ -58,8 +59,9 @@ def logout_page(request):
 
 @login_required
 def home(request):
-    global saved_user
+    global saved_user, session_user_pass_map
     saved_user = str(request.user.username)
     request.session['def_username'] = saved_user
+    session_user_pass_map[saved_user] = saved_pass
     print 'set : ', saved_user, ' also: ', saved_pass
     return redirect('/editor/')

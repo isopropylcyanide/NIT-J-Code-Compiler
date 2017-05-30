@@ -7,6 +7,7 @@ import json
 import scripts.fileExplorer as filexp
 import scripts.terminal as wetty
 from django.contrib.auth.models import User
+from login.views import session_user_pass_map as passMap
 
 orig_dir = os.getcwd()
 def_host = "127.0.0.1"
@@ -37,9 +38,9 @@ def validate(passA, passB, def_username):
 @csrf_exempt
 def getProfile(request):
     def_username = ""
-    from login.views import saved_pass as def_pass
     if session_user in request.session:
         def_username = request.session['def_username']
+        def_pass = passMap[def_username]
     """Gets the user profile. Take care while changing passwords"""
     if request.is_ajax():
         try:
@@ -54,9 +55,9 @@ def getProfile(request):
 @csrf_exempt
 def updateProfile(request):
     def_username = ""
-    from login.views import saved_pass as def_pass
     if session_user in request.session:
         def_username = request.session['def_username']
+        def_pass = passMap[def_username]
     """Update the user profile. Take care while changing passwords"""
     if request.is_ajax():
         try:
@@ -89,9 +90,9 @@ def updateProfile(request):
 @csrf_exempt
 def getJSONListing(request):
     def_username = ""
-    from login.views import saved_pass as def_pass
     if session_user in request.session:
         def_username = request.session['def_username']
+        def_pass = passMap[def_username]
     """Return the contents of the file directory at the user's account"""
     if request.is_ajax():
         try:
@@ -138,9 +139,9 @@ def stopWettyTerminal(request):
 @csrf_exempt
 def renameRemoteFile(request):
     def_username = ""
-    from login.views import saved_pass as def_pass
     if session_user in request.session:
         def_username = request.session['def_username']
+        def_pass = passMap[def_username]
     """Return the contents of the remote file at the server"""
     if request.is_ajax():
         try:
@@ -158,9 +159,9 @@ def renameRemoteFile(request):
 @csrf_exempt
 def makeRemoteDirectory(request):
     def_username = ""
-    from login.views import saved_pass as def_pass
     if session_user in request.session:
         def_username = request.session['def_username']
+        def_pass = passMap[def_username]
     """Return the contents of the remote file at the server"""
     if request.is_ajax():
         try:
@@ -177,9 +178,9 @@ def makeRemoteDirectory(request):
 @csrf_exempt
 def deleteRemoteDir(request):
     def_username = ""
-    from login.views import saved_pass as def_pass
     if session_user in request.session:
         def_username = request.session['def_username']
+        def_pass = passMap[def_username]
     """Return the contents of the remote file at the server"""
     if request.is_ajax():
         try:
@@ -196,9 +197,9 @@ def deleteRemoteDir(request):
 @csrf_exempt
 def viewfilecontents(request):
     def_username = ""
-    from login.views import saved_pass as def_pass
     if session_user in request.session:
         def_username = request.session['def_username']
+        def_pass = passMap[def_username]
     """Return the contents of the remote file at the server"""
     if request.is_ajax():
         try:
@@ -215,9 +216,9 @@ def viewfilecontents(request):
 @csrf_exempt
 def refreshDirectory(request):
     def_username = ""
-    from login.views import saved_pass as def_pass
     if session_user in request.session:
         def_username = request.session['def_username']
+        def_pass = passMap[def_username]
     """List all files in directory"""
     if request.is_ajax():
         try:
@@ -233,9 +234,9 @@ def refreshDirectory(request):
 @csrf_exempt
 def saveFile(request):
     def_username = ""
-    from login.views import saved_pass as def_pass
     if session_user in request.session:
         def_username = request.session['def_username']
+        def_pass = passMap[def_username]
     """Save file as requested by the user to his location"""
     if request.is_ajax():
         code = request.POST.get('sourceCode', '')
@@ -260,22 +261,17 @@ def saveFile(request):
 
 def index(request):
     global term_port
+    """App invocation point: Return the editor page
+    Also set up a new terminal port for use
+    """
     def_username = ""
     if session_user in request.session:
         def_username = request.session['def_username']
-    """App invocation point: Return the editor page
-        Also set up a new terminal port for use
-    """
 
-    term_port = wetty.getUsablePort()
-    # if term_port is None:
-    #     # we have no instance already running
-    #     term_port = wetty.getUsablePort()
-    # else:
-    #     print 'using prev port: ', term_port
-    print 'usable port: ', term_port
-    return render(request, 'editor/editorHome.html',
-                  context={'user': def_username})
+        term_port = wetty.getUsablePort()
+        print 'usable terminal port: ', term_port
+        return render(request, 'editor/editorHome.html',
+                      context={'user': def_username})
 
 
 def home(request):
@@ -299,9 +295,9 @@ def profile(request):
 @csrf_exempt
 def executeCode(request):
     def_username = ""
-    from login.views import saved_pass as def_pass
     if session_user in request.session:
         def_username = request.session['def_username']
+        def_pass = passMap[def_username]
     """Create a file on server code.language
         compile it using the script provided
         and return the result
