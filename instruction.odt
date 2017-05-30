@@ -1,0 +1,73 @@
+
+
+
+
+Running:
+
+1) Goto the main folder directory
+2) python manage.py runserver 0.0.0.0:8000
+3) Enter web url to IP:8000
+4) Login using new1 as username and 12 as password
+5) Perform editing and compilation
+
+
+
+PREREQUISITES:
+
+A) Install the anaconda package
+B)  conda install and veriy and paramiko
+    conda install cryptography  
+    conda install paramiko
+
+Either use the default users that have been created or create them using the below method:
+
+
+1) Create user with encrypted directory in both chroot and main with a common unused UID
+        adduser newuser --uid some_uid
+        make users:: in main as well as chroot
+
+    
+    adduser new1 --5002 some_uid
+    adduser new2 --5012 some_uid
+
+2) In main system
+        nano /etc/ssh/sshd_config
+        Append:
+            Match User newuser
+            ChrootDirectory /chroot/Ubuntu
+        service ssh restart
+
+3) In jail environment give write access to newuser as root
+        chmod 755 /home/newuser
+
+4) ssh from anywhere:
+        ssh newuser@localhost
+        
+5) Modiify following line in /etc/ssh/sshd_config of jail environment :
+    #Subsystem sftp /usr/lib/openssh/sftp-server
+    Subsystem sftp internal-sftp
+
+
+
+/**************************/
+Instructions
+
+/******Chroot Setup using Debootstrap*****/    
+
+apt-get install debootstrap
+sudo debootstrap --variant=buildd --arch=amd64 precise /chroot/ubuntu1204 http://archive.ubuntu.com/ubuntu
+cd /chroot/ubuntu1204/
+mount -t proc proc proc/
+mount --rbind /sys sys/
+mount --rbind /dev dev/
+
+cp /etc/resolv.conf etc/resolv.conf
+
+
+
+conda install and veriy and paramiko
+conda install cryptography
+conda install paramiko
+*******
+copy and paste json python module folder from main to your chroot:
+    like this: /chroot/Ubuntu/usr/lib/python2.7/json
