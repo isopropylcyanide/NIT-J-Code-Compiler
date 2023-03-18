@@ -32,3 +32,47 @@ can access, compile and debug the code anywhere in the college/university.
 ![Editor view](https://user-images.githubusercontent.com/12872673/41510516-a9d0438a-7283-11e8-99a2-5fc5960b2719.png)
 ---
 ![Editor features](https://user-images.githubusercontent.com/12872673/41510520-c5253f82-7283-11e8-8a48-d942631c2090.png)
+
+
+### Design Challenges Addressed ### 
+
+1) Restricting the user to a specific directory so that all malicious code and vulnerabilities remain contained
+ 
+```
+Implement a  Chroot jail at the backend for user isolation. 
+Make separate directories per user.
+```
+
+
+2) Handling timeouts and memory issues for the user programs.
+
+```
+Run the program as a separate process and issue 
+SIGINT/SIGTERM handlers followed by KILL command
+```
+
+3) Securely sending the user submitted program from the Django realm to the backend.
+
+```
+Used Paramiko library for providing SSH and SFTP support for the underlying network.
+```
+
+4) Implementing a command line shell within the user workspace so that he can compile and build programs
+```
+ Used Gate One which is a web-based Terminal Emulator and SSH client that brings the power of the command line to the web
+```
+
+5) Limiting memory used by the running process
+
+```
+ Use Linux's built in setrlimit and ulimit utilities
+(Partially working because ulimit is not reliable)
+```
+
+6) Preventing malicious user programs such as a fork bomb
+
+```
+We limited the number of sub processes a parent can create. We appended the following lines to /etc/security/limits.conf per user
+		<user> hard nproc 20
+       This restricted the number of child processes to 20
+```
